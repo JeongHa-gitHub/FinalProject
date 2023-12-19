@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.CouponMgmtDAO">
+	<select id="selectCoupon" parameterType="String"
+		resultType="CouponVO">
+		SELECT
+		CPN_NO, CPN_NAME, CPN_CONTENT, CPN_IMG, CPN_PRICE
+		, TO_CHAR(RGST_DATE, 'YYYY.MM.DD') AS RGST_DATE
+		, TO_CHAR(START_DATE, 'YYYY.MM.DD') AS START_DATE
+		, TO_CHAR(END_DATE, 'YYYY.MM.DD') AS END_DATE
+		FROM COUPON
+		WHERE CPN_NO = #{cpnNo}
+	</select>
+
+	<sql id="searchFrag">
+		<where>
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'title'">
+						INSTR(EVNT_TITLE, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(EVNT_TITLE, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM COUPON
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectCouponList" parameterType="PaginationInfo"
+		resultType="CouponVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		CPN_NO, CPN_NAME, CPN_CONTENT, CPN_IMG AS CPN_IMG2, CPN_PRICE
+		, TO_CHAR(RGST_DATE, 'YYYY.MM.DD') AS RGST_DATE
+		, TO_CHAR(START_DATE, 'YYYY.MM.DD') AS START_DATE
+		, TO_CHAR(END_DATE, 'YYYY.MM.DD') AS END_DATE
+		FROM COUPON
+		<include refid="searchFrag" />
+		ORDER BY CPN_NO DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+</mapper>
+
+
+

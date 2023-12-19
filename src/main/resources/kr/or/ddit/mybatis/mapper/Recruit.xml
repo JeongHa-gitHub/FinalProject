@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.RecruitDAO">
+
+<resultMap type="RecruitVO" id="RecruitMap" autoMapping="true">
+	<id property="rcrtNo" column="RCRT_NO" />
+	<association property="company" javaType="CompanyVO" autoMapping="true"/>
+	<association property="apply" javaType="ApplyVO" autoMapping="true"/>
+</resultMap>
+
+<resultMap type="RProcedureVO" id="RProcedureMap" autoMapping="true">
+	<id property="rcrtNo" column="RCRT_NO"/>
+	<id property="rprocOrder" column="RPROC_ORDER"/>
+	<association property="test" javaType="TestVO" autoMapping="true"/>
+	<association property="code" javaType="CodeVO" autoMapping="true"/>
+</resultMap>
+
+<!-- 검색 
+PaginationInfo(totalRecord=0, currentPage=1, screenSize=10, blockSize=5, totalPage=0, startRow=1, endRow=10, startPage=1, endPage=0, dataList=null, simpleCondition=null, detailCondition=null, 
+	variousCondition={tregCode=JN, regCode=, rcrtTitle=, page=}
+-->
+<sql id="locSearchFrag">
+	<trim prefix="WHERE" prefixOverrides="AND">
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.regCode)">
+			AND INSTR(rcrt_loc,(SELECT REG_NM FROM REG_CODE WHERE REG_CODE =#{variousCondition.regCode} AND reg_code is not null))>0
+		</if>
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.tregCode)">
+			AND INSTR(rcrt_loc,(SELECT REG_NM FROM REG_CODE WHERE REG_CODE = #{variousCondition.tregCode} AND treg_code is null))>0
+		</if>
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.rcrtTitle)">
+			AND INSTR(RCRT_TITLE, #{variousCondition.rcrtTitle})>0
+		</if>			
+	</trim>
+</sql>
+
+
+<sql id="jobSearchFrag">
+	<trim prefix="WHERE" prefixOverrides="AND">
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.jobCode)">
+			AND INSTR(rcrt_keywordnm,(SELECT JOB_NM FROM JOB_CODE WHERE JOB_CODE =#{variousCondition.jobCode} AND job_code is not null))>0
+		</if>
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.tjobCode)">
+			AND INSTR(rcrt_keywordnm,(SELECT JOB_NM FROM JOB_CODE WHERE JOB_CODE = #{variousCondition.tjobCode} AND tjob_code is null))>0
+		</if>
+		<if 
+			test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.rcrtTitle)">
+			AND INSTR(RCRT_TITLE, #{variousCondition.rcrtTitle})>0
+		</if>			
+	</trim>
+</sql>
+
+<!-- TOP100 리스트 -->
+<select id="selectTop100List" resultMap="RecruitMap">
+SELECT *
+FROM (
+  SELECT 
+    RECRUIT.RCRT_NO,
+    COMPANY.COMPANY_NM,
+    RECRUIT.RCRT_TITLE,
+    RECRUIT.RCRT_KEYWORDNM,
+    RECRUIT.RCRT_LOC,
+    RECRUIT.RCRT_CAREER,
+    RECRUIT.RCRT_EDU,
+     RECRUIT.RCRT_EDATE,
+    COUNT(APPLY.APL_NO) AS APPLICANT_COUNT,
+    ROW_NUMBER() OVER (ORDER BY COUNT(APPLY.APL_NO) DESC) AS RNUM
+  FROM RECRUIT 
+    INNER JOIN COMPANY ON RECRUIT.COMPANY_ID = COMPANY.COMPANY_ID
+    LEFT JOIN APPLY ON APPLY.RCRT_NO = RECRUIT.RCRT_NO
+  WHERE RECRUIT.RCRT_DELETE = 'N'
+  GROUP BY
+    RECRUIT.RCRT_NO,
+    RECRUIT.RCRT_EDATE,
+    COMPANY.COMPANY_NM,
+    RECRUIT.RCRT_TITLE,
+    RECRUIT.RCRT_KEYWORDNM,
+    RECRUIT.RCRT_LOC,
+    RECRUIT.RCRT_CAREER,
+    RECRUIT.RCRT_EDU
+) A
+WHERE RNUM BETWEEN 1 AND 100
+ORDER BY APPLICANT_COUNT DESC
+
+</select>
+
+<!-- 페이징 + 지역별,직업별 채용공고 리스트 
+PaginationInfo(totalRecord=0, currentPage=1, screenSize=10, blockSize=5, totalPage=0, startRow=1, endRow=10, startPage=1, endPage=0, dataList=null, simpleCondition=null, detailCondition=null, 
+	variousCondition={tregCode=JN, regCode=, rcrtTitle=, page=}
+-->
+
+<!-- 직업별 리스트 -->
+<select id="selectJobRecruitList" resultMap="RecruitMap" parameterType="PaginationInfo">
+ SELECT A.*
+    FROM(
+  SELECT 
+   rownum rnum,
+   rcrt_no,
+   company_nm,
+   TO_CHAR(recruit.RCRT_EDATE, 'YYYY.MM.DD')as RCRT_EDATE,
+   rcrt_title,
+   rcrt_keywordnm,
+   rcrt_loc,
+   rcrt_career,
+   rcrt_edu,
+   TO_CHAR(recruit.RCRT_DATE, 'YYYY.MM.DD')as RCRT_DATE
+
+  FROM recruit 
+  	INNER JOIN company
+  	ON recruit.company_id = company.company_id
+  	<include refid="jobSearchFrag"/>
+<!--   	<include refid="jobSearchFrag"/> -->
+  	and rcrt_delete = 'N'
+  	)A
+  <![CDATA[
+  WHERE rnum>=#{startRow} and rnum<=#{endRow}
+  ]]>
+  order by RCRT_DATE desc
+</select>
+
+
+<!-- 지역별 리스트 -->
+<select id="selectRecruitList" resultMap="RecruitMap" parameterType="PaginationInfo" >
+ SELECT A.*
+    FROM(
+  SELECT 
+   rownum rnum,
+   rcrt_no,
+   company_nm,
+   TO_CHAR(recruit.RCRT_EDATE, 'YYYY.MM.DD')as RCRT_EDATE,
+   rcrt_title,
+   rcrt_keywordnm,
+   rcrt_loc,
+   rcrt_career,
+   rcrt_edu,
+   TO_CHAR(recruit.RCRT_DATE, 'YYYY.MM.DD')as RCRT_DATE
+
+  FROM recruit 
+  	INNER JOIN company
+  	ON recruit.company_id = company.company_id
+  	<include refid="locSearchFrag"/>
+<!--   	<include refid="jobSearchFrag"/> -->
+  	and rcrt_delete = 'N'
+  	)A
+  <![CDATA[
+  WHERE rnum>=#{startRow} and rnum<=#{endRow}
+  ]]>
+  order by RCRT_DATE desc
+</select>
+
+
+<!-- 페이징 total record -->
+<select id="selectTotalRecord" resultType="int">
+SELECT COUNT(*)
+FROM recruit
+<include refid="locSearchFrag" />
+</select>
+
+
+<!-- 채용공고 상세보기 -->
+<select id="selectRecruit" parameterType="string" resultMap="RecruitMap">
+
+SELECT
+    recruit.rcrt_no,
+    recruit.company_id,
+    recruit.rcrt_title,
+    recruit.rcrt_hit,
+    recruit.rcrt_keywordnm,
+    recruit.rcrt_field,
+    recruit.rcrt_person,
+    recruit.rcrt_career,
+    recruit.rcrt_condition,
+    recruit.rcrt_edu,
+    CASE WHEN SUBSTR(RECRUIT.RCRT_LOC,1,1)=',' THEN SUBSTR(RECRUIT.RCRT_LOC,2) ELSE RECRUIT.RCRT_LOC END RCRT_LOC,
+    recruit.rcrt_type,
+    recruit.rcrt_salary,
+    recruit.rcrt_week,
+    TO_CHAR(recruit.rcrt_date, 'YYYY.MM.DD')as rcrt_date,
+    TO_CHAR(recruit.rcrt_sdate, 'YYYY.MM.DD')as rcrt_sdate,
+    TO_CHAR(recruit.rcrt_edate, 'YYYY.MM.DD')as rcrt_edate,
+    recruit.rcrt_nm,
+    recruit.rcrt_tel,
+    recruit.rcrt_mail,
+    recruit.rcrt_wlfr,
+    recruit.rcrt_rectype,
+    recruit.rcrt_stime,
+    recruit.rcrt_etime,
+    company.company_num,
+    company.company_dnm,
+    company.company_nm,
+    company.company_date   
+FROM
+    recruit inner join company
+    on recruit.company_id=company.company_id
+WHERE  rcrt_no =#{rcrtNo}
+    
+</select>
+
+<!-- 채용공고 상세보기 채용절차 -->
+<select id="procedureList" parameterType="string" resultMap="RProcedureMap">
+SELECT
+    rcrt_no,
+    rproc_order,
+    rproc_typeno,
+    TO_CHAR(rproc_sdate, 'YYYY.MM.DD')as rproc_sdate,
+    TO_CHAR(rproc_edate, 'YYYY.MM.DD')as rproc_edate,
+    rproc_end,
+    test.test_no,
+    company_id,
+    test_title,
+    test_type,
+    test_date,
+    test_delete,
+    com_code,
+    com_code_nm,
+    tcom_code
+FROM R_PROCEDURE
+   left outer join test on r_procedure.test_no = test.test_no
+   left outer join tb_com_code on r_procedure.rproc_typeno = tb_com_code.com_code
+WHERE rcrt_no=#{rcrtNo}
+ORDER BY rproc_order asc 
+
+</select>
+
+<!-- 채용공고 상세보기 조회수 -->
+<select id="hitRecruit" parameterType="string">
+
+update recruit
+set rcrt_hit = rcrt_hit+1
+where rcrt_no =#{rcrtNo}
+
+</select>
+
+<!-- 채용공고 스크랩 추가  -->
+<insert id="scrapRecruit" parameterType="ScrapVO">
+INSERT INTO scrap (
+    users_id,
+    rcrt_no,
+    scrap_date
+) VALUES (
+    #{usersId},
+    #{rcrtNo},
+    sysdate
+)
+
+</insert>
+
+<!-- 스크랩 삭제 -->
+<delete id="deleteScrap" parameterType="ScrapVO">
+DELETE FROM scrap
+WHERE
+        users_id = #{usersId}
+    AND rcrt_no = #{rcrtNo}
+
+</delete>
+
+<!-- 채용공고 스크랩 체크-->
+<select id="scrapCheck" parameterType="ScrapVO" resultType="int">
+SELECT count(*) 
+	FROM scrap 
+WHERE rcrt_no =#{rcrtNo} and users_id=#{usersId}
+
+</select>
+
+<!-- 채용공고 등록 -->
+<insert id="createRecruit" parameterType="RecruitVO">
+
+ 	<selectKey  keyProperty="rcrtNo" resultType="String" order="BEFORE" >
+        select 'RCRT_' || LPAD(RECRUIT_SEQ.NEXTVAL, 5, '0') from dual
+ 	</selectKey>
+ 	
+	INSERT INTO recruit (
+	rcrt_no,
+	company_id,
+	rcrt_title,
+	rcrt_hit,
+	rcrt_keywordnm,
+	rcrt_field,
+	rcrt_person,
+	rcrt_career,
+	rcrt_condition,
+	rcrt_edu,
+	rcrt_loc,
+	rcrt_type,
+	rcrt_salary,
+	rcrt_week,
+	rcrt_date,
+	rcrt_sdate,
+	rcrt_edate,
+	rcrt_nm,
+	rcrt_tel,
+	rcrt_mail,
+	rcrt_wlfr,
+	rcrt_rectype,
+	rcrt_stime,
+	rcrt_etime
+	) VALUES (
+	 #{rcrtNo,jdbcType=VARCHAR}
+	, #{companyId,jdbcType=VARCHAR}
+	, #{rcrtTitle,jdbcType=VARCHAR}
+	, #{rcrtHit,jdbcType=NUMERIC}
+	, #{rcrtKeywordnm,jdbcType=VARCHAR}
+	, #{rcrtField,jdbcType=VARCHAR}
+	, #{rcrtPerson,jdbcType=NUMERIC}
+	, #{rcrtCareer,jdbcType=VARCHAR}
+	, #{rcrtCondition,jdbcType=VARCHAR}
+	, #{rcrtEdu,jdbcType=VARCHAR}
+	, #{rcrtLoc,jdbcType=VARCHAR}
+	, #{rcrtType,jdbcType=VARCHAR}
+	, #{rcrtSalary,jdbcType=VARCHAR}
+	, #{rcrtWeek,jdbcType=VARCHAR}
+	, sysdate
+	, #{rcrtSdate,jdbcType=DATE}
+	, #{rcrtEdate,jdbcType=DATE}
+	, #{rcrtNm,jdbcType=VARCHAR}
+	, #{rcrtTel,jdbcType=VARCHAR}
+	, #{rcrtMail,jdbcType=VARCHAR}
+	, #{rcrtWlfr,jdbcType=VARCHAR}
+	, #{rcrtRectype,jdbcType=VARCHAR}
+	, #{rcrtStime,jdbcType=VARCHAR}
+	, #{rcrtEtime,jdbcType=VARCHAR}
+	)
+</insert>
+
+<!-- 채용공고 등록 시험지 조회 -->
+<select id="selectTest" parameterType="string" resultType="TestVO">
+
+SELECT
+    test_no,
+    company_id,
+    test_title,
+    test_type,
+    test_date
+FROM
+    test
+WHERE company_id=#{companyId}
+</select>
+
+<!-- 채용공고 수정 -->
+<update id="updateRecruit" parameterType="ResumeVO">
+ UPDATE recruit
+SET
+	rcrt_title      =#{rcrtTitle,jdbcType=VARCHAR}
+	,rcrt_hit       =#{rcrtHit,jdbcType=NUMERIC}
+	,rcrt_keywordnm =#{rcrtKeywordnm,jdbcType=VARCHAR}
+	,rcrt_field     =#{rcrtField,jdbcType=VARCHAR}
+	,rcrt_person    =#{rcrtPerson,jdbcType=NUMERIC}
+	,rcrt_career    =#{rcrtCareer,jdbcType=VARCHAR}
+	,rcrt_condition =#{rcrtCondition,jdbcType=VARCHAR}
+	,rcrt_edu       =#{rcrtEdu,jdbcType=VARCHAR}
+	,rcrt_loc       =#{rcrtLoc,jdbcType=VARCHAR}
+	,rcrt_type      =#{rcrtType,jdbcType=VARCHAR}
+	,rcrt_salary    =#{rcrtSalary,jdbcType=VARCHAR}
+	,rcrt_week      =#{rcrtWeek,jdbcType=VARCHAR}
+	,rcrt_date      =sysdate
+	,rcrt_sdate     =#{rcrtSdate,jdbcType=DATE}
+	,rcrt_edate     =#{rcrtEdate,jdbcType=DATE}
+	,rcrt_nm        =#{rcrtNm,jdbcType=VARCHAR}
+	,rcrt_tel       =#{rcrtTel,jdbcType=VARCHAR}
+	,rcrt_mail      =#{rcrtMail,jdbcType=VARCHAR}
+	,rcrt_wlfr      =#{rcrtWlfr,jdbcType=VARCHAR}
+	,rcrt_rectype   =#{rcrtRectype,jdbcType=VARCHAR}
+	,rcrt_stime     =#{rcrtStime,jdbcType=VARCHAR}
+	,rcrt_etime     =#{rcrtEtime,jdbcType=VARCHAR}
+WHERE
+	rcrt_no=#{rcrtNo,jdbcType=VARCHAR}
+
+</update>
+
+<!-- 채용공고 삭제 update -->
+<update id="updateDelRecruit" parameterType="string">
+ UPDATE recruit
+SET
+	RCRT_DELETE ='Y'
+WHERE
+	rcrt_no= #{rcrtNo,jdbcType=VARCHAR}
+</update>
+
+</mapper>

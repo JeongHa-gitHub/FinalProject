@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.common.dao.RegCodeDAO">
+
+
+<!-- 지역 필터 상위코드 -->
+<select id="selectCode" resultType="RegCodeVO">
+
+SELECT
+    reg_code,
+    reg_nm,
+    treg_code
+FROM
+    reg_code
+WHERE treg_code is null
+
+</select>
+
+<!-- 지역 필터 하위코드 -->
+<select id="selectOneCode" parameterType="string" resultType="RegCodeVO">
+
+SELECT
+    reg_code,
+    reg_nm,
+    treg_code
+FROM
+    reg_code
+<where>
+	<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(regCode)">
+	treg_code =#{regCode,jdbcType=VARCHAR}
+	</if>
+	and treg_code is not null
+</where>
+</select>
+
+</mapper>

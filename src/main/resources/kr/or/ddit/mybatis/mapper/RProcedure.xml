@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.RProceduerDAO">
+
+<!-- 채용공고 등록시 채용절차 insert -->
+<insert id="createProcedure" parameterType="RProcedureVO">
+INSERT INTO r_procedure (
+    rcrt_no,
+    rproc_order,
+    rproc_typeno,
+    rproc_sdate,
+    rproc_edate,
+    rproc_end,
+    test_no
+) VALUES (
+   	#{rcrtNo,jdbcType=VARCHAR}
+	, #{rprocOrder,jdbcType=NUMERIC}
+	, #{rprocTypeno,jdbcType=VARCHAR}
+	, #{rprocSdate,jdbcType=DATE}
+	, #{rprocEdate,jdbcType=DATE}
+	, 'N'
+	, #{testNo,jdbcType=VARCHAR}
+)
+</insert>
+
+<!-- 채용공고 수정시 채용절차 update -->
+<update id="updateRProcedure" parameterType="RProcedureVO">
+
+ UPDATE R_PROCEDURE
+SET
+	rproc_typeno = #{rprocTypeno,jdbcType=VARCHAR},
+	rproc_sdate = #{rprocSdate,jdbcType=DATE},
+	rproc_edate =  #{rprocEdate,jdbcType=DATE},
+	test_no = #{testNo,jdbcType=VARCHAR}
+WHERE
+     rcrt_no = 	#{rcrtNo,jdbcType=VARCHAR} and rproc_order = #{rprocOrder,jdbcType=NUMERIC}
+
+</update>
+
+<!-- 채용공고 수정 전형절차 count  -->
+<select id="rProceduerCnt" parameterType="string" resultType="int">
+
+SELECT count (*)
+FROM r_procedure
+where rcrt_no = #{rcrtNo,jdbcType=VARCHAR}
+
+
+</select>
+
+</mapper>

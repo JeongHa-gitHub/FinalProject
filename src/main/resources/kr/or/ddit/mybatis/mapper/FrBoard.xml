@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.FrBoardDAO">
+	<update id="incrementHit" parameterType="String">
+		UPDATE FRBOARD
+		SET
+		FRB_LNO = FRB_LNO + 1
+		WHERE FRB_NO = #{frbNo}
+	</update>
+	<sql id="searchFrag">
+			<trim prefix="where" prefixOverrides="AND">
+				AND FRB_DELETE = 'N'
+				<if
+					test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+					<choose>
+						<when test="simpleCondition.searchType eq 'title'">
+							AND INSTR(FRB_TITLE, #{simpleCondition.searchWord}) > 0
+						</when>
+						<when test="simpleCondition.searchType eq 'content'">
+							AND INSTR(FRB_WRITE, #{simpleCondition.searchWord}) > 0
+						</when>
+						<otherwise>
+							INSTR(FRB_TITLE, #{simpleCondition.searchWord}) > 0
+							OR
+							INSTR(FRB_WRITE, #{simpleCondition.searchWord}) > 0
+						</otherwise>
+					</choose>
+				</if>
+			</trim>
+		</sql>
+		<select id="selectTotalRecord" parameterType="PaginationInfo"
+			resultType="int">
+			SELECT COUNT(*)
+				FROM FRBOARD
+				<include refid="searchFrag" />
+		</select>
+		<select id="selectFrBoardList" parameterType="PaginationInfo"
+			resultType="FrBoardVO">
+			WITH ORDEREDBRD AS (
+			SELECT A.*, ROWNUM RNUM
+			FROM (
+			SELECT
+			FRB_NO
+			, USERS_ID
+			, FRB_TITLE
+			, FRB_WRITE
+			, FRB_DATE
+			, FRB_LNO
+			, FRB_REP
+			FROM FRBOARD
+			<include refid="searchFrag" />
+			ORDER BY FRB_DATE DESC
+			)A
+			)
+			SELECT *
+			FROM ORDEREDBRD
+			<![CDATA[
+				WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+			]]>
+		</select>
+		
+	<!-- 
+	자유게시판 등록
+	public int createPost(FrBoardVO frBoardVO)
+	//FrBoardVO(rnum=0, frbNo=null, usersId=ha001, frbTitle=제목22, frbWrite=ㅁㄴㄹㅇ, frbDate=null, 
+	//frbLno=null, frbRep=null, uploadFile=[org.springframework.web.multipart.support.StandardMultipartHttpS...]
+	//, comment=null, frBoardAttatchVOList=null)
+	 -->
+	 <insert id="createPost" parameterType="FrBoardVO">
+	 	<selectKey resultType="String" order="BEFORE" keyProperty="frbNo">
+	 		SELECT 'FRB' || TRIM(TO_CHAR(SUBSTR(MAX(FRB_NO),4)+1,'0000')) FROM FRBOARD
+	 	</selectKey>
+	 	INSERT INTO FRBOARD(FRB_NO, USERS_ID, FRB_TITLE, FRB_WRITE, FRB_DATE)
+		VALUES(#{frbNo}, #{usersId}, #{frbTitle}, #{frbWrite}, SYSDATE)
+	 </insert>
+	 
+	 <resultMap type="FrBoardVO" id="FrBoardMap">
+	 	<result property="frbNo" column="FRB_NO" />
+		<result property="usersId" column="USERS_ID" />
+		<result property="frbTitle" column="FRB_TITLE" />
+		<result property="frbWrite" column="FRB_WRITE" />
+		<result property="frbDate" column="FRB_DATE" />
+		<result property="frbLno" column="FRB_LNO" />
+		<result property="frbRep" column="FRB_REP" />
+		<result property="frbDelete" column="FRB_DELETE" />
+		<collection property="attachVOList" resultMap="attachVOMap"></collection>
+	 </resultMap>
+	 
+	 <resultMap type="AttachVO" id="attachVOMap">
+	 	<result property="seq" column="SEQ" />
+		<result property="pkCd" column="PK_CD" />
+		<result property="frbattOriginalnm" column="FRBATT_ORIGINALNM" />
+		<result property="frbattSavename" column="FRBATT_SAVENAME" />
+		<result property="frbattFilesize" column="FRBATT_FILESIZE" />
+		<result property="frbattMime" column="FRBATT_MIME" />
+		<result property="frbattFileorder" column="FRBATT_FILEORDER" />
+	 </resultMap>
+	 <!-- 
+	 자유게시판 상세
+	public FrBoardVO detail(FrBoardVO frBoardVO)
+	
+	FrBoardVO(rnum=0, frbNo=FRB0086, usersId=null, frbTitle=null, frbWrite=null, frbDate=null, frbLno=null, frbRep=null, uploadFile=null, comment=null, frBoardAttatchVOList=null)
+	  -->
+	<select id="detail" parameterType="FrBoardVO" resultMap="FrBoardMap">
+		SELECT A.FRB_NO, A.USERS_ID, A.FRB_TITLE, A.FRB_WRITE, A.FRB_DATE, A.FRB_LNO, A.FRB_REP
+		     , B.SEQ, B.PK_CD, B.FRBATT_ORIGINALNM, B.FRBATT_SAVENAME, B.FRBATT_FILESIZE, B.FRBATT_MIME, B.FRBATT_FILEORDER
+		FROM   FRBOARD A, ATTACH B
+		WHERE  A.FRB_NO = B.PK_CD(+)
+		AND    A.FRB_NO=#{frbNo}
+	</select>
+	
+	<!-- 로그인 아이디를 통해 memberVO를 가져오자 -->
+	<select id="getMemberVO" parameterType="String" resultType="MemberVO">
+		SELECT MEM_ID
+			,MEM_PASS
+			,MEM_TEL
+			,MEM_MAIL
+			,MEM_ZIP
+			,MEM_ADDR1
+			,MEM_ADDR2
+			,MEM_DIVISION
+			,MEM_DELETE
+		FROM MEMBER
+		WHERE MEM_ID = #{usersId}
+	</select>
+	
+	<!-- 조회수 1 증가
+	//FrBoardVO(rnum=0, frbNo=FRB0086, usersId=null, frbTitle=null
+	 -->
+	<update id="increaseFrbLno" parameterType="FrBoardVO">
+		UPDATE FRBOARD
+		SET    FRB_LNO = FRB_LNO + 1
+		WHERE  FRB_NO = #{frbNo}
+	</update>
+	
+	<!-- 
+	FrBoardVO(rnum=0, frbNo=FRB0099, usersId=null,...
+	 -->
+	 <update id="frbRepPost" parameterType="FrBoardVO">
+	 	UPDATE FRBOARD
+		SET    FRB_REP = 'Y'
+		WHERE  FRB_NO = #{frbNo}
+	 </update>
+	 
+	<!-- 
+	commentVO(coNo=3, ..
+	 -->
+	 <update id="coNoPost" parameterType="CommentVO">
+	 	UPDATE COMMENTS
+		SET    CO_REP = 'Y'
+		WHERE  CO_NO = #{coNo}
+	 </update>
+	 
+	 <!-- 
+	 CommentVO(coNo=null, usersId=az001, frbNo=FRB0101, coContent=ㄻㄴㅇㄹㄴㅁㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴ, coDate=null, coRep=null, cdepth=null, cgroup=null)
+	  -->
+	 <insert id="comment" parameterType="CommentVO">
+	 	<selectKey resultType="int" order="BEFORE" keyProperty="coNo">
+	 		SELECT NVL(MAX(CO_NO),0)+1 FROM COMMENTS
+	 	</selectKey>
+	 	
+	 	INSERT INTO COMMENTS(CO_NO, USERS_ID, FRB_NO, CO_CONTENT, CO_DATE)
+		VALUES(#{coNo},#{usersId},#{frbNo},#{coContent},sysdate)
+	 </insert>
+	 
+	 <select id="commentList" parameterType="FrBoardVO" resultType="CommentVO">
+	 	WITH T AS(
+		SELECT ROW_NUMBER() OVER(ORDER BY B.CO_NO ASC) RNUM
+		     , B.CO_NO, B.USERS_ID, B.FRB_NO, B.CO_CONTENT, B.CO_DATE, B.CO_REP, B.CDEPTH, B.CGROUP
+		FROM   COMMENTS B
+		WHERE  B.FRB_NO=#{frbNo}
+		)
+		SELECT * FROM T
+		ORDER BY RNUM DESC
+	 </select>
+</mapper>
+
+
+
+

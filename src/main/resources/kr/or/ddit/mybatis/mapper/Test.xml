@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.TestDAO">
+
+<!-- 시험지 목록 조회의 조건절 sql조각 -->
+<sql id="searchFlag">
+	<trim prefix="where" prefixOverrides="AND">
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.companyId)">
+			AND COMPANY_ID=#{detailCondition.companyId}
+		</if>
+		<if test='@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testType)'>
+			AND TEST_TYPE=#{detailCondition.testType}
+		</if>
+		<if test='@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.testTitle)'>
+			AND INSTR(TEST_TITLE,#{detailCondition.testTitle})>0
+		</if>
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.sDate)">
+			<![CDATA[
+			AND TEST_DATE >= #{variousCondition.sDate}
+			]]>
+		</if>
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.eDate)">
+			<![CDATA[
+			AND TEST_DATE <= #{variousCondition.eDate}
+			]]>
+		</if>
+		AND TEST_DELETE='N'
+	</trim>
+</sql>
+
+
+<!-- ==================================시험 조회 관련================================== -->
+<!-- 시험유형 별 총 레코드 수 조회 -->
+<select id="selectTotalRecord" parameterType="PaginationInfo" resultType="int">
+	SELECT COUNT(*) FROM TEST
+	<include refid="searchFlag" />
+</select>
+
+<!-- 시험지 목록 조회 -->
+<select id="selectTestList" parameterType="PaginationInfo" resultType="TestVO">
+	SELECT B.*
+	FROM (
+	    SELECT ROWNUM RNUM, A.*
+	    FROM (
+	        SELECT 
+	            TEST_NO, COMPANY_ID
+	            , TEST_TITLE, TEST_TYPE, TEST_DATE
+	        FROM TEST
+	        <include refid="searchFlag" />
+	        ORDER BY TEST_DATE DESC
+	    ) A
+	) B 
+	<![CDATA[
+	WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+	]]>
+</select>
+
+<!-- 시험지 상세 조회 -->
+<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
+	<id property="testNo" column="TEST_NO" />
+	<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+		<id property="qstnNo" column="QSTN_NO"/>
+		<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+	</collection>
+</resultMap>
+<select id="selectTestDetail" resultMap="testDetailMap" parameterType="string">
+	SELECT
+		TEST_NO, TEST_TITLE
+		, QSTN_NO, QSTN_CONT, QSTN_ANSWER
+		, ITEM_NO, ITEM_CONT
+	FROM V_TESTDETAIL
+	WHERE TEST_NO=#{testNo}
+	ORDER BY QSTN_NO, ITEM_NO
+</select>
+
+
+<!-- ==================================시험 생성 관련================================== -->
+<!-- 시험지 생성 -->
+<insert id="insertTest" parameterType="TestVO">
+	<selectKey keyProperty="testNo" order="BEFORE" resultType="string">
+		select 'T'||LPAD(test_seq.nextval,6,'0') from dual
+	</selectKey>
+	INSERT INTO test (
+	    test_no
+	    , company_id
+	    , test_title
+	    , test_type
+	    , test_date
+	) VALUES (
+	    #{testNo,jdbcType=VARCHAR}
+		, #{companyId,jdbcType=VARCHAR}
+		, #{testTitle,jdbcType=VARCHAR}
+		, #{testType,jdbcType=VARCHAR}
+		, sysdate
+	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</insert>
+
+<!-- 시험지 문제 생성 -->
+<insert id="insertTestQstn" parameterType="TestQstnVO">
+	INSERT INTO test_qstn (
+	    test_no
+	    , qstn_no
+	    , qstn_cont
+	    , qstn_answer
+	) VALUES (
+		#{testNo,jdbcType=VARCHAR}
+		, #{qstnNo,jdbcType=NUMERIC}
+		, #{qstnCont,jdbcType=VARCHAR}
+		, #{qstnAnswer,jdbcType=VARCHAR}
+	)
+</insert>
+
+<!-- 시험지 문항 생성 -->
+<insert id="insertTestItem" parameterType="TestItemVO">
+	INSERT INTO test_item (
+	    test_no
+	    , qstn_no
+	    , item_no
+	    , item_cont
+	) VALUES (
+		#{testNo,jdbcType=VARCHAR}
+		, #{qstnNo,jdbcType=NUMERIC}
+		, #{itemNo,jdbcType=NUMERIC}
+		, #{itemCont,jdbcType=VARCHAR}
+	)
+</insert>
+
+
+<!-- ==================================시험 삭제 관련================================== -->
+<!-- 시험지 삭제 -->
+<delete id="deleteTest" parameterType="string">
+	UPDATE test
+	SET
+	    TEST_DELETE = 'Y'
+	WHERE
+	    test_no = #{testNo}
+</delete>
+
+<!-- ==================================시험 수정 관련================================== -->
+<!-- 시험지 수정(제목) -->
+<update id="updateTest" parameterType="TestVO">
+	UPDATE test
+	SET
+	    test_title = #{testTitle}
+	WHERE
+	    test_no = #{testNo}
+</update>
+
+<!-- 시험문제 수정(문제내용, 정답) -->
+<update id="updateTestQstn" parameterType="TestQstnVO">
+	UPDATE test_qstn
+	SET
+		qstn_cont = #{qstnCont}
+	    ,qstn_answer = #{qstnAnswer}
+	WHERE
+	    test_no = #{testNo}
+	    AND qstn_no = #{qstnNo}
+</update>
+
+<!-- 시험문항 수정(항목내용) -->
+<update id="updateTestItem" parameterType="TestItemVO">
+	UPDATE test_item
+	SET
+	    item_cont = #{itemCont}
+	WHERE
+	    test_no = #{testNo}
+	    AND qstn_no = #{qstnNo}
+	    AND item_no = #{itemNo}
+</update>
+
+</mapper>

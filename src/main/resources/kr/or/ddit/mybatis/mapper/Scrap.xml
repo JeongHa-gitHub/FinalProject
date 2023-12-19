@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.ScrapDAO">
+	<resultMap type="ScrapVO" id="scrapMap" autoMapping="true">
+		<association property="recruit" autoMapping="true" />
+		<association property="company" autoMapping="true" />
+	</resultMap>
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'title'">
+						AND INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersId)">
+				AND USERS_ID=#{variousCondition.usersId}
+			</if>
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+			FROM SCRAP A JOIN RECRUIT B ON (A.RCRT_NO=B.RCRT_NO)
+			JOIN COMPANY C ON(B.COMPANY_ID=C.COMPANY_ID)
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectScrapList" parameterType="PaginationInfo"
+		resultType="ScrapVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		A.USERS_ID
+		, TO_CHAR(SCRAP_DATE, 'YYYY.MM.DD') SCRAP_DATE
+		, A.RCRT_NO 
+		, C.COMPANY_ID "company.companyId"
+		, C.COMPANY_NM "company.companyNm"
+		, B.RCRT_TITLE "recruit.rcrtTitle"
+		, B.RCRT_CAREER "recruit.rcrtCareer"
+		, B.RCRT_EDU "recruit.rcrtEdu"
+		, B.RCRT_TYPE "recruit.rcrtType"
+		, B.RCRT_LOC "recruit.rcrtLoc"
+		, TO_CHAR(RCRT_EDATE, 'MM.DD(DY)') "recruit.rcrtEdate"
+		FROM SCRAP A JOIN RECRUIT B ON (A.RCRT_NO=B.RCRT_NO)
+		JOIN COMPANY C ON(B.COMPANY_ID=C.COMPANY_ID)
+		<include refid="searchFrag" />
+		ORDER BY SCRAP_DATE DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	<delete id="deleteScrap">
+		DELETE FROM SCRAP
+		WHERE RCRT_NO = #{rcrtNo} and USERS_ID = #{usersId}
+	</delete>
+</mapper>

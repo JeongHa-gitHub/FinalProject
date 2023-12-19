@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.ComInfoDAO">
+	<sql id="searchFrag">
+		<where>
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+				<when test="simpleCondition.searchType eq 'company'">
+					INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+				</when>
+				<when test="simpleCondition.searchType eq 'sectors'">
+					INSTR(INDUSTRY_NM, #{simpleCondition.searchWord}) > 0
+				</when>
+				<otherwise>
+					INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					OR
+					INSTR(INDUSTRY_NM, #{simpleCondition.searchWord}) > 0
+				</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectTotalRecord" resultType="int" parameterType="PaginationInfo">
+		SELECT COUNT(*) FROM COMINFO
+	</select>
+	
+	<!-- 기업 정보 LIST 출력 -->
+	<select id="selectCominfoList" resultType="ComInfoVO" parameterType="PaginationInfo">
+	WITH COMPANYLIST AS (
+	SELECT A.*, ROWNUM RNUM
+	FROM (	
+	SELECT
+        A.COMPANY_NM
+		, A.COMPANY_ID
+        ,D.INDUSTRY_NM
+        ,B.COMINFO_HIT
+        ,B.COMINFO_FILE
+        ,COALESCE(COUNT(C.RCRT_NO), 0) AS RCRT_NO
+    FROM COMPANY A
+    JOIN
+        COMINFO B ON A.COMPANY_ID = B.COMPANY_ID
+    LEFT JOIN
+        RECRUIT C ON A.COMPANY_ID = C.COMPANY_ID
+    LEFT JOIN
+        INDUSTRY D ON B.COMINFO_SECTORS = D.INDUSTRY_NO
+    <include refid="searchFrag" />    
+    GROUP BY
+        A.COMPANY_ID, A.COMPANY_NM, B.COMINFO_SECTORS, B.COMINFO_HIT, D.INDUSTRY_NM, B.COMINFO_FILE
+    ORDER BY
+    	A.COMPANY_NM
+    )A
+    )
+    SELECT *
+    FROM COMPANYLIST
+    <![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+	]]>	
+	</select>
+	
+	<select id="incrementHit" parameterType="String">
+		UPDATE COMINFO
+		SET 
+			COMINFO_HIT = COMINFO_HIT+1
+		WHERE 
+			COMPANY_ID = #{companyId}
+	</select>
+	
+	<!-- 기업 정보 상세정보 출력 -->
+	<select id="selectCominfo" parameterType="String" resultType="ComInfoVO">
+		SELECT
+			A.COMPANY_NM
+			, A.COMPANY_ID
+			, TO_CHAR(A.COMPANY_DATE, 'YYYY/MM/DD') AS COMPANY_DATE
+			, D.INDUSTRY_NM
+			, B.COMINFO_PAGE
+			, B.COMINFO_CONTENT
+			, B.COMINFO_CEONM
+			, B.COMINFO_EMP
+			, TO_CHAR(B.COMINFO_SALES, 'FM999,999,999,999,999') AS COMINFO_SALES
+			, B.COMINFO_BENEFIT
+			, B.COMINFO_HIT
+			, B.COMINFO_FILE
+            , C.MEM_ZIP
+            , C.MEM_ADDR1
+            , C.MEM_ADDR2
+		FROM COMPANY A, COMINFO B, MEMBER C, INDUSTRY D
+		WHERE A.COMPANY_ID = B.COMPANY_ID
+        AND B.COMPANY_ID = C.MEM_ID
+        AND B.COMINFO_SECTORS = D.INDUSTRY_NO
+        AND B.COMPANY_ID = #{companyId}
+	</select>
+	
+	<!-- 기업정보 등록 -->
+	<insert id="insertCominfo" parameterType="ComInfoVO">
+		INSERT INTO COMINFO (
+		    COMPANY_ID 
+		    ,COMINFO_SECTORS 
+		    ,COMINFO_CONTENT 		  
+		    ,COMINFO_CEONM
+		    ,COMINFO_PAGE 
+		    ,COMINFO_EMP 
+		    ,COMINFO_SALES
+		    ,COMINFO_FILE 
+		    ,COMINFO_BENEFIT 
+		) VALUES (
+		    #{companyId,jdbcType=VARCHAR}
+			, #{cominfoSectors,jdbcType=VARCHAR}
+			, #{cominfoContent,jdbcType=VARCHAR}
+			, #{cominfoCeonm,jdbcType=VARCHAR}
+			, #{cominfoPage,jdbcType=VARCHAR}
+			, #{cominfoEmp,jdbcType=NUMERIC}
+			, #{cominfoSales,jdbcType=INTEGER}
+			, #{cominfoFile,jdbcType=VARCHAR}  	  
+			, #{cominfoBenefit,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 기업정보 관심기업 체크 -->
+	<select id="checkLikeCom" parameterType="LikeCompanyVO" resultType="int">
+		SELECT COUNT(*)
+		FROM 
+			INTER_COMPANY
+		WHERE 
+			COMPANY_ID= #{companyId} AND USERS_ID= #{usersId}
+	</select>
+	
+	<!-- 기업정보 관심기업 등록  -->
+	<insert id="inserLikeCom" parameterType="LikeCompanyVO">
+		INSERT INTO INTER_COMPANY (
+		    USERS_ID
+		    ,COMPANY_ID
+		    ,IS_REC_ALARM
+		    ,INTER_DATE
+		) VALUES (
+		    #{usersId,jdbcType=VARCHAR}
+		    , #{companyId,jdbcType=VARCHAR}
+		    , 'Y'
+		    , SYSDATE
+		)
+	</insert>
+	
+	<!-- 기업정보 관심기업 삭제  -->
+	<delete id="deleteLikeCom" parameterType="LikeCompanyVO">
+		DELETE 
+		FROM 
+		    INTER_COMPANY
+		WHERE 
+		    USERS_ID = #{usersId}
+		AND
+		    COMPANY_ID = #{companyId}
+	</delete>
+	
+	<select id="selectMember" parameterType="String" resultType="MemberVO">
+		SELECT
+		    MEM_ID,
+		    MEM_PASS,
+		    MEM_TEL,
+		    MEM_MAIL,
+		    MEM_ZIP,
+		    MEM_ADDR1,
+		    MEM_ADDR2,
+		    MEM_DIVISION,
+		    MEM_DELETE,
+		    ENABLED
+		FROM
+		    MEMBER
+		WHERE MEM_ID= #{memId}
+	</select>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.RecruitProcedureTestDAO">
+	<!-- 시험결과 조회 -->
+	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
+		<id property="testNo" column="TEST_NO" />
+		<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+			<id property="qstnNo" column="QSTN_NO"/>
+			<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+		</collection>
+	</resultMap>
+	<select id="selectTestResult" resultMap="testDetailMap" parameterType="TestResultVO">
+		SELECT
+		    V.TEST_NO, TEST_TITLE
+		    , V.QSTN_NO, QSTN_CONT, QSTN_ANSWER
+		    , ITEM_NO, ITEM_CONT
+		    , RSLT_SELECT
+		FROM
+		    V_TESTDETAIL V
+		    INNER JOIN TEST_RESULT R ON V.TEST_NO=R.TEST_NO AND V.QSTN_NO=R.QSTN_NO
+		WHERE
+		    V.TEST_NO=#{testNo}
+		    AND R.RCRT_NO=#{rcrtNo}
+		    AND R.RPROC_ORDER=#{rprocOrder}
+		    AND R.APL_NO=#{aplNo}
+		ORDER BY QSTN_NO, ITEM_NO
+	</select>
+	
+	<!-- 시험 점수 조회 -->
+	<select id="selectTestScore" parameterType="TestResultVO" resultType="TestResultVO">
+		 SELECT
+	        rslt_no,
+	        test_no,
+	        qstn_no,
+	        rcrt_no,
+	        apl_no,
+	        rproc_order,
+	        rslt_select,
+	        tech_score
+	    FROM
+	        test_result
+	    WHERE
+	        RCRT_NO=#{rcrtNo}
+	        AND RPROC_ORDER = #{rprocOrder}
+	        AND APL_NO=#{aplNo}
+	    ORDER BY
+	    	QSTN_NO ASC
+	</select>
+	
+	<!-- 기술시험 점수 update -->
+	<!-- 
+	<update id="updateTechScore" parameterType="AProcedureVO">
+	UPDATE
+		a_procedure
+	SET
+	    aproc_scr=#{aprocScr}
+	WHERE
+	    RCRT_NO=#{rcrtNo}
+	    AND RPROC_ORDER=#{rprocOrder}
+	    AND APL_NO=#{aplNo}
+	</update>
+	 -->
+	 <update id="updateTechScore" parameterType="TestResultVO">
+	 	UPDATE test_result
+		SET
+		    tech_score = #{techScore, jdbcType=NUMERIC}
+		WHERE
+		    rcrt_no = #{rcrtNo}
+		    AND rproc_order = #{rprocOrder}
+		    AND apl_no = #{aplNo}
+		    AND qstn_no = #{qstnNo}
+	 </update>
+	 
+	 <update id="updateAprocScore" parameterType="HashMap">
+		UPDATE A_PROCEDURE
+		SET APROC_SCR = #{totalScore}
+		WHERE RCRT_NO = #{testResultVO.rcrtNo}
+		    AND RPROC_ORDER = #{testResultVO.rprocOrder}
+		    AND APL_NO = #{testResultVO.aplNo}
+	 </update>
+</mapper>

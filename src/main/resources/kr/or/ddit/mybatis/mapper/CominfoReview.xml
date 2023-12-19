@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.ComInfoReviewDAO">
+
+	<select id="selectTotalRecord" parameterType="PaginationInfo" resultType="int">
+		SELECT COUNT(*)
+		FROM INTERVIEW_REVIEW
+	</select>
+
+	<select id="selectIntrViewList" parameterType="PaginationInfo" resultType="InterviewReviewVO">
+		WITH RECRUITVIEW AS (
+			SELECT RCRT_NO, RCRT_TITLE, COMPANY_NM,
+			COM.COMPANY_ID
+			FROM RECRUIT RE LEFT OUTER JOIN COMPANY COM ON
+			RE.COMPANY_ID = COM.COMPANY_ID
+		),
+		INTRVIEW AS (
+			SELECT INTE.INTR_NO, INTREV_NO, APL_NO, RCRT_NO,INTERV_PASS,
+			INTERV_WDATE
+			FROM INTERVIEW_REVIEW INTE LEFT OUTER JOIN INTERVIEW_SCHD
+			SC ON INTE.INTR_NO = SC.INTR_NO
+		)
+		SELECT
+			DISTINCT
+			INTR_NO
+			, INTREV_NO
+			, APL_NO
+			, INTR.RCRT_NO
+			, INTERV_PASS
+			, TO_CHAR(INTERV_WDATE,'YYYY-MM-DD') "intervWdate"
+			, COMPANY_NM
+			, RCRT_TITLE
+		FROM 
+			INTRVIEW INTR LEFT OUTER JOIN RECRUITVIEW RE ON INTR.RCRT_NO =RE.RCRT_NO
+		WHERE 
+			COMPANY_ID = #{variousCondition.companyId}
+	</select>
+
+	<select id="selectIntrViewDetail" parameterType="String" resultType="InterviewReviewVO">
+		WITH RCRTVIEW AS(            
+			SELECT A.INTR_NO, B.RCRT_TITLE
+			FROM INTERVIEW_SCHD A INNER JOIN RECRUIT B ON A.RCRT_NO = B.RCRT_NO
+		)
+		SELECT
+			INTREV_NO
+			, A.INTR_NO
+            , RCRT_TITLE
+			, INTERV_OVRL_EVLTN
+			, INTERV_DIFFICULTY
+			, INTERVIEW_TYPICAL
+			, INTERV_PERSONNEL
+			, INTERV_PROCESS
+			, INTERV_QUESTION
+			, INTERV_TIP
+			, INTERV_PASS
+			, TO_CHAR(INTERV_WDATE,'YYYY-MM-DD') "intervWdate"
+			, INTERV_APPROVAL
+			, INTERV_REPORT
+		FROM
+			INTERVIEW_REVIEW A INNER JOIN RCRTVIEW B ON A.INTR_NO = B.INTR_NO
+		WHERE 
+			INTREV_NO = #{intrevNo}
+	</select>
+	
+	<select id="retrieveValidTicketList" parameterType="String" resultType="PointPayVO">
+			<![CDATA[	
+			SELECT
+			  	P.point_pmtno,
+			    P.users_id,
+			    P.ticket_no,
+			    P.pmt_methdno,
+			    P.point_pdate,
+			    P.point_hold,
+			    P.point_charge,
+			    P.point_use,
+			    P.point_remain,
+			    P.point_record,
+			    T.ticket_name,
+			    T.ticket_period,
+			    (P.point_pdate + T.ticket_period-1) AS ticketExpired
+			FROM
+			    pointpay P
+			JOIN
+			    ticketmnmt T ON P.ticket_no = T.ticket_no
+			WHERE
+			    P.users_id = #{usersId}
+			    AND TRUNC(SYSDATE) >= TRUNC(point_pdate)
+			    AND TRUNC(SYSDATE) <= TRUNC(P.point_pdate + T.ticket_period-1)										
+			]]>
+	</select>
+	
+	<select id="retrieveMemberType" parameterType="String" resultType="String">
+		SELECT
+		    mem_division
+		FROM
+		    member
+		WHERE mem_id=#{usersId}
+	</select>
+</mapper>

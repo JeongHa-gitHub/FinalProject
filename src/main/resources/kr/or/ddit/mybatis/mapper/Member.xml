@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.common.dao.MemberDAO">
+<resultMap type="MemberVO" id="MemberMap" autoMapping="true">
+		<id property="memId" column="MEM_ID"/>
+		<association property="users" javaType="UsersVO" autoMapping="true" />
+		<association property="company" javaType="CompanyVO" autoMapping="true" />
+</resultMap>
+
+<!-- 로그인 -->
+<select id="selectUsersForAuth" resultMap="MemberMap" parameterType="MemberVO">
+SELECT 
+    MEMBER.MEM_ID,
+    MEMBER.MEM_PASS,
+    MEMBER.MEM_TEL,
+    MEMBER.MEM_MAIL,
+    MEMBER.MEM_ZIP,
+    MEMBER.MEM_ADDR1,
+    MEMBER.MEM_ADDR2,
+    MEMBER.MEM_DIVISION,
+    MEMBER.MEM_DELETE,
+    USERS.USERS_NM,
+    COMPANY.COMPANY_DNM
+FROM MEMBER
+LEFT JOIN users ON MEMBER.MEM_ID = users.users_id
+LEFT JOIN company ON MEMBER.MEM_ID = company.company_id
+WHERE MEM_ID =#{memId} AND MEM_PASS=#{memPass} AND MEM_DELETE='N'
+</select>
+
+<!-- <select id="selectMember" parameterType="string" resultType="MemberVO"> -->
+<!-- select mem_id -->
+<!-- from member -->
+<!-- where mem_id= #{memId, jdbcType=VARCHAR} -->
+
+
+<!-- </select> -->
+
+<!-- 아이디 중복검사 -->
+<select id="selectMemId" parameterType="String" resultType="int">
+select count(*)
+from member
+where mem_id=#{memId}
+
+</select>
+
+<!-- 개인 회원가입 -->
+<insert id="createMember" parameterType="MemberVO">
+INSERT INTO 
+	MEMBER(
+		mem_id,
+	    mem_pass,
+	    mem_tel,
+	    mem_mail,
+	    mem_zip,
+	    mem_addr1,
+	    mem_addr2,
+	    mem_division
+	   
+	    
+	)VALUES(
+		#{memId,jdbcType=VARCHAR}
+	   ,#{memPass,jdbcType=VARCHAR}
+	   ,#{memTel,jdbcType=VARCHAR}
+	   ,#{memMail,jdbcType=VARCHAR}
+	   ,#{memZip,jdbcType=NUMERIC}
+	   ,#{memAddr1,jdbcType=VARCHAR}
+	   ,#{memAddr2,jdbcType=VARCHAR}
+	   ,'H02'
+	   
+	)
+
+</insert>
+
+<!-- 기업 회원가입 -->
+<insert id="createCompanyMember" parameterType="MemberVO">
+
+INSERT INTO 
+	MEMBER(
+		mem_id,
+	    mem_pass,
+	    mem_tel,
+	    mem_mail,
+	    mem_zip,
+	    mem_addr1,
+	    mem_addr2,
+	    mem_division
+	    
+	)VALUES(
+		#{memId,jdbcType=VARCHAR}
+	   ,#{memPass,jdbcType=VARCHAR}
+	   ,#{memTel,jdbcType=VARCHAR}
+	   ,#{memMail,jdbcType=VARCHAR}
+	   ,#{memZip,jdbcType=NUMERIC}
+	   ,#{memAddr1,jdbcType=VARCHAR}
+	   ,#{memAddr2,jdbcType=VARCHAR}
+	   ,'H03'
+	   
+	)
+
+</insert>
+
+<!-- 비밀번호 찾기 -->
+<select id="selectPwFind" resultType="int" parameterType="MemberVO">
+
+select count(*) from member 
+where mem_id = #{memId} and mem_mail= #{memMail}
+
+</select>
+<!-- 비밀번호 업데이트 -->
+<update id="modifyPw" parameterType="MemberVO">
+
+UPDATE member
+SET
+    mem_pass =#{memPass,jdbcType=VARCHAR}
+WHERE
+        mem_id = #{memId,jdbcType=VARCHAR}
+    AND mem_mail = #{memMail,jdbcType=VARCHAR}
+
+</update>
+
+
+
+
+
+
+
+</mapper>

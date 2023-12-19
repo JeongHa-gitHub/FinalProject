@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.RolletDAO">
+
+	<insert id="couponInsert" parameterType="CouponListVO">
+		<selectKey resultType="String" order="BEFORE" keyProperty="ucpnNo">
+			SELECT 'UCPN'||TRIM(TO_CHAR(SUBSTR(MAX(UCPN_NO),5) + 1,'00000')) FROM COUPONLIST
+		</selectKey>
+	
+		INSERT INTO COUPONLIST(CPN_NO, USERS_ID, CLIST_ISN_DATE, CLIST_USE_DATE, UCPN_NO, CLIST_COMMENT)
+		VALUES(#{cpnNo}, #{usersId}, SYSDATE, NULL, #{ucpnNo}, #{clistComment})
+	</insert>
+
+</mapper>
+
+
+

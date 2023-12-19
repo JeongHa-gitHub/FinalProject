@@ -1,0 +1,6468 @@
+@charset "utf-8"; /* 차트 색상 변수 */
+:root {
+    --chartLabelColor01: var(--blue90);
+    --chartLabelColor02: var(--green90);
+    --chartLabelColor03: var(--gray80);
+    --chartLabelColor04: var(--gray40)
+}
+
+/*레이아웃*/
+#sri_section.layout_full #content {
+    margin: 0;
+    width: 100%;
+    background: rgb(244,246,250);
+    background: linear-gradient(90deg, rgba(244,246,250,1) 0%, rgba(244,246,250,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%)
+}
+
+.wrap_company_view {
+    margin: 0 auto;
+    width: 1260px;
+    box-sizing: border-box
+}
+
+.wrap_company_view .sidebar {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -630px;
+    width: 240px;
+    max-height: 864px;
+    box-sizing: border-box
+}
+
+/*WMG-36086 230831*/
+.wrap_company_view .main_content {
+    position: relative;
+    margin-left: 260px;
+    padding: 48px 0 110px 40px;
+    min-height: 800px;
+    border-radius: 32px 0 0 0;
+    box-sizing: border-box;
+    background-color: var(--white)
+}
+
+.wrap_company_view .main_content .banner_area {
+    display: flex;
+    margin: 48px 0;
+    width: 100%;
+    height: 90px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center
+}
+
+.wrap_company_view .main_content .banner_area .link_banner {
+    display: block
+}
+
+.wrap_company_view .main_content .section {
+    position: relative;
+    box-sizing: border-box
+}
+
+.wrap_company_view .main_content .section .section_tit {
+    color: var(--gray120);
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: -1.5px;
+    line-height: 66px
+}
+
+.wrap_company_view .main_content .section .section_content {
+    margin-top: 20px
+}
+
+.wrap_company_view .main_content .section .section_content:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.wrap_company_view .main_content .first_section {
+    padding-top: 0
+}
+
+/* 공통 */
+.company_info_view_svg {
+    display: none
+}
+
+.wrap_company_view .scroller::-webkit-scrollbar {
+    display: none
+}
+
+.wrap_company_view .scroller {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none
+}
+
+.wrap_company_view .list_dot>li {
+    position: relative;
+    padding-left: 14px;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.wrap_company_view .list_dot>li:before {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray80);
+    content: ""
+}
+
+.wrap_company_view .txt_helper {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.wrap_company_view .content_fold {
+    overflow-y: hidden;
+    position: relative;
+    max-height: 270px
+}
+
+.wrap_company_view .content_fold .box_btn {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: end
+}
+
+.wrap_company_view .content_fold .box_btn.gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 80px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)
+}
+
+.wrap_company_view .content_fold .btn_fold {
+    border: 1px solid var(--gray80);
+    box-sizing: border-box;
+    color: var(--gray100)
+}
+
+.wrap_company_view .content_fold .btn_fold .txt {
+    display: flex;
+    padding: 0 13px;
+    align-items: center;
+    justify-content: center
+}
+
+.wrap_company_view .content_fold .btn_fold .txt:after {
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 5.5L8 10.5L13 5.5' stroke='%2367738E' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.wrap_company_view .content_fold.active .box_btn {
+    display: flex
+}
+
+.wrap_company_view .content_fold.expand {
+    max-height: none
+}
+
+.wrap_company_view .content_fold.expand .box_btn {
+    position: static
+}
+
+.wrap_company_view .content_fold.expand .btn_fold .txt:after {
+    transform: rotate(-180deg)
+}
+
+.wrap_company_view .slider_controls .bx-prev, .wrap_company_view .slider_controls .bx-next {
+    width: 44px;
+    height: 44px;
+    background-size: contain
+}
+
+.wrap_company_view .slider_controls .bx-prev.disabled, .wrap_company_view .slider_controls .bx-next.disabled {
+    display: none
+}
+
+.wrap_company_view .slider_controls .bx-prev {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none'%3E%3Cg filter='url(%23filter0_bd_3758_59893)'%3E%3Ccircle cx='22' cy='18' r='16' fill='white' fill-opacity='0.6'/%3E%3C/g%3E%3Cpath d='M25 13L20 18L25 23' stroke='%23373F57' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cdefs%3E%3Cfilter id='filter0_bd_3758_59893' x='-2.15485' y='-6.15485' width='48.3097' height='50.1548' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeGaussianBlur in='BackgroundImageFix' stdDeviation='4.07742'/%3E%3CfeComposite in2='SourceAlpha' operator='in' result='effect1_backgroundBlur_3758_59893'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.215686 0 0 0 0 0.247059 0 0 0 0 0.341176 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='effect1_backgroundBlur_3758_59893' result='effect2_dropShadow_3758_59893'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect2_dropShadow_3758_59893' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E")
+}
+
+.wrap_company_view .slider_controls .bx-next {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44' fill='none'%3E%3Cg filter='url(%23filter0_bd_3758_59867)'%3E%3Ccircle cx='16' cy='16' r='16' transform='matrix(-1 0 0 1 38 2)' fill='white' fill-opacity='0.6'/%3E%3C/g%3E%3Cpath d='M19 13L24 18L19 23' stroke='%23373F57' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cdefs%3E%3Cfilter id='filter0_bd_3758_59867' x='-2.15485' y='-6.15485' width='48.3097' height='50.1548' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeGaussianBlur in='BackgroundImageFix' stdDeviation='4.07742'/%3E%3CfeComposite in2='SourceAlpha' operator='in' result='effect1_backgroundBlur_3758_59867'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.215686 0 0 0 0 0.247059 0 0 0 0 0.341176 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='effect1_backgroundBlur_3758_59867' result='effect2_dropShadow_3758_59867'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect2_dropShadow_3758_59867' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E")
+}
+
+.wrap_company_view .btn_company_view {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    z-index: 10;
+    margin-left: -132px;
+    width: 265px;
+    box-shadow: 0 8px 20px 0 rgba(45, 101, 242, 0.40)
+}
+
+.wrap_company_view .btn_company_view svg {
+    margin-left: 2px
+}
+
+.wrap_company_view .btn_company_view.show {
+    display: flex
+}
+
+.wrap_company_view .ellipsis_line2 {
+    display: -webkit-box;
+    overflow: hidden;
+    max-height: 44px;
+    line-height: 22px;
+    text-align: left;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+.wrap_company_view .txt_ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.wrap_company_view .list_jobs {
+    display: flex;
+    margin: -6px -8px;
+    box-sizing: border-box;
+    flex-wrap: wrap
+}
+
+.wrap_company_view .list_jobs li {
+    margin: 6px 4px
+}
+
+.wrap_company_view .list_jobs li button {
+    display: grid;
+    position: relative;
+    padding: 11px 17px;
+    height: 40px;
+    border: 1px solid var(--gray80);
+    border-radius: 20px;
+    outline-offset: -2px;
+    white-space: nowrap;
+    align-items: center
+}
+
+.wrap_company_view .list_jobs li button:hover {
+    border-color: var(--blue90);
+    background-color: var(--blue20)
+}
+
+.wrap_company_view .list_jobs li button:hover>span {
+    color: var(--blue90)
+}
+
+.wrap_company_view .list_jobs li button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--blue100)
+}
+
+.wrap_company_view .list_jobs li button>span {
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -0.5px;
+    line-height: 16px
+}
+
+.wrap_company_view .list_jobs li button.selected {
+    padding: 11px 11px 11px 25px;
+    border-color: var(--blue90);
+    background-color: var(--blue20)
+}
+
+.wrap_company_view .list_jobs li button.selected::before {
+    display: block;
+    position: absolute;
+    left: 4px;
+    margin: 0;
+    width: 24px;
+    height: 24px;
+    background: url(//www.saraminimage.co.kr/sri/person/spr/input_check_radio.png) no-repeat -200px -40px;
+    content: ""
+}
+
+.wrap_company_view .list_jobs li button.selected>span {
+    color: #2d65f2;
+    font-weight: bold;
+    letter-spacing: -1px
+}
+
+.wrap_company_view .list_jobs.type_no_check li button.selected {
+    padding: 11px
+}
+
+.wrap_company_view .list_jobs.type_no_check li button.selected::before {
+    display: none
+}
+
+.wrap_company_view .tooltip_ellipsis_detail {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    z-index: 1
+}
+
+.wrap_company_view .tooltip_ellipsis_detail .TipCont {
+    display: block;
+    padding: 12px
+}
+
+.wrap_company_view .tooltip_ellipsis_detail .TipTxt {
+    white-space: normal
+}
+
+/* subway line */
+/* 수도권 */
+.wrap_company_view .subway_line {
+    display: inline-block;
+    margin: 0 0 0 2px;
+    padding: 2px 5px 3px;
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 10px;
+    letter-spacing: -0.5px;
+    line-height: 11px;
+    vertical-align: top
+}
+
+.wrap_company_view .subway_line101 {
+    background-color: var(--subwayLine101)
+}
+
+.wrap_company_view .subway_line102 {
+    background-color: var(--subwayLine102)
+}
+
+.wrap_company_view .subway_line103 {
+    background-color: var(--subwayLine103)
+}
+
+.wrap_company_view .subway_line104 {
+    background-color: var(--subwayLine104)
+}
+
+.wrap_company_view .subway_line105 {
+    background-color: var(--subwayLine105)
+}
+
+.wrap_company_view .subway_line106 {
+    background-color: var(--subwayLine106)
+}
+
+.wrap_company_view .subway_line107 {
+    background-color: var(--subwayLine107)
+}
+
+.wrap_company_view .subway_line108 {
+    background-color: var(--subwayLine108)
+}
+
+.wrap_company_view .subway_line109 {
+    background-color: var(--subwayLine109)
+}
+
+.wrap_company_view .subway_line201 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine201)
+}
+
+/*수인분당*/
+.wrap_company_view .subway_line301 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine301)
+}
+
+/*인천1호선*/
+.wrap_company_view .subway_line302 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine302)
+}
+
+/*인천2호선*/
+.wrap_company_view .subway_line1101 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1101)
+}
+
+/*신분당*/
+.wrap_company_view .subway_line1001 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1001)
+}
+
+/*경의중앙*/
+.wrap_company_view .subway_line1201 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1201)
+}
+
+/*경춘*/
+.wrap_company_view .subway_line901 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine901)
+}
+
+/*공항철도*/
+.wrap_company_view .subway_line202 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine202)
+}
+
+/*의정부*/
+.wrap_company_view .subway_line1301 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1301)
+}
+
+/*에버라인*/
+.wrap_company_view .subway_line203 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine203)
+}
+
+/*경강선*/
+.wrap_company_view .subway_line303 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine303)
+}
+
+/*자기부상*/
+.wrap_company_view .subway_line1501 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1501)
+}
+
+/*우이신설*/
+.wrap_company_view .subway_line1601 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1601)
+}
+
+/*서해*/
+.wrap_company_view .subway_line1701 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1701)
+}
+
+/*김포골드*/
+.wrap_company_view .subway_line1801 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine1801)
+}
+
+/*신림*/
+/* 부산 */
+.wrap_company_view .subway_line401 {
+    background-color: var(--subwayLine401)
+}
+
+.wrap_company_view .subway_line402 {
+    background-color: var(--subwayLine402)
+}
+
+.wrap_company_view .subway_line403 {
+    background-color: var(--subwayLine403)
+}
+
+.wrap_company_view .subway_line404 {
+    background-color: var(--subwayLine404)
+}
+
+.wrap_company_view .subway_line405 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine405)
+}
+
+/*김해부산*/
+.wrap_company_view .subway_line406 {
+    padding: 2px 6px 3px;
+    background-color: var(--subwayLine406)
+}
+
+/*동해*/
+/* 대구 */
+.wrap_company_view .subway_line501 {
+    background-color: var(--subwayLine501)
+}
+
+.wrap_company_view .subway_line502 {
+    background-color: var(--subwayLine502)
+}
+
+.wrap_company_view .subway_line503 {
+    background-color: var(--subwayLine503)
+}
+
+/* 광주 */
+.wrap_company_view .subway_line601 {
+    background-color: var(--subwayLine601)
+}
+
+/* 대전 */
+.wrap_company_view .subway_line801 {
+    background-color: var(--subwayLine801)
+}
+
+/*고정영역 발생*/
+.wrap_company_view.fixed .sidebar {
+    position: fixed;
+    top: 72px;
+    transition: top 0.2s
+}
+
+/* 기업정보 수정 */
+.footer_company_info {
+    display: flex;
+    position: relative;
+    margin-top: 60px;
+    justify-content: space-between
+}
+
+.footer_company_info p {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.footer_company_info .box_edit {
+    text-align: right
+}
+
+.footer_company_info .box_edit .edit_txt {
+    display: inline-flex;
+    color: var(--gray120);
+    align-items: center
+}
+
+.footer_company_info .box_edit .icon_edit {
+    margin-right: 4px
+}
+
+.footer_company_info .box_edit .modified {
+    color: var(--gray100)
+}
+
+.footer_company_info .btn_edit {
+    margin: 8px 0;
+    border-color: var(--gray40)
+}
+
+.footer_company_info .btn_edit:after {
+    margin-left: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12.002L10 8.00195L6 4.00195' stroke='%2367738E' stroke-linecap='round'/%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+/* 좌측 사이드바 */
+.sidebar .company_info .box_logo {
+    display: flex;
+    margin-top: 48px;
+    width: 210px;
+    height: 86px;
+    border: 1px solid var(--gray30);
+    border-radius: 12px;
+    box-sizing: border-box;
+    background: var(--white);
+    align-items: center;
+    justify-content: center
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_info .box_logo img, .sidebar .company_info .box_logo .icon_no_company_logo {
+    max-width: 143px;
+    height: auto;
+    max-height: 54px
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_info .box_title {
+    position: relative;
+    margin-top: 18px
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_info .box_title .tit_company {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--gray120);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 28px;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.sidebar .company_info .box_title .txt_info {
+    position: relative;
+    margin-left: 8px;
+    padding-left: 9px;
+    color: var(--gray100);
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.sidebar .company_info .box_title .txt_info:before {
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 1px;
+    height: 16px;
+    background: var(--gray40);
+    content: ""
+}
+
+.sidebar .company_info .box_title .txt_job {
+    overflow: hidden;
+    margin-top: 8px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.sidebar .company_info .box_btns {
+    display: flex;
+    position: relative;
+    margin-top: 16px
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_info .box_btns .interested_corp {
+    display: flex;
+    margin-right: 8px;
+    padding: 0 12px;
+    width: auto;
+    max-width: 151px;
+    height: 40px;
+    border: 1px solid var(--gray40);
+    border-radius: 32px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    background: var(--white);
+    justify-content: center;
+    align-items: center
+}
+
+.sidebar .company_info .box_btns .interested_corp:before {
+    display: none
+}
+
+.sidebar .company_info .box_btns .interested_corp>span {
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    text-indent: 0
+}
+
+.sidebar .company_info .box_btns .interested_corp .icon_interested {
+    margin-right: 4px
+}
+
+.sidebar .company_info .box_btns .interested_corp.interested_on .icon_interested path {
+    fill: #ff6f6c;
+    stroke: #f75855
+}
+
+.sidebar .company_info .box_btns .interested_corp::before {
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6.02498 12.7861L5.64593 12.4305L5.26661 12.0676L4.9045 11.7145L4.57727 11.3886L4.30315 11.1078L4.09798 10.8878L3.60986 10.3434L3.3016 9.99345L3.02797 9.67542L2.79004 9.38984L2.58897 9.13749L2.42437 8.91736L2.35722 8.8214C2.09522 8.43618 1.89245 8.04622 1.73708 7.6185C1.41094 6.38491 1.4304 5.39882 1.73942 4.62739C2.06107 3.82442 2.56896 3.24401 3.25465 2.87112C3.97841 2.47923 4.74412 2.39639 5.56989 2.63105C6.18765 2.82443 6.71818 3.1964 7.16412 3.7682L7.29598 3.94787L7.58589 4.37863L8.00062 4.99485L8.41545 4.3787L8.71259 3.93737C9.13803 3.32866 9.65597 2.91815 10.2666 2.68825L10.4462 2.62682C11.2606 2.39707 12.0242 2.47999 12.7465 2.87106C13.4323 3.24395 13.9403 3.82439 14.262 4.62745C14.5705 5.39767 14.5909 6.3831 14.2537 7.6522C14.1088 8.04661 13.9058 8.43727 13.6424 8.82404C13.6227 8.85295 13.6015 8.88333 13.5787 8.9152L13.4124 9.13756L13.2113 9.38998L12.9737 9.67507L12.549 10.1656L12.1189 10.6483L12.1177 10.6497L11.8097 10.99L11.569 11.2414L11.2664 11.5467L10.7343 12.0681L10.3555 12.4306L9.97658 12.786L9.61564 13.1169L9.28863 13.4077C9.1893 13.4942 9.09986 13.57 9.0226 13.6331C9.02237 13.6333 9.02214 13.6335 9.02192 13.6336L8.00223 14.461L7.999 14.4634L6.85007 13.5257C6.76132 13.4504 6.66238 13.3642 6.55569 13.2693L6.20886 12.9558C6.20844 12.9554 6.20801 12.955 6.20759 12.9546C6.148 12.9 6.08733 12.844 6.02592 12.787C6.02561 12.7867 6.0253 12.7864 6.02498 12.7861Z' fill='white' stroke='%238491A7'/%3E%3C/svg%3E") 0 0 no-repeat;
+    content: ""
+}
+
+.sidebar .company_info .box_btns .btn_share {
+    display: flex;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gray40);
+    border-radius: 32px;
+    background: var(--white);
+    justify-content: center;
+    align-items: center
+}
+
+.sidebar .company_info .layer_share {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    z-index: 10
+}
+
+.sidebar .company_info .layer_share.show {
+    display: block
+}
+
+.sidebar .company_info .layer_share .cont_share {
+    position: relative;
+    padding: 28px 24px 24px;
+    width: 188px;
+    height: 92px;
+    border: 1px solid var(--gray70);
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: var(--white);
+    box-shadow: 2px 6px 16px 0 rgba(0, 0, 0, 0.08)
+}
+
+.sidebar .company_info .layer_share .btn_close {
+    position: absolute;
+    top: 12px;
+    right: 12px
+}
+
+.sidebar .company_info .layer_share .btn_close:after {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg width='17' height='17' viewBox='0 0 17 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.046 2.71094L13.7531 3.41804L3.85359 13.3175L3.14648 12.6104L13.046 2.71094Z' fill='%2367738E'/%3E%3Cpath d='M3.85359 2.71094L13.7531 12.6104L13.046 13.3175L3.14648 3.41804L3.85359 2.71094Z' fill='%2367738E'/%3E%3C/svg%3E%0A") no-repeat;
+    content: ""
+}
+
+.sidebar .company_info .layer_share .list_sns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.sidebar .company_info .layer_share .list_sns .btn_facebook, .sidebar .company_info .layer_share .list_sns .btn_twitter, .sidebar .company_info .layer_share .list_sns .btn_url {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gray40);
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center
+}
+
+.sidebar .company_navi {
+    margin-top: 28px
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_navi .menu_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0
+}
+
+.sidebar .company_navi .menu_list .menu_item:last-of-type {
+    margin-bottom: 0
+}
+
+.sidebar .company_navi .menu_list .menu_item.selected .btn_menu {
+    font-weight: bold;
+    background: var(--gray30)
+}
+
+.sidebar .company_navi .menu_list .btn_menu {
+    display: flex;
+    position: relative;
+    padding: 0 20px;
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: var(--gray120);
+    font-size: 16px;
+    letter-spacing: -1px;
+    text-align: left;
+    background: var(--gray20);
+    align-items: center
+}
+
+/*WMG-36086 230831*/
+.sidebar .company_navi .menu_list .menu_item .btn_menu:hover {
+    background: var(--gray30)
+}
+
+.sidebar .company_navi .menu_list .btn_menu .ico {
+    margin-right: 8px;
+    width: 24px;
+    height: 24px
+}
+
+.sidebar .company_navi .menu_list .btn_menu .badge {
+    display: inline-flex;
+    margin-left: 8px;
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 20px;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    background: var(--blue90);
+    align-items: center
+}
+
+.sidebar .company_navi .menu_list .btn_menu .badge_new {
+    background: var(--green90)
+}
+
+.sidebar .banner {
+    overflow: hidden;
+    margin-top: 50px;
+    width: 240px;
+    height: 90px;
+    border-radius: 8px
+}
+
+/* 주요 내용 - 기업소개 */
+.wrap_company_view .cont_introduce .first_section .section_content {
+    margin-top: 0
+}
+
+.cont_introduce .wrap_induce {
+    display: flex;
+    width: 100%;
+    height: 228px;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .wrap_induce .induce_cont {
+    padding: 32px;
+    min-width: 320px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    background: var(--white);
+    flex-shrink: 0
+}
+
+.cont_introduce .wrap_induce .induce_cont .induce_tit {
+    display: block;
+    color: var(--gray120);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .wrap_induce .induce_cont .induce_txt {
+    margin-top: 8px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .wrap_induce .induce_cont .btn_induce {
+    margin-top: 24px;
+    min-width: 112px
+}
+
+.cont_introduce .section {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--gray30)
+}
+
+.cont_introduce .section.section_type2 {
+    padding-bottom: 0;
+    border-bottom: 0
+}
+
+.cont_introduce .section .section_header {
+    display: flex;
+    align-items: center
+}
+
+.cont_introduce .section .citation, .cont_introduce .section .link_content_more {
+    position: absolute;
+    top: 0;
+    right: 0
+}
+
+.cont_introduce .section .citation, .cont_introduce .section .citation2 {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .section .citation2 {
+    display: flex;
+    margin-top: 12px;
+    justify-content: flex-end
+}
+
+.cont_introduce .section .citation .link {
+    color: var(--gray80)
+}
+
+.cont_introduce .section .link_content_more {
+    border-color: var(--gray40);
+    color: var(--gray100);
+    background: var(--white)
+}
+
+.cont_introduce .section .link_content_more:after {
+    margin-left: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12.002L10 8.00195L6 4.00195' stroke='%2367738E' stroke-linecap='round'/%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+.cont_introduce .section .company_admin {
+    z-index: 20;
+    margin-left: 8px
+}
+
+.cont_introduce .section .company_admin .outlink {
+    display: inline-block;
+    margin-left: 4px;
+    color: #444;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 18px;
+    vertical-align: top
+}
+
+.cont_introduce .section .company_admin .outlink:after {
+    display: inline-block;
+    margin: 1px 0 0 6px;
+    width: 16px;
+    height: 16px;
+    vertical-align: top;
+    background-image: url(//www.saraminimage.co.kr/sri/company/view/img_company_spr.png);
+    background-repeat: no-repeat;
+    background-position: -400px -50px;
+    content: ""
+}
+
+.cont_introduce .section .company_admin .TipCont {
+    display: block
+}
+
+.cont_introduce .favor_company {
+    margin-bottom: 8px;
+    padding: 24px;
+    border: 1px solid var(--gray30);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--gray20)
+}
+
+.cont_introduce .favor_company .favor_company_header {
+    display: flex;
+    align-items: center
+}
+
+.cont_introduce .favor_company .favor_company_header .title {
+    color: var(--gray120);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .favor_company .favor_company_header .tooltip_favor_company {
+    margin-left: 4px
+}
+
+.cont_introduce .favor_company .favor_company_header .tooltip_favor_company .btn_infomation {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.4' stroke='%238491A7' stroke-width='1.2'/%3E%3Cpath d='M8 6C8.552 6 9 5.552 9 5C9 4.4475 8.552 4 8 4C7.448 4 7 4.4475 7 5C7 5.552 7.448 6 8 6Z' fill='%238491A7'/%3E%3Cpath d='M8.79462 7.9067C8.74841 7.50883 8.41027 7.2 8 7.2C7.55817 7.2 7.2 7.55817 7.2 8V11.6L7.20538 11.6933C7.25159 12.0912 7.58973 12.4 8 12.4C8.44183 12.4 8.8 12.0418 8.8 11.6V8L8.79462 7.9067Z' fill='%238491A7'/%3E%3C/svg%3E%0A")
+}
+
+.cont_introduce .favor_company .favor_company_header .tooltip_favor_company .TipTxt {
+    color: var(--gray80)
+}
+
+.cont_introduce .favor_company .favor_company_header .tooltip_favor_company .txt_info {
+    margin-top: 8px
+}
+
+.cont_introduce .favor_company .favor_company_infos {
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: space-between
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item {
+    display: flex;
+    width: 100%;
+    align-items: center
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .tit {
+    width: 116px;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-align: left
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item+.favor_company_item:before {
+    margin: 0 24px;
+    width: 1px;
+    height: 20px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .counting {
+    display: flex;
+    margin-left: auto;
+    align-items: flex-end
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .counting .ico_arrow_rising {
+    width: 20px;
+    height: 20px
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .counting .percent {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .counting .count {
+    margin-left: 4px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_introduce .favor_company .favor_company_infos .favor_company_item .counting .num {
+    margin-right: 2px;
+    color: var(--gray120);
+    font-size: 18px;
+    letter-spacing: -1px;
+    line-height: 26px
+}
+
+.cont_introduce .company_curation {
+    display: flex;
+    overflow: hidden;
+    margin-top: 24px;
+    max-height: 44px;
+    gap: 8px;
+    flex-wrap: wrap
+}
+
+.cont_introduce .company_curation .company_curation_item {
+    display: flex;
+    padding: 0 16px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--gray20);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .company_curation .company_curation_item .txt {
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_introduce .company_curation .company_curation_item .ico {
+    margin-right: 4px;
+    width: 20px;
+    height: 20px
+}
+
+.cont_introduce .list_workplace {
+    display: flex;
+    margin-top: 14px;
+    flex-wrap: wrap
+}
+
+.cont_introduce .list_workplace>li {
+    margin-right: 8px
+}
+
+.cont_introduce .list_workplace .box_workplace {
+    display: flex;
+    padding: 0 12px;
+    height: 32px;
+    border-radius: 32px;
+    background: var(--gray20);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .list_workplace .box_workplace .txt {
+    display: flex;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .area_company_infos .company_summary {
+    display: flex;
+    margin-bottom: 30px;
+    padding: 40px 0;
+    border: 1px solid var(--gray30);
+    border-radius: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 96%;
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item {
+    display: flex;
+    flex-direction: column;
+    margin: 0 45px;
+    align-items: center
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .ico_company_summary {
+    display: block;
+    width: 44px;
+    height: 44px
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .box_align {
+    display: flex;
+    align-items: baseline;
+    gap: 4px
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .company_summary_tit {
+    display: block;
+    margin-top: 8px;
+    color: var(--gray120);
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .TipBox {
+    z-index: 10
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .tooltip_company_type .btn_open_tooltip {
+    border-bottom: 1px solid var(--gray120)
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .btn_open_tooltip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0 4px;
+    width: 96%;
+}
+
+.cont_introduce .area_company_infos .company_summary .company_summary_item .company_summary_desc {
+    display: block;
+    margin-top: 2px;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .area_company_infos .company_details {
+    display: flex;
+    color: var(--gray120);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    flex-wrap: wrap;
+    gap: 0 40px
+}
+
+.cont_introduce .area_company_infos .company_details .company_details_group {
+    margin-bottom: 20px;
+    width: 460px
+}
+
+.cont_introduce .area_company_infos .company_details .company_details_group.wide {
+    width: 100%
+}
+
+.cont_introduce .area_company_infos .company_details .company_details_group:last-child {
+    margin-bottom: 0
+}
+
+.cont_introduce .area_company_infos .company_details .tit, .cont_introduce .area_company_infos .company_details .desc {
+    position: relative;
+    min-height: 26px
+}
+
+.cont_introduce .area_company_infos .company_details .tit {
+    float: left;
+    clear: both;
+    width: 68px;
+    color: var(--gray100);
+    font-size: 17px
+}
+
+.cont_introduce .area_company_infos .company_details .desc {
+    display: flex;
+    position: relative;
+    margin-left: 80px;
+    font-size: 17px;
+}
+
+.cont_introduce .area_company_infos .company_details .desc .ellipsis {
+    padding-right: 2px
+}
+
+.cont_introduce .area_company_infos .company_details .link_map {
+    margin-left: 8px;
+    width: 55px;
+    border-color: var(--gray40);
+    color: var(--gray100);
+    background-color: var(--white);
+    flex-shrink: 0
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link {
+    display: flex;
+    align-items: center;
+    gap: 4px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link:before {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: url("//www.saraminimage.co.kr/sri/company/view/img_company_spr.png") 0 0 no-repeat;
+    content: ""
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_blog:before {
+    background-position: -200px -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_fb:before {
+    background-position: 0 -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_ig:before {
+    background-position: -99px -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_yt:before {
+    background-position: -150px -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_tw:before {
+    background-position: -50px -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_sns_link .sns_link_etc:before {
+    background-position: -250px -150px
+}
+
+.cont_introduce .area_company_infos .company_details .list_technology {
+    min-width: 0
+}
+
+.cont_introduce .area_company_infos .company_details .list_technology>li {
+    display: flex;
+    margin-bottom: 6px
+}
+
+.cont_introduce .area_company_infos .company_details .list_technology>li:last-child {
+    margin-bottom: 0
+}
+
+.cont_introduce .area_company_infos .company_details .list_technology .technology_tit {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0
+}
+
+.cont_introduce .area_company_infos .company_details .list_technology .technology_tit:before {
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M19.1239 8.56C19.1239 12.3901 16.019 15.495 12.1889 15.495C8.35881 15.495 5.25391 12.3901 5.25391 8.56C5.25391 4.72991 8.35881 1.625 12.1889 1.625C16.019 1.625 19.1239 4.72991 19.1239 8.56Z' stroke='%238491A7' stroke-width='1.25'/%3E%3Cellipse cx='12.1798' cy='8.54877' rx='4.2525' ry='4.2525' transform='rotate(92 12.1798 8.54877)' stroke='%238491A7' stroke-linecap='round'/%3E%3Cmask id='path-3-inside-1_3485_58141' fill='white'%3E%3Cpath d='M7.30635 13.875L4 19.4037L7.64834 18.525L8.65163 21.7942L12.1509 15.7055'/%3E%3C/mask%3E%3Cpath d='M4 19.4037L2.91862 18.757C2.65824 19.1924 2.68437 19.7415 2.98493 20.1502C3.28548 20.5589 3.80183 20.7475 4.29504 20.6287L4 19.4037ZM7.64834 18.525L8.85289 18.1553C8.65754 17.5188 8.00064 17.1441 7.3533 17.3L7.64834 18.525ZM8.65163 21.7942L7.44708 22.1639C7.59432 22.6436 8.01221 22.9903 8.51091 23.0463C9.00961 23.1024 9.49402 22.8571 9.74408 22.422L8.65163 21.7942ZM6.22497 13.2283L2.91862 18.757L5.08138 20.0504L8.38773 14.5217L6.22497 13.2283ZM4.29504 20.6287L7.94338 19.75L7.3533 17.3L3.70496 18.1787L4.29504 20.6287ZM6.44379 18.8947L7.44708 22.1639L9.85619 21.4245L8.85289 18.1553L6.44379 18.8947ZM9.74408 22.422L13.2433 16.3333L11.0584 15.0776L7.55919 21.1664L9.74408 22.422Z' fill='%238491A7' mask='url(%23path-3-inside-1_3485_58141)'/%3E%3Cmask id='path-5-inside-2_3485_58141' fill='white'%3E%3Cpath d='M17.3183 13.5879L20.6445 19.4043L16.9962 18.5256L15.9929 21.7948L12.6384 15.6847'/%3E%3C/mask%3E%3Cpath d='M20.6445 19.4043L21.7383 18.7788C21.9879 19.2153 21.9541 19.7584 21.6523 20.1606C21.3504 20.5628 20.8384 20.747 20.3495 20.6292L20.6445 19.4043ZM16.9962 18.5256L15.7916 18.1559C15.987 17.5193 16.6439 17.1447 17.2912 17.3006L16.9962 18.5256ZM15.9929 21.7948L17.1975 22.1644C17.0489 22.6485 16.6251 22.9966 16.1214 23.0482C15.6177 23.0998 15.1321 22.845 14.8884 22.4011L15.9929 21.7948ZM18.4121 12.9624L21.7383 18.7788L19.5508 20.0298L16.2246 14.2134L18.4121 12.9624ZM20.3495 20.6292L16.7012 19.7505L17.2912 17.3006L20.9396 18.1793L20.3495 20.6292ZM18.2007 18.8952L17.1975 22.1644L14.7883 21.4251L15.7916 18.1559L18.2007 18.8952ZM14.8884 22.4011L11.5339 16.2911L13.7429 15.0783L17.0974 21.1884L14.8884 22.4011Z' fill='%238491A7' mask='url(%23path-5-inside-2_3485_58141)'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.cont_introduce .area_company_infos .company_introduce {
+    margin-top: 40px
+}
+
+.cont_introduce .area_company_infos .company_introduce .tit {
+    color: var(--gray120);
+    font-size: 18px;
+    letter-spacing: -1px;
+    line-height: 26px
+}
+
+.cont_introduce .area_company_infos .company_introduce .txt {
+    margin-top: 16px;
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .wrap_photo {
+    margin-top: 14px;
+    padding-bottom: 40px
+}
+
+.cont_introduce .wrap_photo .list_thumb {
+    display: flex
+}
+
+.cont_introduce .wrap_photo .list_thumb li {
+    display: none;
+    position: relative;
+    width: 306px;
+    height: 220px
+}
+
+.cont_introduce .wrap_photo .list_thumb li .thumb_inner {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: #000
+}
+
+.cont_introduce .wrap_photo .list_thumb li .btn_open_company_photo {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%
+}
+
+.cont_introduce .wrap_photo .list_thumb li:nth-child(1), .cont_introduce .wrap_photo .list_thumb li:nth-child(2), .cont_introduce .wrap_photo .list_thumb li:nth-child(3) {
+    display: block
+}
+
+.cont_introduce .wrap_photo .list_thumb li+li {
+    margin-left: 20px
+}
+
+.cont_introduce .wrap_photo .list_thumb li .cover {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    text-align: center;
+    background: rgba(0,0,0,0.56);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .wrap_photo .list_thumb li .cover:before {
+    display: block;
+    margin-bottom: 8px;
+    width: 32px;
+    height: 32px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect opacity='0.01' width='24' height='24' fill='white'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20.5494 5.31713C16.2536 1.02136 9.28879 1.02136 4.99302 5.31713C0.697251 9.6129 0.697251 16.5777 4.99302 20.8735C9.13208 25.0125 15.749 25.1635 20.0688 21.3265L27.519 28.7751L27.6063 28.8528C27.9988 29.1637 28.5706 29.1378 28.9332 28.7751C29.3238 28.3846 29.3238 27.7514 28.9332 27.3609L21.4403 19.8681C24.8212 15.5518 24.5242 9.29193 20.5494 5.31713ZM6.40723 19.4593C2.89251 15.9445 2.89251 10.2461 6.40723 6.73135C9.92195 3.21663 15.6204 3.21663 19.1352 6.73135C22.6499 10.2461 22.6499 15.9445 19.1352 19.4593C15.6204 22.974 9.92195 22.974 6.40723 19.4593Z' fill='white'/%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+.cont_introduce .wrap_photo .list_thumb li.indicator .cover {
+    display: flex;
+    font-size: 20px;
+    line-height: 28px
+}
+
+.cont_introduce .wrap_photo .list_thumb li.indicator .cover:before {
+    display: none
+}
+
+.cont_introduce .wrap_photo .list_thumb li.video .cover:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M24.7087 13.5373C26.4245 14.7308 26.4245 17.2692 24.7087 18.4627L11.9277 27.3539C10.2701 28.507 8 27.3209 8 25.3016V6.69837C8 4.67914 10.2701 3.493 11.9277 4.64611L24.7087 13.5373Z' stroke='white' stroke-width='2'/%3E%3C/svg%3E")
+}
+
+.cont_introduce .wrap_photo .list_thumb li .frame {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%
+}
+
+.cont_introduce .wrap_photo .list_thumb li .frame img {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%)
+}
+
+.cont_introduce .wrap_photo .list_thumb li .frame img.ready {
+    display: block
+}
+
+.cont_introduce .wrap_photo .list_thumb li.hover:hover .cover {
+    display: flex
+}
+
+.cont_introduce .wrap_photo .list_thumb .box_no_img {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--gray30);
+    border-radius: 8px;
+    background: var(--gray10);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0
+}
+
+.cont_introduce .list_company_history .company_history_item {
+    position: relative;
+    padding: 0 0 24px 24px
+}
+
+.cont_introduce .list_company_history .company_history_item:last-child {
+    padding-bottom: 0
+}
+
+.cont_introduce .list_company_history .company_history_item:before, .cont_introduce .list_company_history .company_history_item:after {
+    display: block;
+    position: absolute;
+    top: 8px;
+    bottom: -8px;
+    content: ""
+}
+
+.cont_introduce .list_company_history .company_history_item:before {
+    left: 4px;
+    width: 1px;
+    background: var(--gray50)
+}
+
+.cont_introduce .list_company_history .company_history_item:after {
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--gray80);
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_introduce .admin_company_history {
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+/*WMG-36086 230830 추가 사항 작업 - 어드민에서 등록한 내용 노출*/
+.cont_introduce .company_history {
+    display: flex;
+    justify-content: flex-start
+}
+
+.cont_introduce .company_history .history_year {
+    color: var(--gray120);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .company_history .list_company_history_cont {
+    margin-left: 28px
+}
+
+.cont_introduce .company_history .list_company_history_cont .history_cont_item {
+    display: flex;
+    margin-bottom: 24px;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    justify-content: flex-start
+}
+
+.cont_introduce .company_history .list_company_history_cont .history_cont_item:last-child {
+    margin-bottom: 0
+}
+
+.cont_introduce .company_history .list_company_history_cont .history_month {
+    color: var(--gray100);
+    font-weight: normal
+}
+
+.cont_introduce .company_history .list_company_history_cont .history_txt {
+    margin-left: 20px;
+    color: var(--gray120)
+}
+
+/* 레이어 - 근무환경 */
+.layer_company_photo {
+    display: none;
+    position: fixed;
+    top: 160px;
+    left: 50%;
+    z-index: 1100;
+    width: 860px;
+    height: 561px;
+    transform: translate(-50%)
+}
+
+.layer_company_photo .slider>div {
+    overflow: hidden;
+    width: 860px;
+    height: 563px;
+    box-sizing: border-box
+}
+
+.layer_company_photo .slider>div>iframe {
+    display: block;
+    margin: 90px auto 0 auto;
+    width: 560px;
+    height: 315px
+}
+
+.layer_company_photo .slider>div>.frame {
+    display: table;
+    width: 860px;
+    height: 418px
+}
+
+/* 2022-08-09 */
+.layer_company_photo .slider>div>.frame>span {
+    display: table-cell;
+    width: 860px;
+    height: 516px;
+    text-align: center;
+    vertical-align: middle
+}
+
+.layer_company_photo .slider>div>.frame>span>img {
+    max-width: 860px;
+    height: 516px
+}
+
+/*20220810*/
+.layer_company_photo .slider>div>span {
+    display: block;
+    margin-bottom: 24px;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 21px
+}
+
+.layer_company_photo .btn_slider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -21px
+}
+
+.layer_company_photo .btn_slider.btn_prev {
+    margin-left: -478px
+}
+
+.layer_company_photo .btn_slider.btn_next {
+    margin-left: 447px
+}
+
+.layer_company_photo .btn_slider button {
+    padding: 5px;
+    width: 31px;
+    height: 43px;
+    color: transparent;
+    font-size: 0
+}
+
+.layer_company_photo .btn_slider.btn_prev button:before, .layer_company_photo .btn_slider.btn_next button:before {
+    display: block;
+    width: 21px;
+    height: 33px;
+    background: url(//www.saraminimage.co.kr/sri/company/view/img_company_spr.png) 0 0 no-repeat;
+    content: ""
+}
+
+.layer_company_photo .btn_slider.btn_prev button:before {
+    background-position: -450px -50px
+}
+
+.layer_company_photo .btn_slider.btn_next button:before {
+    background-position: -500px -50px
+}
+
+.layer_company_photo .pagers {
+    margin-top: 30px;
+    width: 100%;
+    font-size: 0;
+    line-height: 12px;
+    text-align: center
+}
+
+.layer_company_photo .pagers .bx-pager-item {
+    display: inline-block
+}
+
+.layer_company_photo .pagers .bx-pager-item+.bx-pager-item {
+    margin-left: 6px
+}
+
+.layer_company_photo .pagers .bx-pager-link {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.layer_company_photo .pagers .bx-pager-link.active {
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--white);
+    border-radius: 6px;
+    background: none
+}
+
+.layer_company_photo .btn_close {
+    position: absolute;
+    top: -5px;
+    right: -47px;
+    padding: 5px;
+    width: 32px;
+    height: 32px
+}
+
+.layer_company_photo .btn_close:before, .layer_company_photo .btn_close:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 1px;
+    background-color: var(--white);
+    content: ""
+}
+
+.layer_company_photo .btn_close:before {
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -ms-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg)
+}
+
+.layer_company_photo .btn_close:after {
+    -webkit-transform: translate(-50%, -50%) rotate(135deg);
+    -ms-transform: translate(-50%, -50%) rotate(135deg);
+    transform: translate(-50%, -50%) rotate(135deg)
+}
+
+.cont_introduce .list_curation_item {
+    display: flex;
+    gap: 20px
+}
+
+/*WMG-36086 230915*/
+.cont_introduce .list_curation_item li {
+    position: relative;
+    padding: 0;
+    width: 306px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.cont_introduce .list_curation_item li:hover {
+    box-shadow: 0 10px 14px rgba(0, 0, 0, 0.08)
+}
+
+.cont_introduce .list_curation_item .landing_card {
+    display: block;
+    position: relative;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_introduce .list_curation_item .landing_card .landing_tit {
+    display: block;
+    color: var(--white);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .list_curation_item .landing_card .looks_button {
+    display: inline-flex;
+    margin-top: 24px;
+    align-items: center
+}
+
+.cont_introduce .list_curation_item .landing_card .looks_button:after {
+    margin-left: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6 12L10 8L6 4' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.cont_introduce .list_curation_item .landing_card .looks_button .looks_button_txt {
+    color: var(--white);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_introduce .list_curation_item .landing_card.type_resume {
+    background: var(--blue100) url(//www.saraminimage.co.kr/sri/company/view/introduce/img_resume_landing.png) 206px 30px no-repeat
+}
+
+.cont_introduce .list_curation_item .landing_card.type_roadmap {
+    background: var(--gray100) url(//www.saraminimage.co.kr/sri/company/view/introduce/img_roadmap_landing.png) 192px 0 no-repeat
+}
+
+.cont_introduce .list_curation_item .list_curation_slide {
+    position: relative;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box
+}
+
+.cont_introduce .list_curation_item .bedge {
+    display: inline-block;
+    padding: 0 4px;
+    border-radius: 4px;
+    color: var(--gray100);
+    font-size: 12px;
+    line-height: 20px;
+    background-color: var(--gray20)
+}
+
+.cont_introduce .list_curation_item .bedge+.announcement {
+    display: block;
+    overflow: hidden;
+    margin-top: 4px;
+    padding-right: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .list_curation_item .announcement {
+    display: block;
+    display: -webkit-box;
+    overflow: hidden;
+    position: relative;
+    padding-right: 24px;
+    color: var(--gray120);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 24px;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.cont_introduce .list_curation_item .company_name {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    margin-top: 4px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .list_curation_item .desc_bottom {
+    display: flex;
+    overflow: hidden;
+    margin-top: 8px;
+    height: 20px
+}
+
+.cont_introduce .list_curation_item .ai_matching {
+    display: inline-block;
+    float: left;
+    margin-top: 2px;
+    margin-right: 8px;
+    padding-left: 36px;
+    color: #077b83;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 16px;
+    vertical-align: top;
+    background: url("data:image/svg+xml,%3Csvg width='33' height='11' viewBox='0 0 33 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.213 1.003C4.49167 1.003 4.72267 1.069 4.906 1.201C5.08933 1.32567 5.22867 1.50167 5.324 1.729L7.964 8.131C8.06667 8.373 8.06667 8.60033 7.964 8.813C7.86133 9.01833 7.68167 9.16133 7.425 9.242C7.17567 9.32267 6.94467 9.30433 6.732 9.187C6.52667 9.06967 6.37267 8.88267 6.27 8.626L5.775 7.328H2.64L2.156 8.626C2.05333 8.88267 1.89567 9.06967 1.683 9.187C1.47767 9.30433 1.24667 9.32267 0.99 9.242C0.733333 9.16133 0.553667 9.01833 0.451 8.813C0.355667 8.60033 0.359333 8.373 0.462 8.131L3.102 1.729C3.19733 1.50167 3.33667 1.32567 3.52 1.201C3.70333 1.069 3.93433 1.003 4.213 1.003ZM3.223 5.788H5.203L4.235 3.225H4.191L3.223 5.788ZM9.36788 4.578C9.36788 4.32133 9.44488 4.116 9.59888 3.962C9.75288 3.808 9.95821 3.731 10.2149 3.731C10.4715 3.731 10.6732 3.808 10.8199 3.962C10.9739 4.116 11.0509 4.32133 11.0509 4.578V8.45C11.0509 8.70667 10.9739 8.90833 10.8199 9.055C10.6732 9.209 10.4715 9.286 10.2149 9.286C9.95821 9.286 9.75288 9.209 9.59888 9.055C9.44488 8.90833 9.36788 8.70667 9.36788 8.45V4.578ZM11.1829 1.762C11.1829 2.03333 11.0875 2.26433 10.8969 2.455C10.7135 2.63833 10.4862 2.73 10.2149 2.73C9.94354 2.73 9.71254 2.63833 9.52188 2.455C9.33854 2.26433 9.24688 2.03333 9.24688 1.762C9.24688 1.49067 9.33854 1.26333 9.52188 1.08C9.71254 0.889333 9.94354 0.793999 10.2149 0.793999C10.4862 0.793999 10.7135 0.889333 10.8969 1.08C11.0875 1.26333 11.1829 1.49067 11.1829 1.762ZM19.4238 9.528C19.4238 9.77733 19.3541 9.96433 19.2148 10.089C19.0828 10.2137 18.8921 10.276 18.6428 10.276C18.3934 10.276 18.1991 10.2137 18.0598 10.089C17.9278 9.96433 17.8618 9.77733 17.8618 9.528V1.245C17.8618 0.995666 17.9278 0.808666 18.0598 0.684C18.1991 0.559333 18.3934 0.496999 18.6428 0.496999C18.8921 0.496999 19.0828 0.559333 19.2148 0.684C19.3541 0.808666 19.4238 0.995666 19.4238 1.245V3.555H20.1718V1.146C20.1718 0.896666 20.2414 0.709666 20.3808 0.585C20.5201 0.452999 20.7144 0.386999 20.9638 0.386999C21.2131 0.386999 21.4074 0.452999 21.5468 0.585C21.6861 0.709666 21.7558 0.896666 21.7558 1.146V9.836C21.7558 10.0853 21.6861 10.2723 21.5468 10.397C21.4074 10.529 21.2131 10.595 20.9638 10.595C20.7144 10.595 20.5201 10.529 20.3808 10.397C20.2414 10.2723 20.1718 10.0853 20.1718 9.836V5.051H19.4238V9.528ZM17.0808 6.888C17.0808 7.24733 16.9928 7.51133 16.8168 7.68C16.6481 7.84133 16.3841 7.922 16.0248 7.922H13.7038C13.3444 7.922 13.0804 7.84133 12.9118 7.68C12.7431 7.51133 12.6588 7.24733 12.6588 6.888V1.883C12.6588 1.52367 12.7431 1.26333 12.9118 1.102C13.0804 0.933333 13.3444 0.848999 13.7038 0.848999H16.0248C16.3841 0.848999 16.6481 0.933333 16.8168 1.102C16.9928 1.26333 17.0808 1.52367 17.0808 1.883V6.888ZM15.5408 2.4C15.5408 2.334 15.5298 2.29 15.5078 2.268C15.4858 2.246 15.4418 2.235 15.3758 2.235H14.3858C14.3271 2.235 14.2868 2.246 14.2648 2.268C14.2428 2.29 14.2318 2.334 14.2318 2.4V6.371C14.2318 6.437 14.2428 6.481 14.2648 6.503C14.2868 6.525 14.3271 6.536 14.3858 6.536H15.3758C15.4418 6.536 15.4858 6.525 15.5078 6.503C15.5298 6.481 15.5408 6.437 15.5408 6.371V2.4ZM24.0738 3.148C23.8391 3.148 23.6448 3.08567 23.4908 2.961C23.3441 2.829 23.2708 2.64567 23.2708 2.411C23.2708 2.17633 23.3441 1.99667 23.4908 1.872C23.6448 1.74 23.8391 1.674 24.0738 1.674H25.4818V0.926C25.4818 0.669333 25.5588 0.478666 25.7128 0.354C25.8741 0.229333 26.0831 0.167 26.3398 0.167C26.5964 0.167 26.8018 0.229333 26.9558 0.354C27.1171 0.478666 27.1978 0.669333 27.1978 0.926V1.674H28.4958C28.7304 1.674 28.9211 1.74 29.0678 1.872C29.2218 1.99667 29.2988 2.17633 29.2988 2.411C29.2988 2.64567 29.2218 2.829 29.0678 2.961C28.9211 3.08567 28.7304 3.148 28.4958 3.148H27.1978C27.2051 3.83 27.3701 4.44233 27.6928 4.985C28.0228 5.52033 28.4958 6.019 29.1118 6.481C29.5004 6.767 29.6178 7.10433 29.4638 7.493C29.4271 7.59567 29.3648 7.68 29.2768 7.746C29.1961 7.812 29.1008 7.86333 28.9908 7.9C28.8881 7.92933 28.7781 7.94033 28.6608 7.933C28.5434 7.92567 28.4334 7.89267 28.3308 7.834C27.9348 7.614 27.5608 7.32067 27.2088 6.954C26.8568 6.58733 26.5671 6.21333 26.3398 5.832C26.2298 6.03 26.1014 6.23167 25.9548 6.437C25.8154 6.64233 25.6578 6.84033 25.4818 7.031C25.3131 7.21433 25.1298 7.38667 24.9318 7.548C24.7411 7.70933 24.5468 7.84133 24.3488 7.944C24.1361 8.04667 23.9124 8.065 23.6778 7.999C23.4504 7.933 23.2964 7.801 23.2158 7.603C23.0618 7.21433 23.1791 6.877 23.5678 6.591C24.1764 6.129 24.6421 5.612 24.9648 5.04C25.2948 4.46067 25.4671 3.83 25.4818 3.148H24.0738ZM30.3988 1.19C30.3988 0.933333 30.4794 0.735333 30.6408 0.595999C30.8094 0.456666 31.0221 0.386999 31.2788 0.386999C31.5354 0.386999 31.7444 0.456666 31.9058 0.595999C32.0744 0.735333 32.1588 0.933333 32.1588 1.19V9.792C32.1588 10.0487 32.0744 10.2467 31.9058 10.386C31.7444 10.5253 31.5354 10.595 31.2788 10.595C31.0221 10.595 30.8094 10.5253 30.6408 10.386C30.4794 10.2467 30.3988 10.0487 30.3988 9.792V1.19Z' fill='%23077B83'/%3E%3C/svg%3E") no-repeat 0 3px
+}
+
+.cont_introduce .list_curation_item .info {
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .list_curation_item .info span {
+    position: relative;
+    padding-right: 4px;
+    box-sizing: border-box;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    vertical-align: top
+}
+
+.cont_introduce .list_curation_item .info span:last-child {
+    margin-right: 0;
+    padding-right: 0
+}
+
+.cont_introduce .list_curation_item .info span+span {
+    padding-left: 8px
+}
+
+.cont_introduce .list_curation_item .info span+span:before {
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #b4c0d3;
+    content: ""
+}
+
+.cont_introduce .list_curation_item .day {
+    display: inline-block;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .list_curation_item .day .dday {
+    color: var(--coral110)
+}
+
+.cont_introduce .list_curation_item .btn_immediately_wrap {
+    position: absolute;
+    right: 20px;
+    bottom: 22px;
+    z-index: 10
+}
+
+.cont_introduce .list_curation_item .cover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(4px)
+}
+
+.cont_introduce .list_curation_item li .newcomer_book_mark {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect opacity='0.01' width='24' height='24' fill='%23585858'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.8479 3.00643L11.9972 3L12.1459 3.00511C12.7447 3.0512 13.2821 3.40323 13.5593 3.94607L15.3652 7.587L19.525 8.18949C20.1034 8.26745 20.599 8.63058 20.8471 9.1527L20.9085 9.29895C21.1203 9.89947 20.9585 10.5667 20.4992 11.0029L17.4462 13.963L18.1539 18.0647C18.2562 18.6513 18.0237 19.2389 17.5571 19.6142L17.4356 19.7035C17.1443 19.8974 16.8006 19.9991 16.4508 19.9991C16.1636 19.9991 15.88 19.9312 15.625 19.7982L11.9992 17.901L8.37432 19.7986C7.84773 20.0728 7.22083 20.0652 6.7066 19.7883L6.56931 19.7061C6.02352 19.35 5.73914 18.7091 5.84534 18.0655L6.55222 13.963L3.50442 11.0062C3.07768 10.6001 2.90712 10.0009 3.05117 9.4341L3.09377 9.29322C3.31152 8.69888 3.84414 8.2743 4.4705 8.19015L8.63422 7.588L10.4402 3.94592C10.7061 3.41054 11.2454 3.05756 11.8479 3.00643ZM12.666 4.39563C12.5414 4.15155 12.2849 3.99735 12.0044 3.99998C11.7117 4 11.4526 4.15571 11.3361 4.39033L9.41409 8.2678C9.34108 8.4151 9.20032 8.5171 9.03761 8.54061L4.6086 9.18055C4.34384 9.21613 4.12232 9.39272 4.03494 9.63109C3.95468 9.85933 4.01612 10.1127 4.19722 10.2851L7.43863 13.4296C7.55717 13.5446 7.61128 13.7107 7.5832 13.8734L6.8314 18.2319C6.79055 18.4795 6.90103 18.7285 7.1186 18.8704C7.3549 19.0269 7.66043 19.0429 7.91161 18.9121L11.7679 16.8945C11.9131 16.8185 12.0863 16.8185 12.2315 16.8945L16.0881 18.9119C16.1981 18.9693 16.3228 18.9991 16.4508 18.9991C16.6055 18.9991 16.756 18.9546 16.8801 18.8719C17.1017 18.7234 17.2108 18.4773 17.1686 18.2355L16.4162 13.8734C16.3881 13.7106 16.4423 13.5445 16.5608 13.4295L19.8068 10.2814C19.9844 10.1127 20.0458 9.85949 19.9675 9.63742C19.8778 9.39285 19.6562 9.21622 19.3867 9.17987L14.9633 8.5406C14.8007 8.5171 14.66 8.41517 14.5869 8.26795L12.666 4.39563Z' fill='%2367738E'/%3E%3C/svg%3E") no-repeat 0 0
+}
+
+.cont_introduce .list_curation_item li .newcomer_book_mark.on {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect opacity='0.01' width='24' height='24' fill='%23585858'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.9995 3.50006C11.5244 3.50006 11.0903 3.76064 10.8879 4.16827L8.96589 8.04575L4.54179 8.68501C4.09377 8.74522 3.7167 9.0458 3.56303 9.46523C3.41736 9.8795 3.5289 10.3395 3.84886 10.6439L7.09026 13.7884L6.33785 18.1505C6.26463 18.5943 6.46206 19.0392 6.84229 19.2873C7.23025 19.5442 7.72993 19.5703 8.14318 19.3551L11.9995 17.3375L15.8566 19.3551C16.042 19.4519 16.2467 19.4991 16.4506 19.4991C16.6986 19.4991 16.9466 19.4283 17.1582 19.2873C17.5414 19.0305 17.7376 18.5894 17.6611 18.1505L16.9087 13.7884L20.1509 10.6439C20.4712 10.3397 20.5828 9.87948 20.4367 9.46523C20.2829 9.0459 19.9059 8.74538 19.458 8.68501L15.0346 8.04575L13.1111 4.16827C12.9 3.75476 12.4689 3.49561 11.9995 3.50006Z' stroke='%23D7DCE5' stroke-linejoin='round'/%3E%3Cpath d='M12.0046 4.00003C12.2851 3.99741 12.5416 4.1516 12.6662 4.39569L14.5871 8.268C14.6601 8.41522 14.8009 8.51715 14.9635 8.54066L19.3868 9.17992C19.6564 9.21628 19.878 9.39291 19.9677 9.63747C20.046 9.85954 19.9846 10.1128 19.8069 10.2815L16.561 13.4296C16.4424 13.5446 16.3883 13.7107 16.4164 13.8735L17.1688 18.2355C17.2109 18.4773 17.1019 18.7235 16.8803 18.872C16.7562 18.9546 16.6056 18.9992 16.451 18.9992C16.323 18.9992 16.1983 18.9693 16.0883 18.9119L12.2316 16.8945C12.0864 16.8186 11.9133 16.8186 11.7681 16.8945L7.91177 18.9121C7.6606 19.0429 7.35507 19.027 7.11876 18.8705C6.90119 18.7285 6.79071 18.4796 6.83156 18.2319L7.58337 13.8735C7.61144 13.7107 7.55733 13.5446 7.43879 13.4296L4.19739 10.2851C4.01628 10.1128 3.95484 9.85939 4.0351 9.63115C4.12248 9.39278 4.344 9.21619 4.60877 9.18061L9.03778 8.54066C9.20049 8.51715 9.34124 8.41516 9.41426 8.26786L11.3362 4.39038C11.4527 4.15577 11.7118 4.00005 12.0046 4.00003Z' fill='%23FFF15C'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.8479 3.00643L11.9972 3L12.1459 3.00511C12.7447 3.0512 13.2821 3.40323 13.5593 3.94607L15.3652 7.587L19.525 8.18949C20.1034 8.26745 20.599 8.63058 20.8471 9.1527L20.9085 9.29895C21.1203 9.89947 20.9585 10.5667 20.4992 11.0029L17.4462 13.963L18.1539 18.0647C18.2562 18.6513 18.0237 19.2389 17.5571 19.6142L17.4356 19.7035C17.1443 19.8974 16.8006 19.9991 16.4508 19.9991C16.1636 19.9991 15.88 19.9312 15.625 19.7982L11.9992 17.901L8.37432 19.7986C7.84773 20.0728 7.22083 20.0652 6.7066 19.7883L6.56931 19.7061C6.02352 19.35 5.73914 18.7091 5.84534 18.0655L6.55222 13.963L3.50442 11.0062C3.07768 10.6001 2.90712 10.0009 3.05117 9.4341L3.09377 9.29322C3.31152 8.69888 3.84414 8.2743 4.4705 8.19015L8.63422 7.588L10.4402 3.94592C10.7061 3.41054 11.2454 3.05756 11.8479 3.00643ZM12.666 4.39563C12.5414 4.15155 12.2849 3.99735 12.0044 3.99998C11.7117 4 11.4526 4.15571 11.3361 4.39033L9.41409 8.2678C9.34108 8.4151 9.20032 8.5171 9.03761 8.54061L4.6086 9.18055C4.34384 9.21613 4.12232 9.39272 4.03494 9.63109C3.95468 9.85933 4.01612 10.1127 4.19722 10.2851L7.43863 13.4296C7.55717 13.5446 7.61128 13.7107 7.5832 13.8734L6.8314 18.2319C6.79055 18.4795 6.90103 18.7285 7.1186 18.8704C7.3549 19.0269 7.66043 19.0429 7.91161 18.9121L11.7679 16.8945C11.9131 16.8185 12.0863 16.8185 12.2315 16.8945L16.0881 18.9119C16.1981 18.9693 16.3228 18.9991 16.4508 18.9991C16.6055 18.9991 16.756 18.9546 16.8801 18.8719C17.1017 18.7234 17.2108 18.4773 17.1686 18.2355L16.4162 13.8734C16.3881 13.7106 16.4423 13.5445 16.5608 13.4295L19.8068 10.2814C19.9844 10.1127 20.0458 9.85949 19.9675 9.63742C19.8778 9.39285 19.6562 9.21622 19.3867 9.17987L14.9633 8.5406C14.8007 8.5171 14.66 8.41517 14.5869 8.26795L12.666 4.39563Z' fill='%23AD9100'/%3E%3C/svg%3E")
+}
+
+.cont_introduce .newcomer_link_view {
+    display: block;
+    height: 176px
+}
+
+.cont_introduce .affiliate_counting {
+    display: flex;
+    letter-spacing: -1px;
+    line-height: 24px;
+    align-items: center;
+    justify-content: flex-start
+}
+
+.cont_introduce .affiliate_counting .count_tit {
+    color: var(--gray100);
+    font-size: 16px
+}
+
+.cont_introduce .affiliate_counting .count_num {
+    display: flex;
+    margin-left: 6px;
+    padding: 0 6px;
+    height: 17px;
+    border-radius: 44px;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: bold;
+    background-color: var(--gray100);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .list_affiliate {
+    display: flex;
+    margin-top: 20px;
+    flex-wrap: wrap
+}
+
+.cont_introduce .list_affiliate .affiliate_item {
+    margin: 0 10px 10px 0
+}
+
+.cont_introduce .list_affiliate .affiliate_item .link_affiliate {
+    display: flex;
+    padding: 0 12px;
+    height: 34px;
+    border-radius: 4px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    background: var(--gray20);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .list_welfare {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
+    grid-row-gap: 40px;
+    grid-column-gap: 28px
+}
+
+.cont_introduce .list_welfare .welfare_tit {
+    display: flex;
+    color: var(--gray120);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px;
+    align-items: center
+}
+
+.cont_introduce .list_welfare .welfare_tit .ico {
+    margin-right: 8px;
+    width: 24px;
+    height: 24px
+}
+
+.cont_introduce .list_welfare_cate {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.cont_introduce .list_welfare_cate .cate_item {
+    position: relative;
+    padding-left: 11px;
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_introduce .list_welfare_cate .cate_item:before {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gray80);
+    content: ""
+}
+
+.cont_introduce .worker_chart {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px
+}
+
+.cont_introduce .worker_chart .box_chart {
+    position: relative;
+    padding: 24px;
+    width: 470px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_introduce .worker_chart .box_chart.wide {
+    width: 100%
+}
+
+.cont_introduce .worker_chart .box_chart .box_chart_title {
+    display: flex;
+    color: var(--gray120);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .worker_chart .box_chart .donut {
+    display: block;
+    margin: 28px auto 32px
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value {
+    display: flex;
+    position: absolute;
+    top: 117px;
+    flex-flow: column wrap
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value.chart_box_value-left {
+    left: 58px
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value.chart_box_value-right {
+    right: 58px
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value .chart_box_value_detail {
+    color: var(--gray120);
+    font-size: 24px;
+    letter-spacing: -1.5px;
+    line-height: 34px
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value .currency {
+    display: inline-flex;
+    margin-left: 2px;
+    color: var(--gray100);
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value .gender {
+    display: block;
+    margin-top: 4px;
+    color: var(--gray100);
+    font-weight: normal
+}
+
+.cont_introduce .worker_chart .box_chart .chart_box_value.chart-box__value-right .gender {
+    align-self: flex-end
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label {
+    display: flex;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    flex-flow: row wrap;
+    justify-content: center
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li {
+    display: flex;
+    margin-left: 12px;
+    color: var(--gray100);
+    flex-flow: row wrap;
+    align-items: center
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:first-child {
+    margin-left: 0
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:before {
+    display: flex;
+    margin-right: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    content: ""
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:nth-child(1):before {
+    background-color: var(--chartLabelColor01)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:nth-child(2):before {
+    background-color: var(--chartLabelColor02)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:nth-child(3):before {
+    background-color: var(--chartLabelColor03)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_label li:nth-child(4):before {
+    background-color: var(--chartLabelColor04)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle {
+    display: flex;
+    margin: 16px auto 20px;
+    padding-top: 14px;
+    height: 164px;
+    box-sizing: border-box;
+    flex-flow: row wrap;
+    justify-content: center
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li {
+    display: flex;
+    padding: 0 8px;
+    box-sizing: border-box;
+    font-weight: bold;
+    flex-flow: column wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li .chart_percent_circle_label {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li:nth-child(1) {
+    padding: 0 7px;
+    width: 140px;
+    height: 140px;
+    border: 2px solid var(--white);
+    border-radius: 100%;
+    color: var(--white);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    background: var(--chartLabelColor01) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_diagonal.png)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li:nth-child(2) {
+    margin: 34px 0 0 -16px;
+    width: 106px;
+    height: 106px;
+    border: 2px solid var(--white);
+    border-radius: 100%;
+    color: var(--white);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    background: var(--chartLabelColor02) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_lattice.png)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li:nth-child(3) {
+    margin: 0 0 0 -20px;
+    width: 90px;
+    height: 90px;
+    border: 2px solid var(--white);
+    border-radius: 100%;
+    color: var(--white);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    background: var(--chartLabelColor03) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_wave.png)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li:nth-child(4) {
+    margin: 38px 0 0 -16px;
+    width: 74px;
+    height: 74px;
+    border: 2px solid var(--white);
+    border-radius: 100%;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    background: var(--chartLabelColor04) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_stripe.png)
+}
+
+.cont_introduce .worker_chart .box_chart .chart_percent_circle li:nth-child(4) .chart_percent_circle_label {
+    display: -webkit-box;
+    width: 100%;
+    white-space: initial;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+/*차트*/
+.chart-container {
+    overflow: hidden;
+    position: relative;
+    width: 960px;
+    height: 310px
+}
+
+.chart-container .chart-container-inner {
+    font-family: "Malgun Gothic", dotum, gulim, sans-serif;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.chart-container .chart-container-inner .row {
+    display: flex;
+    margin-bottom: 2px
+}
+
+.chart-container .chart-container-inner .total {
+    color: var(--gray120)
+}
+
+.chart-container .chart-container-inner .employee {
+    margin: 2px 0;
+    color: var(--gray120)
+}
+
+.chart-container .chart-container-inner .change_employee__icon {
+    width: 13px;
+    height: 14px
+}
+
+.chart-container .chart-container-inner .date {
+    color: var(--gray80)
+}
+
+.chart-container .chart-container-inner .change_employee {
+    display: flex;
+    margin-left: 8px;
+    padding: 0 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    flex-flow: row wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center
+}
+
+.chart-container .chart-container-inner .change_employee .change_employee__icon {
+    margin-right: 2px
+}
+
+.chart-container .chart-container-inner .change_employee.up {
+    color: var(--coral110);
+    background-color: var(--coral20)
+}
+
+.chart-container .chart-container-inner .change_employee.down {
+    color: var(--blue90);
+    background-color: var(--blue20)
+}
+
+.chart-container .chart-container-inner .change_employee.zero {
+    color: var(--gray80);
+    background-color: var(--gray20)
+}
+
+.worker_chart_label_filter {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-items: center
+}
+
+.worker_chart_label_filter select {
+    width: 103px
+}
+
+.worker_chart_label_filter .chart_label {
+    display: flex;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    flex-flow: row wrap
+}
+
+.worker_chart_label_filter .chart_label li {
+    display: flex;
+    margin-left: 12px;
+    color: var(--gray120);
+    flex-flow: row wrap;
+    align-items: center
+}
+
+.worker_chart_label_filter .chart_label li:first-child {
+    margin-left: 0
+}
+
+.worker_chart_label_filter .chart_label li:nth-child(1):before {
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background-color: var(--chartLabelColor01)
+}
+
+.worker_chart_label_filter .chart_label li:nth-child(2):before {
+    background-color: var(--chartLabelColor02)
+}
+
+.worker_chart_label_filter .chart_label li:nth-child(3):before {
+    background-color: var(--chartLabelColor04)
+}
+
+.worker_chart_label_filter .chart_label li:before {
+    display: flex;
+    margin-right: 6px;
+    width: 20px;
+    height: 12px;
+    border-radius: 4px;
+    content: ""
+}
+
+.chart_bar_area {
+    display: flex;
+    height: 174px;
+    flex-flow: row wrap
+}
+
+.chart_bar_area .chart_bar_area_title {
+    display: flex;
+    margin-right: 60px;
+    margin-left: 99px;
+    color: var(--gray100);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    flex-flow: row wrap;
+    align-items: center;
+    align-self: center
+}
+
+.chart_bar_area .chart_bar_area_title>strong {
+    display: flex;
+    margin: 0 2px 0 12px;
+    color: var(--gray120);
+    font-size: 24px;
+    letter-spacing: -1.5px;
+    line-height: 34px
+}
+
+.chart_bar_area .chart_bar_area_container {
+    display: flex;
+    position: relative;
+    width: 440px;
+    height: 174px;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-end
+}
+
+.chart_bar_area .chart_bar_area_container::after {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    width: 440px;
+    height: 1px;
+    background-color: var(--gray30);
+    content: ""
+}
+
+.chart_bar_area .chart_bar_area_container .chart_bar_area_container_item {
+    display: flex;
+    width: 110px;
+    height: 100%;
+    text-align: center;
+    flex-flow: column-reverse wrap;
+    align-items: center
+}
+
+.chart_bar_area .bar {
+    width: 40px;
+    max-height: 120px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px
+}
+
+.chart_bar_area .label, .chart_bar_area .value {
+    width: 100%
+}
+
+.chart_bar_area .label {
+    overflow: hidden;
+    margin-top: 4px;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.chart_bar_area .value {
+    margin-bottom: 7px;
+    color: var(--gray120);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.chart_bar_area .chart_bar_area_container .chart_bar_area_container_item:nth-of-type(1) .bar {
+    background: var(--chartLabelColor01) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_diagonal.png)
+}
+
+.chart_bar_area .chart_bar_area_container .chart_bar_area_container_item:nth-of-type(2) .bar {
+    background: var(--chartLabelColor02) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_lattice.png)
+}
+
+.chart_bar_area .chart_bar_area_container .chart_bar_area_container_item:nth-of-type(3) .bar {
+    background: var(--chartLabelColor03) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_wave.png)
+}
+
+.chart_bar_area .chart_bar_area_container .chart_bar_area_container_item:nth-of-type(4) .bar {
+    background: var(--chartLabelColor04) url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_stripe.png)
+}
+
+.chart_company_grade {
+    position: relative;
+    margin: 40px auto 0;
+    width: 290px;
+    height: 180px
+}
+
+.chart_company_grade .chart_company_grade_value {
+    display: flex;
+    position: absolute;
+    top: 97px;
+    left: 51%;
+    width: 290px;
+    transform: translateX(-50%);
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center
+}
+
+.chart_company_grade .chart_company_grade_value dt {
+    color: var(--gray120);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.chart_company_grade .chart_company_grade_value dd {
+    color: var(--blue90);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 28px
+}
+
+.company-grade__desc {
+    margin-top: 27px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.company-grade__desc>span {
+    color: var(--blue90)
+}
+
+.cont_introduce .worker_info {
+    display: flex;
+    margin-bottom: 24px;
+    padding: 0 24px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: var(--gray20);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .worker_info .col {
+    display: flex;
+    height: 68px;
+    align-items: center
+}
+
+.cont_introduce .worker_info .col:after {
+    margin: 0 60px;
+    width: 1px;
+    height: 32px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_introduce .worker_info .col:last-child:after {
+    display: none
+}
+
+.cont_introduce .worker_info .col .btn_open_tooltip {
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+
+/*WMG-36086 230915*/
+.cont_introduce .worker_info .tit {
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .worker_info .TipBox {
+    margin-left: 4px
+}
+
+.cont_introduce .worker_info .value {
+    display: inline-flex;
+    margin-left: 16px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    align-items: center;
+    gap: 2px
+}
+
+/*WMG-36086 230915*/
+.cont_introduce .worker_info .value .num {
+    color: var(--gray120);
+    font-size: 18px;
+    letter-spacing: -1px;
+    line-height: 26px
+}
+
+.cont_introduce .box_company_review {
+    display: flex;
+    justify-content: space-between
+}
+
+.cont_introduce .box_company_review .list_company_review {
+    width: 380px;
+    flex-shrink: 0
+}
+
+.cont_introduce .list_company_review .company_review_item {
+    margin-bottom: 16px
+}
+
+.cont_introduce .list_company_review .company_review_item:last-child {
+    margin-bottom: 0
+}
+
+.cont_introduce .box_company_review .slide_company_review {
+    position: relative;
+    padding-right: 14px
+}
+
+.cont_introduce .box_company_review .slider_controls .bx-prev, .cont_introduce .box_company_review .slider_controls .bx-next {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    margin-top: -22px
+}
+
+.cont_introduce .box_company_review .slider_controls .bx-prev {
+    left: -22px
+}
+
+.cont_introduce .box_company_review .slider_controls .bx-next {
+    right: -8px
+}
+
+.cont_introduce .box_company_review .wrap_induce {
+    height: 244px;
+    background: url("//www.saraminimage.co.kr/sri/company/view/introduce/img_company_review_none.png") 0 0 no-repeat
+}
+
+.cont_introduce .box_gauge {
+    position: relative;
+    height: 48px;
+    border-radius: 6px;
+    background: var(--gray20)
+}
+
+.cont_introduce .box_gauge:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    border: 1px solid var(--gray30);
+    border-radius: 6px;
+    content: ""
+}
+
+.cont_introduce .box_gauge .gauge_bar {
+    position: relative;
+    height: 48px
+}
+
+.cont_introduce .box_gauge .gauge_bar .gauge {
+    height: 48px;
+    border-radius: 6px;
+    background: var(--blue30)
+}
+
+.cont_introduce .box_gauge .gauge_bar .gauge.type2 {
+    background: var(--blue40)
+}
+
+.cont_introduce .box_gauge .gauge_bar .gauge.type3 {
+    background: var(--blue50)
+}
+
+.cont_introduce .box_gauge .gauge_tit, .cont_introduce .box_gauge .gauge_percent {
+    display: flex;
+    height: 100%;
+    color: var(--gray120);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: flex-start
+}
+
+.cont_introduce .box_gauge .gauge_tit {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 24px;
+    max-width: calc(272px - 24px)
+}
+
+.cont_introduce .box_gauge .gauge_percent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 24px
+}
+
+.cont_introduce .box_gauge .gauge_percent.percent_zero {
+    color: var(--gray80)
+}
+
+.cont_introduce .review_card_list {
+    display: flex
+}
+
+.cont_introduce .review_card_list .review_item {
+    margin-right: 16px;
+    flex-shrink: 0
+}
+
+.cont_introduce .review_card_list .review_item:last-of-type {
+    margin-right: 0
+}
+
+.cont_introduce .review_card_list .review_card, .cont_introduce .review_card_list .landing_review_card .link_box {
+    position: relative;
+    padding: 24px;
+    width: 250px;
+    height: 240px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--gray20)
+}
+
+.cont_introduce .review_card_list .review_card .review_worker {
+    display: flex;
+    color: var(--blue100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .review_card_list .review_card .review_worker:after {
+    margin-left: 4px;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.59662 18.8988C3.74782 18.966 3.91104 18.999 4.07383 18.999C4.30406 18.999 4.53257 18.9326 4.72286 18.8039L8.14666 16.4792H15.6308C18.5916 16.4792 21 14.3261 21 11.6791V8.79908C21 6.15214 18.5916 3.99902 15.6308 3.99902H8.36916C5.40839 3.99902 3 6.15214 3 8.79908V18.039C3 18.4034 3.23109 18.7367 3.59662 18.8988ZM5.14766 8.79908C5.14766 7.21084 6.59261 5.91905 8.36916 5.91905H15.6308C17.4074 5.91905 18.8523 7.21084 18.8523 8.79908V11.6791C18.8523 13.2674 17.4074 14.5592 15.6308 14.5592L7.93232 14.558L7.83224 14.553C7.58097 14.5357 7.34258 14.6141 7.14585 14.7477L5.14766 16.1044V8.79908Z' fill='%233157DD'/%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+.cont_introduce .review_card_list .review_card .review_worker.retired {
+    color: var(--gray100)
+}
+
+.cont_introduce .review_card_list .review_card .review_worker.retired:after {
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.59662 18.8988C3.74782 18.966 3.91104 18.999 4.07383 18.999C4.30406 18.999 4.53257 18.9326 4.72286 18.8039L8.14666 16.4792H15.6308C18.5916 16.4792 21 14.3261 21 11.6791V8.79908C21 6.15214 18.5916 3.99902 15.6308 3.99902H8.36916C5.40839 3.99902 3 6.15214 3 8.79908V18.039C3 18.4034 3.23109 18.7367 3.59662 18.8988ZM5.14766 8.79908C5.14766 7.21084 6.59261 5.91905 8.36916 5.91905H15.6308C17.4074 5.91905 18.8523 7.21084 18.8523 8.79908V11.6791C18.8523 13.2674 17.4074 14.5592 15.6308 14.5592L7.93232 14.558L7.83224 14.553C7.58097 14.5357 7.34258 14.6141 7.14585 14.7477L5.14766 16.1044V8.79908Z' fill='%23475067'/%3E%3C/svg%3E%0A")
+}
+
+.cont_introduce .review_card_list .review_card .review_txt {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: 16px;
+    max-height: 100px;
+    color: var(--gray120);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5
+}
+
+.cont_introduce .review_card_list .review_card .review_date {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .review_card_list .landing_review_card .link_box {
+    display: block;
+    color: var(--white);
+    background: var(--gray100)
+}
+
+.cont_introduce .review_card_list .landing_review_card:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 102px;
+    height: 138px;
+    background: url("//www.saraminimage.co.kr/sri/company/view/introduce/img_review_card.png");
+    content: ""
+}
+
+.cont_introduce .review_card_list .landing_review_card.type2:before {
+    top: 30px;
+    right: 19px;
+    width: 67px;
+    height: 59px;
+    background: url("//www.saraminimage.co.kr/sri/company/view/introduce/img_review_card02.png")
+}
+
+.cont_introduce .review_card_list .landing_review_card.type2 .link_box {
+    background: var(--blue100)
+}
+
+.cont_introduce .review_card_list .landing_review_card.type3 .link_box {
+    background: var(--blue110)
+}
+
+.cont_introduce .review_card_list .landing_review_card.type3:before {
+    top: 30px;
+    right: 19px;
+    width: 70px;
+    height: 70px;
+    background: url("//www.saraminimage.co.kr/sri/company/view/introduce/img_review_card03.png")
+}
+
+.cont_introduce .review_card_list .landing_review_card .review_tit {
+    display: block;
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_introduce .review_card_list .landing_review_card .review_txt {
+    margin-top: 8px;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .review_card_list .landing_review_card .looks_button {
+    display: inline-flex;
+    position: absolute;
+    bottom: 40px;
+    left: 24px;
+    padding: 12px;
+    min-width: 164px;
+    height: 40px;
+    border: 1px solid var(--gray40);
+    border-radius: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .review_card_list .landing_review_card .looks_button:after {
+    margin-left: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6 12L10 8L6 4' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.cont_introduce .review_card_list .landing_review_card .looks_button .looks_button_txt {
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_introduce .interview_review {
+    display: flex;
+    gap: 20px
+}
+
+.cont_introduce .interview_review .interview_card {
+    flex-shrink: 0
+}
+
+.cont_introduce .interview_review .interview_card .link_interview_review {
+    display: block;
+    padding: 24px;
+    width: 470px;
+    height: 224px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_introduce .interview_review .interview_card .link_interview_review:hover {
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.08)
+}
+
+.cont_introduce .interview_review .interview_card .interview_header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_tit {
+    display: flex;
+    align-items: center;
+    gap: 4px
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_tit>strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .badge {
+    display: inline-flex;
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .badge.badge_pass {
+    color: var(--blue90);
+    background: var(--blue20)
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .badge.badge_fail {
+    color: var(--coral110);
+    background: var(--coral20)
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .badge.badge_wait {
+    color: var(--gray100);
+    background: var(--gray20)
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_info {
+    display: flex;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    align-items: center
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_info .info_item {
+    display: flex;
+    align-items: center
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_info .info_item:after {
+    margin: 0 6px;
+    width: 1px;
+    height: 12px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_introduce .interview_review .interview_card .interview_header .box_info .info_item:last-of-type:after {
+    display: none
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont {
+    margin-top: 16px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level {
+    display: flex;
+    align-items: center
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_tit {
+    margin-right: 16px;
+    color: var(--gray80);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_bar {
+    position: relative;
+    margin-right: 4px;
+    width: 112px;
+    height: 10px;
+    border-radius: 10px;
+    background: var(--gray30)
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_bar:before, .cont_introduce .interview_review .interview_card .interview_cont .box_level .level_bar:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 2px;
+    height: 10px;
+    background: var(--gray30);
+    content: ""
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_bar:before {
+    left: 36px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_bar:after {
+    right: 36px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_progress {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 10px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_progress:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 112px;
+    height: 10px;
+    border-radius: 10px;
+    background: linear-gradient(270deg, #15276f 0.33%, var(--blue100) 48.24%, #00d3ab 100%);
+    content: ""
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_level .level_txt {
+    color: var(--gray100);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .box_interview_reivew {
+    margin-top: 16px;
+    padding: 20px;
+    height: 80px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: var(--gray20)
+}
+
+.cont_introduce .interview_review .interview_card .interview_cont .interview_reivew_txt {
+    display: -webkit-box;
+    overflow: hidden;
+    max-height: 40px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+.cont_introduce .interview_review .interview_landing_card {
+    position: relative;
+    flex-shrink: 0
+}
+
+.cont_introduce .interview_review .interview_landing_card .link_interview_review {
+    display: block;
+    padding: 24px;
+    width: 470px;
+    height: 224px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    color: var(--white);
+    background: var(--gray90) url("//www.saraminimage.co.kr/sri/company/view/introduce/img_interview_landing.png") top 30px right 30px no-repeat
+}
+
+.cont_introduce .interview_review .interview_landing_card .tit {
+    display: block;
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_introduce .interview_review .interview_landing_card .tag {
+    margin-top: 8px;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_introduce .interview_review .interview_landing_card .looks_button {
+    display: inline-flex;
+    position: absolute;
+    bottom: 40px;
+    left: 24px;
+    padding: 0 12px;
+    height: 40px;
+    border: 1px solid var(--gray40);
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center
+}
+
+.cont_introduce .interview_review .interview_landing_card .looks_button .looks_button_txt {
+    display: flex;
+    font-size: 14px;
+    letter-spacing: -1px;
+    align-items: center;
+    gap: 0 2px
+}
+
+.cont_introduce .interview_review .wrap_induce {
+    background: url("//www.saraminimage.co.kr/sri/company/view/introduce/img_interview_review_none.png") 0 0 no-repeat
+}
+
+.cont_introduce .list_sns_content {
+    display: flex;
+    gap: 20px
+}
+
+.cont_introduce .list_sns_content .sns_content_item {
+    flex-shrink: 0
+}
+
+.cont_introduce .list_sns_content .sns_content_card {
+    overflow: hidden;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_introduce .list_sns_content .sns_content_card .link_sns_content {
+    display: flex;
+    width: 304px;
+    height: 170px;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_introduce .list_sns_content .sns_content_card .link_sns_content img {
+    display: block;
+    width: 100%
+}
+
+.cont_introduce .list_sns_content .sns_content_card .link_sns_content:hover img {
+    transition: 0.3s;
+    transform: scale(1.06)
+}
+
+.cont_introduce .list_company_news {
+    border-top: 1px solid var(--gray40);
+    border-bottom: 1px solid var(--gray40)
+}
+
+.cont_introduce .list_company_news .news_item+.news_item {
+    border-top: 1px solid var(--gray40)
+}
+
+.cont_introduce .list_company_news .link_company_news {
+    display: block;
+    position: relative;
+    padding: 24px 120px 24px 0;
+    box-sizing: border-box
+}
+
+.cont_introduce .list_company_news .link_company_news:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 44px;
+    margin-top: -12px;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='25' viewBox='0 0 24 25' fill='none'%3E%3Cpath d='M8 22.9961L17.9248 12.9961L8 2.99609' stroke='%238491A7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.cont_introduce .list_company_news .news_tit, .cont_introduce .list_company_news .news_excerpt {
+    display: block;
+    overflow: hidden;
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_introduce .list_company_news .news_tit {
+    color: var(--gray120)
+}
+
+.cont_introduce .list_company_news .news_excerpt {
+    margin: 9px 0;
+    color: var(--gray100)
+}
+
+.cont_introduce .list_company_news .news_etc {
+    color: var(--gray80);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.modal_edit_company_info.open {
+    display: block
+}
+
+.modal_edit_company_info {
+    width: 400px;
+    height: 422px
+}
+
+.modal_edit_company_info .link_go {
+    display: block;
+    margin-top: 16px;
+    width: 100%
+}
+
+.modal_edit_company_info .box_link_modify {
+    display: flex;
+    flex-direction: column;
+    text-align: left
+}
+
+.modal_edit_company_info .box_link_modify .link_go:first-child {
+    margin-top: 0
+}
+
+.modal_edit_company_info .box_link_modify .txt_info {
+    margin-top: 8px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.modal_edit_company_info .box_links {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray30)
+}
+
+.modal_edit_company_info .box_links .link_go {
+    margin-top: 8px
+}
+
+/* 주요 내용 - 채용 정보 */
+.cont_recruit .section {
+    position: relative;
+    padding-bottom: 48px;
+    box-sizing: border-box
+}
+
+.cont_recruit .section.section_type2 {
+    padding-bottom: 0
+}
+
+.cont_recruit .flex_between {
+    display: flex;
+    justify-content: space-between
+}
+
+.cont_recruit .box_ranking {
+    padding: 24px;
+    width: 468px;
+    height: 260px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_recruit .box_ranking .ranking_tit {
+    color: var(--gray120);
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 26px;
+    text-align: center
+}
+
+.cont_recruit .box_ranking .ranking_list {
+    position: relative;
+    margin-top: 48px;
+    padding-left: 210px
+}
+
+.cont_recruit .box_ranking .ranking_list.single_ranking .ranking_item:first-child {
+    right: 0;
+    margin: 0 auto
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:last-child {
+    margin-bottom: 0
+}
+
+.cont_recruit .box_ranking .rank_badge {
+    display: flex;
+    margin-right: 10px;
+    width: 60px;
+    height: 28px;
+    border-radius: 4px;
+    color: var(--gray80);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    background: var(--gray30);
+    flex: none;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_recruit .box_ranking .rank_txt {
+    overflow: hidden;
+    color: var(--gray120);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 210px
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child .rank_badge {
+    color: var(--white);
+    background-color: var(--blue90)
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child .rank_txt {
+    max-width: 100%;
+    color: var(--gray80);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-align: center
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child .rank_txt strong {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 2px;
+    color: var(--gray120);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child .box_img {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    justify-content: center;
+    align-items: center
+}
+
+.cont_recruit .box_ranking .ranking_list .ranking_item:first-child .box_img .rank_badge {
+    margin-right: 0
+}
+
+.cont_recruit .number_list {
+    display: flex;
+    margin-top: 10px;
+    padding: 24px 33px 0;
+    height: 178px;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: flex-end;
+    justify-content: center
+}
+
+.cont_recruit .number_list>li {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center
+}
+
+.cont_recruit .number_list>li+li {
+    margin-left: 32px
+}
+
+.cont_recruit .number_list .num, .cont_recruit .number_list .txt {
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_recruit .number_list .txt {
+    color: var(--gray120)
+}
+
+.cont_recruit .number_list .emph .num, .cont_recruit .number_list .emph .txt {
+    color: var(--blue90);
+    font-weight: bold
+}
+
+.cont_recruit .number_list .emph .wrap_graph .inner_graph {
+    background-color: var(--blue90)
+}
+
+.cont_recruit .number_list .wrap_graph {
+    display: flex;
+    flex-direction: column;
+    height: 140px;
+    justify-content: flex-end
+}
+
+.cont_recruit .number_list .wrap_graph .inner_graph {
+    margin: 8px 0;
+    width: 44px;
+    max-height: 114px;
+    border-radius: 4px;
+    background: var(--gray50)
+}
+
+.cont_recruit .section .section_header {
+    display: flex;
+    align-items: center
+}
+
+.cont_recruit .section .section_header .count {
+    margin-left: 8px;
+    font-size: 20px;
+    letter-spacing: -1.5px;
+    line-height: 28px
+}
+
+.cont_recruit .section .section_header .count .num {
+    color: var(--blue90)
+}
+
+.cont_recruit .section .area_sorting {
+    margin-bottom: 34px
+}
+
+.cont_recruit .section .area_sorting .sorting_select {
+    position: absolute;
+    top: -3px;
+    right: 0;
+    width: 126px
+}
+
+/*WMG-36086 230831*/
+.cont_recruit .section .area_sorting .sorting_select select {
+    border-color: var(--gray40)
+}
+
+.cont_recruit .section .area_guide {
+    margin: 22px 0;
+    padding: 20px;
+    border: 1px solid var(--gray30);
+    border-radius: 8px;
+    box-sizing: border-box;
+    text-align: center;
+    background: var(--gray20)
+}
+
+.cont_recruit .section .area_guide .guide_txt {
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_recruit .number_list>li:nth-child(1) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_diagonal.png)
+}
+
+.cont_recruit .number_list>li:nth-child(2) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_lattice.png)
+}
+
+.cont_recruit .number_list>li:nth-child(3) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_wave.png)
+}
+
+.cont_recruit .number_list>li:nth-child(4) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_stripe.png)
+}
+
+.cont_recruit .area_recruiting {
+    position: relative
+}
+
+/*공고리스트 스타일 가져옴 jobs-recruit.css*/
+/* 무료리스트 개편 */
+.list_recruiting {
+    margin-bottom: 2px
+}
+
+.list_recruiting .list_body .list_item .box_item {
+    display: flex;
+    padding: 24px 28px;
+    box-sizing: border-box
+}
+
+.list_recruiting .list_body .no_search_situation {
+    padding: 60px 0;
+    border-bottom: 1px solid #ebebeb;
+    color: #444;
+    font-size: 16px;
+    letter-spacing: -1px;
+    text-align: center
+}
+
+.list_recruiting .list_body .no_search_situation b {
+    color: #4d66e0
+}
+
+.list_recruiting .list_body .notice_area {
+    padding: 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 0;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #eff2ff
+}
+
+.list_recruiting .list_body .notice_area b {
+    color: #4d66e0
+}
+
+.list_recruiting .list_body .list_item:first-child {
+    border-top: 1px solid var(--gray40)
+}
+
+.list_recruiting .list_body .list_item:last-child {
+    border-bottom: 1px solid var(--gray40)
+}
+
+.list_recruiting .list_body .list_item+.list_item {
+    border-top: 1px solid var(--gray40)
+}
+
+.list_recruiting .list_body .list_item.has_similar_list {
+    overflow: hidden;
+    border: 1px solid #475067;
+    border-radius: 8px
+}
+
+.list_recruiting .list_body .list_item.has_similar_list+.list_item {
+    border-top: 0
+}
+
+.list_recruiting .list_body [class*="has_similar_"] {
+    border-top-color: transparent;
+    outline: none
+}
+
+.list_recruiting .list_body .list_item.has_similar_list .box_item {
+    background-color: #f8fafc
+}
+
+.list_recruiting .list_body .list_item.has_similar_list .box_item .notification_info .job_tit .str_tit {
+    color: var(--gray80)
+}
+
+.list_recruiting .list_body .list_item.recruit_visited .box_item .notification_info .job_tit .str_tit {
+    color: var(--gray80)
+}
+
+.list_recruiting .list_body .list_item.recruit_visited .box_item .notification_info .job_tit .str_tit:before {
+    background-color: var(--gray80)
+}
+
+.list_recruiting .list_body .list_item .col {
+    min-height: 51px;
+    box-sizing: border-box;
+    letter-spacing: -1px;
+    vertical-align: top
+}
+
+.list_recruiting .list_body .list_item .area_check {
+    padding-left: 16px
+}
+
+.list_recruiting .list_body .list_item .notification_info {
+    padding: 0;
+    width: 556px;
+    flex-shrink: 0
+}
+
+/*기업정보 개편*/
+.list_recruiting .list_body .list_item .notification_info .job_tit {
+    display: flex;
+    width: 100%;
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    vertical-align: top;
+    align-items: center
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_tit .str_tit {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    margin-right: 2px;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    color: var(--gray120);
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_tit .str_tit strong {
+    color: var(--blue100)
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_tit .str_tit:hover:before {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--gray120);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_tit .str_tit.new {
+    position: relative;
+    margin-right: 0;
+    padding-right: 32px;
+    max-width: 500px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_tit .str_tit.new:after {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 4px;
+    color: var(--coral110);
+    font-size: 12px;
+    content: "NEW"
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta {
+    margin-top: 12px;
+    max-width: 556px;
+    font-size: 13px;
+    letter-spacing: -0.5px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta .job_sector {
+    display: flex;
+    color: var(--gray80)
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta .job_sector>span {
+    display: inline-block;
+    color: var(--gray80)
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta .job_sector>span:last-child {
+    margin-right: 4px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta .job_sector>span+span {
+    position: relative;
+    margin-left: 6px;
+    padding-left: 6px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_meta .job_sector>span+span:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1px;
+    height: 10px;
+    background-color: var(--gray40);
+    transform: translateY(-50%);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge {
+    display: flex;
+    margin-top: 12px;
+    align-items: center
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge>span {
+    display: inline-flex;
+    padding: 0 6px;
+    border-radius: 4px;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 24px;
+    background-color: var(--gray20);
+    align-items: center
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge>span+span {
+    margin-left: 4px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge>span+span.distance {
+    margin-left: 8px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge svg {
+    margin-right: 2px;
+    width: 14px;
+    height: 14px
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge .distance {
+    padding: 0;
+    color: var(--gray80);
+    background-color: transparent
+}
+
+.list_recruiting .list_body .list_item .notification_info .job_badge .distance svg {
+    width: 16px;
+    height: 16px
+}
+
+.list_recruiting .list_body .list_item .recruit_info {
+    margin-left: 56px;
+    padding: 0;
+    width: 232px
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li {
+    margin-top: 4px
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li:first-child {
+    margin-top: 0
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li p {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-left: 24px;
+    color: var(--gray100);
+    font-size: 13px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li p.work_place:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url("http://www.saraminimage.co.kr/sri/recruit/icon_location.png");
+    background-size: cover;
+    transform: translateY(-50%);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li p.career:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url("http://www.saraminimage.co.kr/sri/recruit/icon_career.png");
+    background-size: cover;
+    transform: translateY(-50%);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li p.education:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url("http://www.saraminimage.co.kr/sri/recruit/icon_education.png");
+    background-size: cover;
+    transform: translateY(-50%);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .recruit_info>ul>li p.salary:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url("http://www.saraminimage.co.kr/sri/recruit/icon_payment.png");
+    background-size: cover;
+    transform: translateY(-50%);
+    content: ""
+}
+
+.list_recruiting .list_body .list_item .support_info {
+    margin-left: 24px;
+    padding: 0;
+    width: 106px;
+    color: #666;
+    font-size: 12px;
+    text-align: right;
+    flex: 1
+}
+
+.list_recruiting .list_body .list_item .support_info>a+a {
+    margin-top: 8px
+}
+
+.list_recruiting .list_body .list_item .support_info>.sri_btn_md {
+    display: inline-block
+}
+
+.list_recruiting .list_body .list_item .support_info>.sri_btn_md+.sri_btn_md {
+    margin-top: 8px
+}
+
+.list_recruiting .list_body .list_item .support_detail {
+    line-height: 20px
+}
+
+.list_recruiting .list_body .list_item .sri_btn_md+.support_detail {
+    margin-top: 8px
+}
+
+.list_recruiting .list_body .list_item .support_detail>.date {
+    display: block;
+    color: var(--gray80);
+    font-size: 12px;
+    text-align: right
+}
+
+.list_recruiting .list_body .list_item .support_detail>.date>.dday {
+    color: var(--coral110);
+    font-weight: bold
+}
+
+.list_recruiting .list_body .list_item .support_detail>.deadlines {
+    color: var(--gray80)
+}
+
+.list_recruiting .nodata {
+    margin-bottom: 80px;
+    padding: 60px 0;
+    border-top: 1px solid var(--gray40);
+    border-bottom: 1px solid var(--gray40);
+    text-align: center
+}
+
+.list_recruiting .nodata .nodata_tit {
+    color: var(--gray100);
+    font-size: 18px;
+    line-height: 26px
+}
+
+.list_recruiting .list_body .info_detail .detail_tit {
+    color: var(--gray80);
+    font-size: 14px;
+    font-weight: bold
+}
+
+.list_recruiting .list_body .info_detail>ul {
+    margin-top: 10px
+}
+
+.list_recruiting .list_body .info_detail>ul>li {
+    position: relative;
+    padding-left: 10px;
+    color: var(--gray80);
+    font-size: 13px;
+    line-height: 20px;
+    text-align: left
+}
+
+.list_recruiting .list_body .info_detail>ul>li:before {
+    display: block;
+    position: absolute;
+    top: 9px;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: var(--gray100);
+    content: ""
+}
+
+.list_recruiting .list_body .today_done {
+    position: relative;
+    height: 48px;
+    border-top: 1px solid var(--gray40);
+    border-bottom: 1px solid var(--gray40);
+    font-size: 14px;
+    line-height: 48px;
+    text-align: center;
+    background-color: #fff
+}
+
+.list_recruiting .list_body .today_done .today_txt {
+    position: relative;
+    color: var(--gray90)
+}
+
+.list_recruiting .list_body .today_done .today_txt:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    width: 14px;
+    height: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 7L7 1L13 7' stroke='%235C667B' stroke-linecap='round'/%3E%3C/svg%3E");
+    transform: translateY(-50%);
+    content: ""
+}
+
+.area_recruiting .wrap_loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: white;
+    opacity: 0.7;
+    filter: alpha(opacity=70)
+}
+
+.area_recruiting .wrap_loading .loading_image {
+    display: block;
+    margin-top: 60px;
+    text-align: center
+}
+
+.area_recruiting .wrap_loading .loading_tit {
+    display: block;
+    color: var(--gray100);
+    font-size: 16px;
+    font-weight: bold
+}
+
+.area_recruiting .wrap_loading .loading_txt {
+    margin-top: 5px;
+    color: var(--gray80);
+    font-size: 13px
+}
+
+/* //공고리스트 스타일 가져옴 jobs-recruit.css */
+/* 주요 내용 : 직무 리포트 */
+.cont_careers .section {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--gray30)
+}
+
+.cont_careers .section.section_type2 {
+    padding-bottom: 0;
+    border-bottom: 0
+}
+
+.cont_careers .section .link_content_more {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-color: var(--gray40);
+    color: var(--gray100);
+    background: var(--white)
+}
+
+.cont_careers .section .link_content_more:after {
+    margin-left: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='16' height='17' viewBox='0 0 16 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12.002L10 8.00195L6 4.00195' stroke='%2367738E' stroke-linecap='round'/%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+.cont_careers .area_recruit {
+    margin-top: 24px;
+    padding: 68px 40px 48px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_careers .area_recruit .recruit_data {
+    display: grid;
+    grid-template-columns: 242px 340px 242px;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .priority1 {
+    color: var(--gray100);
+    font-size: 18px;
+    letter-spacing: -1px;
+    line-height: 26px
+}
+
+.cont_careers .area_recruit .priority2 {
+    color: var(--gray100);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_careers .area_recruit .priority3 {
+    color: var(--gray100);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_careers .area_recruit .priority4 {
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .priority5 {
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .priority6 {
+    color: var(--gray80);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .priority7 {
+    color: var(--gray80);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .priority8 {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword {
+    display: flex;
+    position: relative;
+    width: 242px;
+    height: 242px;
+    border-radius: 50%;
+    background: var(--gray20);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .keyword_tit {
+    position: absolute;
+    top: -4px;
+    color: var(--gray120);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px;
+    text-align: center
+}
+
+.cont_careers .area_recruit .recruit_data .list_keyword {
+    display: flex;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .list_keyword .keyword_item {
+    position: relative;
+    padding: 4px;
+    box-sizing: border-box
+}
+
+.cont_careers .area_recruit .recruit_data .list_keyword .keyword_item .txt_ellipsis {
+    display: block;
+    padding: 0 2px;
+    max-width: 174px;
+    line-height: 24px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    z-index: 10;
+    padding: 0 34px;
+    width: 340px;
+    height: 340px;
+    border: 1px solid var(--blue40);
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: var(--blue20);
+    box-shadow: 0 2px 8px 0 rgba(45, 101, 242, 0.07);
+    mix-blend-mode: multiply
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .keyword_tit {
+    top: -12px;
+    font-size: 18px;
+    line-height: 26px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common:before, .cont_careers .area_recruit .recruit_data .box_keyword.common:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    margin-top: -3px;
+    width: 24px;
+    height: 6px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='24' height='6' viewBox='0 0 24 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3' cy='3' r='3' fill='url(%23paint0_linear_4046_64129)'/%3E%3Ccircle cx='12' cy='3' r='3' fill='%23BCD1FC'/%3E%3Ccircle cx='21' cy='3' r='3' fill='%234876EF'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_4046_64129' x1='-0.5' y1='3.5' x2='6.5' y2='3.5' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23EAEDF4'/%3E%3Cstop offset='1' stop-color='%23D7DCE5'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E%0A");
+    content: ""
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common:before {
+    left: -22px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common:after {
+    right: -22px;
+    transform: rotate(-180deg)
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.company {
+    left: 10px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.my {
+    right: 10px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.company .nodata, .cont_careers .area_recruit .recruit_data .box_keyword.my .nodata {
+    width: 188px;
+    height: 188px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.company .nodata {
+    background: url("//www.saraminimage.co.kr/sri/company/view/careers/img_keyword_blur.png") 50% no-repeat;
+    background-size: contain
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.my .nodata {
+    background: url("//www.saraminimage.co.kr/sri/company/view/careers/img_keyword_blur2.png") 50% no-repeat;
+    background-size: contain
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .nodata {
+    display: flex;
+    flex-direction: column;
+    width: 242px;
+    height: 242px;
+    text-align: center;
+    background: url("//www.saraminimage.co.kr/sri/company/view/careers/img_common_keyword_blur.png") 50% no-repeat;
+    background-size: contain;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .nodata .nodata_tit {
+    display: block;
+    color: var(--gray120);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .nodata .nodata_txt {
+    margin-top: 8px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .nodata .BtnType {
+    margin-top: 18px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .match_data {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .match_data .match_txt {
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .recruit_data .box_data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_data .data_tit {
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.good .BtnType {
+    margin-top: 16px
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.good .data_tit, .cont_careers .area_recruit .recruit_data .box_data.perfect .data_tit {
+    color: var(--blue100);
+    text-align: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.perfect .txt_emph {
+    display: block;
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.perfect .list_common_keyword {
+    max-height: 130px
+}
+
+.cont_careers .area_recruit .recruit_data .list_common_keyword {
+    display: flex;
+    overflow: hidden;
+    margin-top: 8px;
+    max-height: 62px;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .list_common_keyword .keyword_item {
+    display: inline-flex;
+    padding: 0 8px;
+    height: 28px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--white);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    background: var(--blue90);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.need {
+    margin-top: 28px
+}
+
+.cont_careers .area_recruit .recruit_data .box_data.need .list_common_keyword .keyword_item {
+    border: 1px solid var(--blue40);
+    color: var(--gray120);
+    background-color: var(--white)
+}
+
+.cont_careers .area_recruit .tip_preview {
+    margin-top: 48px
+}
+
+.cont_careers .area_recruit .tip_preview .tit_tip {
+    color: var(--gray120);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_careers .area_recruit .tip_preview .tit_tip .badge {
+    display: inline-flex;
+    margin-right: 8px;
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 20px;
+    color: var(--white);
+    background: var(--gray110);
+    align-items: center
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt {
+    display: grid;
+    margin-top: 16px;
+    grid-template-columns: 159px 1fr;
+    gap: 0 20px
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .tit {
+    position: relative;
+    padding-left: 8px;
+    color: var(--gray100);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .tit:before {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gray100);
+    content: ""
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .list_job {
+    min-width: 0
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .list_job .item {
+    display: flex;
+    margin-bottom: 8px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .list_job .item .badge {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 4px;
+    color: var(--gray100);
+    font-size: 12px;
+    line-height: 20px;
+    background: var(--gray20);
+    flex-shrink: 0
+}
+
+.cont_careers .area_recruit .tip_preview .box_txt .list_job .item>p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .area_recruit .list_dot {
+    margin-top: 24px
+}
+
+.cont_careers .area_recruit .list_dot>li {
+    padding-left: 8px
+}
+
+.cont_careers .area_recruit .list_dot>li:before {
+    width: 2px;
+    height: 2px
+}
+
+.cont_careers .slide_careers_class {
+    position: relative;
+    padding: 0 16px
+}
+
+.cont_careers .slide_careers_class .slider_controls {
+    position: relative
+}
+
+.cont_careers .slide_careers_class .slider_controls .bx-prev, .cont_careers .slide_careers_class .slider_controls .bx-next {
+    position: absolute;
+    top: 90px;
+    z-index: 1;
+    margin-top: -22px
+}
+
+.cont_careers .slide_careers_class .slider_controls .bx-prev {
+    left: -22px
+}
+
+.cont_careers .slide_careers_class .slider_controls .bx-next {
+    right: -22px
+}
+
+.cont_careers .list_careers {
+    width: 100%
+}
+
+.cont_careers .list_careers .item>a {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 293px;
+    grid-auto-flow: row;
+    place-content: start start;
+    place-items: start start
+}
+
+.cont_careers .list_careers .item .thumbnail {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border: 1px solid var(--gray40);
+    border-radius: 8px;
+    box-sizing: border-box
+}
+
+.cont_careers .list_careers .item .thumbnail>img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%,-50%);
+    object-fit: cover
+}
+
+.cont_careers .list_careers .item .category {
+    padding: 0 4px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .list_careers .item .category.read_content {
+    color: #2a7c6d;
+    background-color: #ebfffc
+}
+
+.cont_careers .list_careers .item .category.class {
+    color: #6a51bf;
+    background-color: #f9f4ff
+}
+
+.cont_careers .list_careers .item .category.offline {
+    color: #6a51bf;
+    background-color: #f9f4ff
+}
+
+.cont_careers .list_careers .item .category.seminar_n_conference {
+    color: var(--blue100);
+    background-color: #eff5ff
+}
+
+.cont_careers .list_careers .item .category.spec_up {
+    color: #007096;
+    background-color: #e9fafd
+}
+
+.cont_careers .list_careers .item .subject {
+    display: block;
+    display: -webkit-box;
+    overflow: hidden;
+    width: 100%;
+    max-height: 52px;
+    color: #373f57;
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+.cont_careers .list_careers .item .meta {
+    display: grid;
+    grid-auto-flow: column dense;
+    gap: 8px;
+    align-items: center
+}
+
+.cont_careers .list_careers .item .meta .img {
+    overflow: hidden;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px
+}
+
+.cont_careers .list_careers .item .meta .img>img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%,-50%);
+    object-fit: cover
+}
+
+.cont_careers .list_careers .item .meta .name, .cont_careers .list_careers .item .meta .date {
+    color: var(--gray80);
+    font-size: 13px;
+    line-height: 16px
+}
+
+.cont_careers .list_careers .item .meta .date {
+    display: grid;
+    gap: 8px;
+    align-items: center;
+    grid-auto-flow: column dense
+}
+
+.cont_careers .list_careers .item .meta .name+.date:before {
+    width: 1px;
+    height: 10px;
+    background: #67738e;
+    content: ""
+}
+
+.cont_careers .list_careers .item .keywords {
+    overflow: hidden;
+    width: 100%;
+    height: 20px;
+    color: var(--blue100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all
+}
+
+.cont_careers .slide_mentor {
+    position: relative;
+    padding: 0 16px
+}
+
+.cont_careers .slide_mentor .slider_controls {
+    position: relative
+}
+
+.cont_careers .slide_mentor .slider_controls .bx-prev, .cont_careers .slide_mentor .slider_controls .bx-next {
+    position: absolute;
+    top: 124px;
+    z-index: 1
+}
+
+.cont_careers .slide_mentor .slider_controls .bx-prev {
+    left: -22px
+}
+
+.cont_careers .slide_mentor .slider_controls .bx-next {
+    right: -22px
+}
+
+.cont_careers .list_mentor {
+    width: 100%
+}
+
+.cont_careers .list_mentor .mentor_item {
+    height: 295px
+}
+
+.cont_careers .list_mentor .card {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    width: 368px;
+    height: 280px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_careers .list_mentor .card:hover {
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.08)
+}
+
+.cont_careers .list_mentor .card .card_header {
+    display: flex;
+    padding: 20px 24px;
+    height: 92px;
+    box-sizing: border-box;
+    background: var(--gray20);
+    align-items: center
+}
+
+.cont_careers .list_mentor .card .card_content {
+    padding: 16px 24px;
+    box-sizing: border-box
+}
+
+.cont_careers .list_mentor .card .card_header .thumb {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    margin-right: 12px;
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--gray30);
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: var(--white);
+    flex-shrink: 0
+}
+
+.cont_careers .list_mentor .card .card_header .thumb img {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    margin: auto
+}
+
+.cont_careers .list_mentor .card .card_header .infos {
+    min-width: 0
+}
+
+.cont_careers .list_mentor .card .card_header .info_job {
+    display: flex;
+    overflow: hidden
+}
+
+.cont_careers .list_mentor .card .card_header .info_job .job {
+    overflow: hidden;
+    color: var(--gray120);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_mentor .card .card_header .info_job .badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 6px;
+    height: 20px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    background: var(--blue90);
+    flex-shrink: 0
+}
+
+.cont_careers .list_mentor .card .card_header .info_job .badge.badge_ex {
+    background-color: var(--gray90)
+}
+
+.cont_careers .list_mentor .card .card_header .info_career {
+    display: flex;
+    overflow: hidden;
+    margin-top: 4px;
+    height: 20px;
+    color: var(--gray100);
+    font-size: 13px;
+    letter-spacing: -0.5px
+}
+
+.cont_careers .list_mentor .card .card_header .info_career>span+span {
+    position: relative;
+    padding-left: 13px
+}
+
+.cont_careers .list_mentor .card .card_header .info_career>span+span:before {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    width: 1px;
+    height: 10px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_careers .list_mentor .card .card_header .info_career .career {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_mentor .card .card_header .info_career .year {
+    flex-shrink: 0
+}
+
+.cont_careers .list_mentor .card .card_content .subject_tit {
+    display: block;
+    overflow: hidden;
+    color: var(--gray100);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_mentor .card .card_content .list_dot {
+    margin-top: 12px;
+    height: 76px
+}
+
+.cont_careers .list_mentor .card .card_content .list_dot>li {
+    overflow: hidden;
+    color: var(--gray100);
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_mentor .card .card_content .list_dot>li+li {
+    margin-top: 8px
+}
+
+.cont_careers .list_mentor .card .card_content .BtnType {
+    width: 100%
+}
+
+.cont_careers .list_mentor .landing_card {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    position: relative;
+    padding: 24px;
+    width: 368px;
+    height: 280px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    color: var(--white);
+    background: var(--blue100) url("//www.saraminimage.co.kr/sri/company/view/careers/img_mentroing_landing_card.png") 100% 100% no-repeat
+}
+
+.cont_careers .list_mentor .landing_card .tit {
+    display: block;
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_careers .list_mentor .landing_card .txt_emph {
+    color: var(--green50)
+}
+
+.cont_careers .list_mentor .landing_card .txt {
+    margin-top: 12px;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .list_mentor .landing_card .link_go_mentoring {
+    margin-top: 20px;
+    width: 138px;
+    border-color: var(--gray40);
+    background-color: transparent
+}
+
+.cont_careers .list_mentor .landing_card .link_go_mentoring:after {
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6 12L10 8L6 4' stroke='white' stroke-linecap='round'/%3E%3C/svg%3E");
+    content: ""
+}
+
+.cont_careers .chat_card {
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+    width: 304px;
+    height: 363px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.cont_careers .chat_card .thumb {
+    display: flex;
+    overflow: hidden;
+    margin-right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gray20);
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .chat_card .thumb img {
+    max-width: 28px
+}
+
+.cont_careers .chat_card .chat_tit {
+    display: flex;
+    margin-bottom: 2px;
+    color: var(--gray120);
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.cont_careers .chat_card .infos {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex-grow: 1
+}
+
+.cont_careers .chat_card .infos .chat_tit>strong {
+    margin-right: 8px
+}
+
+.cont_careers .chat_card .infos .chat_tit .badge {
+    display: inline-flex;
+    margin-left: auto;
+    padding: 0 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--blue90);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    background: var(--blue20);
+    flex-shrink: 0;
+    align-items: center
+}
+
+.cont_careers .chat_card .infos .chat_tit .badge.now {
+    color: var(--coral110);
+    background-color: var(--coral20)
+}
+
+.cont_careers .chat_card .infos .chat_desc {
+    overflow: hidden;
+    color: var(--gray100);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .chat_card .infos .chat_info {
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .main_chat_channel {
+    display: flex;
+    float: left
+}
+
+.cont_careers .main_chat_channel .chat_card {
+    margin-right: 24px;
+    padding: 96px 20px 64px
+}
+
+.cont_careers .main_chat_channel .chat_card .card_header {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px 20px 12px;
+    width: 100%;
+    height: 96px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_careers .main_chat_channel .chat_card .card_content {
+    overflow: hidden;
+    height: 100%
+}
+
+.cont_careers .main_chat_channel .chat_card .card_footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 20px 24px;
+    width: 100%;
+    height: 64px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_careers .main_chat_channel .chat_card .card_footer:before {
+    display: block;
+    position: absolute;
+    top: -24px;
+    left: 0;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #fff 65.30%);
+    content: ""
+}
+
+.cont_careers .main_chat_channel .chat_card .card_footer .BtnType {
+    width: 100%
+}
+
+.cont_careers .main_chat_channel .list_chat .chat_item {
+    margin-bottom: 8px
+}
+
+.cont_careers .main_chat_channel .list_chat .chat_item:last-child {
+    margin-bottom: 24px
+}
+
+.cont_careers .main_chat_channel .list_chat .chat {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    word-break: break-all;
+    background: var(--gray20)
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .caht_header {
+    display: flex;
+    align-items: center
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .profile_img {
+    width: 20px
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .profile_img img {
+    max-width: 100%
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .nickname {
+    margin: 0 4px;
+    color: var(--gray110);
+    font-size: 12px;
+    line-height: 20px
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .year {
+    color: var(--blue90);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .main_chat_channel .list_chat .chat .chat_msg {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: 2px;
+    max-height: 40px;
+    color: var(--gray90);
+    font-size: 13px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+
+.cont_careers .main_chat_channel .list_chat .chat_time {
+    display: block;
+    margin-top: 2px;
+    color: var(--gray80);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .main_chat_channel .list_chat {
+    animation-play-state: paused
+}
+
+.cont_careers .main_chat_channel .list_chat.ani_running {
+    animation-name: rolling;
+    animation-duration: 14s;
+    animation-play-state: running;
+    animation-play-state: running;
+    animation-delay: 0.3s;
+    animation-fill-mode: both
+}
+
+.cont_careers .main_chat_channel .list_chat.type2.ani_running {
+    animation-delay: 0.5s
+}
+
+@keyframes rolling {
+    0% {
+        transform: translate(0, 0)
+    }
+
+    11% {
+        transform: translate(0, -82px)
+    }
+
+    22% {
+        transform: translate(0, -164px)
+    }
+
+    33% {
+        transform: translate(0, -246px)
+    }
+
+    44% {
+        transform: translate(0, -328px)
+    }
+
+    55% {
+        transform: translate(0, -410px)
+    }
+
+    66% {
+        transform: translate(0, -492px)
+    }
+
+    77% {
+        transform: translate(0, -574px)
+    }
+
+    88% {
+        transform: translate(0, -656px)
+    }
+
+    100% {
+        transform: translate(0, -738px)
+    }
+}
+
+.cont_careers .sub_chat_channel .list_channel {
+    margin-top: 12px
+}
+
+.cont_careers .sub_chat_channel .link_channel {
+    display: flex;
+    padding: 12px 4px;
+    height: 86px;
+    box-sizing: border-box
+}
+
+.cont_careers .sub_chat_channel .list_channel .channel_item+.channel_item {
+    border-top: 1px solid var(--gray30)
+}
+
+.cont_careers .sub_chat_channel .thumb {
+    margin-right: 8px
+}
+
+.cont_careers .sub_chat_channel .infos .chat_tit {
+    font-size: 14px;
+    line-height: 20px
+}
+
+.cont_careers .sub_chat_channel .infos .chat_desc {
+    color: var(--gray80)
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    left: 0;
+    margin: 0 auto;
+    width: 100px;
+    height: 24px;
+    text-align: center
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-prev, .cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-next {
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--gray40);
+    border-radius: 50%;
+    background: none;
+    background-color: var(--white)
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-prev:after, .cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-next:after {
+    display: block;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%0A%3Csvg width='6' height='10' viewBox='0 0 6 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='icon_next_arrow_16px'%3E%3Cpath id='arrow_closed copy 22' d='M5 9L1 5L5 1' stroke='%238491A7' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E%0A") 50% no-repeat;
+    content: ""
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-next:after {
+    transform: rotate(-180deg)
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-prev {
+    left: 0
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .bx-next {
+    right: 0
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .pagenation {
+    color: var(--gray80);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_careers .sub_chat_channel .slide_career_channel .slider_controls .pagenation .current {
+    color: var(--gray120)
+}
+
+.cont_careers .list_interview {
+    display: grid;
+    grid-template-columns: repeat(3, 304px);
+    grid-template-rows: 290px;
+    gap: 0 24px
+}
+
+.cont_careers .list_interview img {
+    max-width: 100%
+}
+
+.cont_careers .list_interview .link_interview {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid var(--gray40);
+    border-radius: 16px
+}
+
+.cont_careers .list_interview .link_interview:hover {
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.08)
+}
+
+.cont_careers .list_interview .interview_card_img {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 136px;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .list_interview .badge {
+    display: inline-flex;
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    padding: 0 8px;
+    height: 20px;
+    border-radius: 32px;
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .list_interview .badge.incumbent {
+    background: var(--blue90)
+}
+
+.cont_careers .list_interview .interview_card_cont {
+    padding: 40px 24px 34px;
+    box-sizing: border-box
+}
+
+.cont_careers .list_interview .company_logo {
+    display: flex;
+    overflow: hidden;
+    margin-top: -80px;
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--gray30);
+    border-radius: 50%;
+    background: var(--white);
+    align-items: center;
+    justify-content: center
+}
+
+.cont_careers .list_interview .company_logo img, .cont_careers .list_interview .company_logo svg {
+    max-width: 54px;
+    max-height: 26px
+}
+
+.cont_careers .list_interview .company_name {
+    overflow: hidden;
+    margin-top: 16px;
+    color: var(--gray80);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_interview .interview_tit {
+    display: block;
+    overflow: hidden;
+    margin-top: 4px;
+    color: var(--gray120);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.cont_careers .list_interview .infos {
+    display: flex;
+    margin-top: 10px;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_careers .list_interview .infos .interviewee {
+    margin-left: 4px
+}
+
+/*WMG-36086 230830 추가 사항 - 스켈레톤*/
+.wrap_company_view .skeleton_chips_item, .wrap_company_view .skeleton_tit, .wrap_company_view .skeleton_txt, .wrap_company_view .skeleton_box_tit, .wrap_company_view .skeleton_box_txt, .wrap_company_view .skeleton_link, .wrap_company_view .skeleton_thumbnail, .wrap_company_view .skeleton_circle {
+    border-radius: 8px;
+    background: var(--gray20)
+}
+
+.wrap_company_view .skeleton_chips {
+    display: flex;
+    margin: -6px -8px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 0 8px
+}
+
+.wrap_company_view .skeleton_chips .skeleton_chips_item {
+    width: 106px;
+    height: 40px;
+    border-radius: 32px
+}
+
+.wrap_company_view .skeleton_chips .skeleton_chips_item:nth-child(1) {
+    width: 77px
+}
+
+.wrap_company_view .skeleton_chips .skeleton_chips_item:nth-child(2) {
+    width: 119px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .skeleton_tit, .cont_careers .area_recruit .recruit_data .box_keyword .skeleton_box_tit, .cont_careers .area_recruit .recruit_data .box_keyword .skeleton_box_txt {
+    width: 182px;
+    height: 26px;
+    background: var(--gray30)
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .skeleton_tit {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 122px;
+    height: 22px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword .skeleton_box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px 0
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .skeleton_tit {
+    width: 308px;
+    height: 52px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .skeleton_box {
+    align-items: center
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .skeleton_box+.skeleton_box {
+    margin-top: 28px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .skeleton_box_tit {
+    width: 160px;
+    height: 20px
+}
+
+.cont_careers .area_recruit .recruit_data .box_keyword.common .skeleton_box_txt {
+    width: 270px;
+    height: 62px
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_tit, .cont_careers .area_recruit .tip_preview .skeleton_txt, .cont_careers .area_recruit .tip_preview .skeleton_box_tit, .cont_careers .area_recruit .tip_preview .skeleton_box_txt {
+    height: 20px
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_tit {
+    width: 198px
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 22px;
+    padding-left: 180px;
+    gap: 6px 0
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_box+.skeleton_box {
+    margin-top: 24px
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_box .skeleton_box_tit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 160px
+}
+
+.cont_careers .area_recruit .tip_preview .skeleton_txt {
+    margin-top: 32px;
+    width: 550px;
+    height: 60px
+}
+
+.wrap_company_view .section .skeleton_tit, .wrap_company_view .section .skeleton_txt, .wrap_company_view .section .skeleton_link, .wrap_company_view .section .skeleton_thumbnail {
+    height: 26px
+}
+
+.wrap_company_view .section .skeleton_tit {
+    width: 300px;
+    height: 34px
+}
+
+.wrap_company_view .section .skeleton_link {
+    position: absolute;
+    top: 62px;
+    right: 0;
+    width: 130px;
+    height: 34px
+}
+
+.wrap_company_view .section .skeleton_cards {
+    display: flex;
+    gap: 0 24px;
+    justify-content: space-between
+}
+
+.wrap_company_view .section .skeleton_cards .skeleton_card {
+    display: flex;
+    flex-direction: column;
+    width: 293px;
+    height: 286px;
+    gap: 12px 0
+}
+
+.wrap_company_view .section .skeleton_cards .skeleton_thumbnail {
+    width: 100%;
+    height: 180px
+}
+
+.wrap_company_view .section .skeleton_cards .skeleton_card .skeleton_txt {
+    width: 220px;
+    height: 20px
+}
+
+.wrap_company_view .section .skeleton_cards .skeleton_card .skeleton_txt:nth-child(3) {
+    width: 180px
+}
+
+.wrap_company_view .section .skeleton_cards .skeleton_card .skeleton_txt:nth-child(4) {
+    width: 120px
+}
+
+.wrap_company_view .career_chat_section .skeleton_tit {
+    width: 450px
+}
+
+.wrap_company_view .section .skeleton_cards2 {
+    display: flex;
+    gap: 0 24px;
+    justify-content: space-between
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_txt {
+    height: 20px
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card {
+    padding: 20px;
+    width: 304px;
+    height: 363px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box {
+    position: relative
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box+.skeleton_box {
+    margin-top: 8px
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box:nth-child(1) {
+    margin-bottom: 22px;
+    padding-left: 52px
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box:nth-child(1) .skeleton_txt:nth-child(2) {
+    width: 100%
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box:nth-child(1) .skeleton_txt:nth-child(3) {
+    margin-top: 8px;
+    height: 40px
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box .skeleton_txt:nth-child(1) {
+    height: 78px
+}
+
+.wrap_company_view .section .skeleton_cards2 .skeleton_card .skeleton_box .skeleton_txt:nth-child(2) {
+    margin-top: 2px;
+    width: 60px
+}
+
+/* 주요 내용 : 재무정보*/
+.cont_finance .section {
+    position: relative;
+    padding-bottom: 60px;
+    box-sizing: border-box
+}
+
+.cont_finance .invest_infos {
+    display: flex;
+    margin-bottom: 16px;
+    padding: 20px 0;
+    height: 100px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: var(--gray20);
+    align-items: stretch
+}
+
+.cont_finance .invest_infos .invest_item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex: 1;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_finance .invest_infos .invest_item:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -26px;
+    width: 1px;
+    height: 52px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_finance .invest_infos .invest_item:last-child:after {
+    display: none
+}
+
+.cont_finance .invest_infos .invest_item .tit {
+    margin-bottom: 8px;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.cont_finance .invest_infos .invest_item .value {
+    display: flex;
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 22px;
+    gap: 2px;
+    align-items: baseline
+}
+
+.cont_finance .invest_infos .invest_item .value strong {
+    font-size: 20px;
+    line-height: 28px
+}
+
+.cont_finance .wrap_finance {
+    display: flex;
+    margin-bottom: 24px;
+    font-size: 0;
+    line-height: 0;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 24px
+}
+
+.cont_finance .box_finance {
+    box-sizing: border-box;
+    letter-spacing: -1px;
+    vertical-align: top;
+    flex: 1
+}
+
+.cont_finance .box_finance:nth-child(1):nth-last-child(1) {
+    width: 100%
+}
+
+.cont_finance .box_finance .inner_box {
+    padding: 40px 24px;
+    height: 616px;
+    border: 1px solid var(--gray40);
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--white)
+}
+
+.cont_finance .area_title {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_finance .btn_infomation {
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.4' stroke='%238491A7' stroke-width='1.2'/%3E%3Cpath d='M8 6C8.552 6 9 5.552 9 5C9 4.4475 8.552 4 8 4C7.448 4 7 4.4475 7 5C7 5.552 7.448 6 8 6Z' fill='%238491A7'/%3E%3Cpath d='M8.79462 7.9067C8.74841 7.50883 8.41027 7.2 8 7.2C7.55817 7.2 7.2 7.55817 7.2 8V11.6L7.20538 11.6933C7.25159 12.0912 7.58973 12.4 8 12.4C8.44183 12.4 8.8 12.0418 8.8 11.6V8L8.79462 7.9067Z' fill='%238491A7'/%3E%3C/svg%3E%0A")
+}
+
+.cont_finance .area_title .TipBox {
+    z-index: 10
+}
+
+.cont_finance .area_title .TipTxt {
+    width: 300px;
+    white-space: normal
+}
+
+.cont_finance .tit_finance {
+    display: inline-block;
+    color: var(--gray120);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 28px;
+    vertical-align: top
+}
+
+.cont_finance .box_finance .list_summary {
+    display: flex;
+    margin-top: 40px;
+    height: 110px;
+    justify-content: stretch
+}
+
+.cont_finance .box_finance .list_summary li {
+    position: relative;
+    padding: 0 8px;
+    height: 110px;
+    box-sizing: border-box;
+    flex: 1
+}
+
+.cont_finance .box_finance .list_summary li:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 76px;
+    background: #e5e6eb;
+    content: ""
+}
+
+.cont_finance .box_finance .list_summary li:first-child:after {
+    display: none
+}
+
+.cont_finance .box_finance .list_summary strong {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--gray80);
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px
+}
+
+.cont_finance .box_finance .list_summary .num {
+    display: inline-block;
+    color: var(--gray120);
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px
+}
+
+.cont_finance .box_finance .list_summary .txt {
+    display: inline-block;
+    color: var(--gray120);
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 26px;
+    vertical-align: top
+}
+
+.cont_finance .box_finance .triangle {
+    display: inline-flex;
+    vertical-align: top;
+    align-items: center;
+    justify-content: center
+}
+
+.cont_finance .box_finance .triangle:after {
+    display: inline-block;
+    margin-right: 2px;
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    content: ""
+}
+
+.cont_finance .box_finance .triangle.increase:after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M10.9608 9.8C11.4227 9 12.5774 9 13.0392 9.8L17.456 17.45C17.9178 18.25 17.3405 19.25 16.4167 19.25H7.58327C6.65951 19.25 6.08216 18.25 6.54404 17.45L10.9608 9.8Z' fill='%23EB413F'/%3E%3C/svg%3E")
+}
+
+.cont_finance .box_finance .triangle.decrease:after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M13.0392 17.7C12.5773 18.5 11.4226 18.5 10.9608 17.7L6.54404 10.05C6.08216 9.25 6.65951 8.25 7.58327 8.25L16.4167 8.25C17.3405 8.25 17.9178 9.25 17.456 10.05L13.0392 17.7Z' fill='%232D65F2'/%3E%3C/svg%3E")
+}
+
+.cont_finance .box_finance .desc_finance {
+    margin-top: 40px;
+    height: 110px;
+    color: var(--gray120);
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.cont_finance .box_finance .desc_finance strong {
+    margin: 0 4px 0 8px;
+    font-size: 24px;
+    letter-spacing: -1.5px;
+    line-height: 33px;
+    vertical-align: bottom
+}
+
+/*차트*/
+.chart_company_grade_svg path:nth-child(1) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade_svg path:nth-child(2) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade_svg path:nth-child(3) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade_svg path:nth-child(4) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade_svg path:nth-child(5) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade_svg path:nth-child(6) {
+    fill: #b4c0d3
+}
+
+.chart_company_grade.grade01 .chart_company_grade_svg path:nth-child(6) {
+    fill: #2d64f2
+}
+
+.chart_company_grade.grade02 .chart_company_grade_svg path:nth-child(5) {
+    fill: #2d64f2
+}
+
+.chart_company_grade.grade03 .chart_company_grade_svg path:nth-child(4) {
+    fill: #2d64f2
+}
+
+.chart_company_grade.grade04 .chart_company_grade_svg path:nth-child(3) {
+    fill: #2d64f2
+}
+
+.chart_company_grade.grade05 .chart_company_grade_svg path:nth-child(2) {
+    fill: #2d64f2
+}
+
+.chart_company_grade.grade06 .chart_company_grade_svg path:nth-child(1) {
+    fill: #2d64f2
+}
+
+.chart_company_grade_cicle {
+    display: flex;
+    position: absolute;
+    top: 50px;
+    left: 23%;
+    padding-bottom: 16px;
+    width: 158px;
+    height: 130px;
+    transform-origin: center;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center
+}
+
+.chart_company_grade.grade06 .chart_company_grade_cicle {
+    transform: rotate(270deg)
+}
+
+.chart_company_grade.grade05 .chart_company_grade_cicle {
+    transform: rotate(300deg)
+}
+
+.chart_company_grade.grade04 .chart_company_grade_cicle {
+    transform: rotate(338deg)
+}
+
+.chart_company_grade.grade03 .chart_company_grade_cicle {
+    transform: rotate(20deg)
+}
+
+.chart_company_grade.grade02 .chart_company_grade_cicle {
+    transform: rotate(58deg)
+}
+
+.chart_company_grade.grade01 .chart_company_grade_cicle {
+    transform: rotate(90deg)
+}
+
+.cont_finance .box_finance.type_small .inner_box {
+    height: 400px;
+    box-sizing: border-box
+}
+
+.cont_finance .box_finance.type_small .area_graph {
+    padding-top: 27px
+}
+
+.wrap_finance .graph_container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center
+}
+
+.wrap_finance .graph_container .graph_item {
+    display: flex;
+    width: 100px;
+    height: 240px;
+    flex-flow: column-reverse wrap;
+    align-content: center;
+    align-items: center
+}
+
+.wrap_finance .graph_container .graph_item.top .label {
+    color: var(--blue90)
+}
+
+.wrap_finance .graph_container .graph_item .label {
+    display: flex;
+    margin-bottom: -31px;
+    padding-top: 9px;
+    height: 22px;
+    color: var(--gray100);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center
+}
+
+.wrap_finance .graph_container .graph_item .label .TipBox {
+    font-weight: normal;
+    text-align: left
+}
+
+.cont_finance .box_finance.type_small .graph_item .label .ico_tooltip {
+    margin: 0 0 0 4px;
+    font-size: 0;
+    line-height: 0
+}
+
+.cont_finance .box_finance.type_small .graph_item .label .tooltip_tit {
+    font-weight: bold
+}
+
+.wrap_finance .graph_container .graph_item .value {
+    margin-bottom: 8px;
+    color: var(--gray120);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.wrap_finance .graph_container .graph_item.top .value {
+    color: var(--blue90);
+    font-weight: bold
+}
+
+.wrap_finance .graph_container .graph_item.top .bar {
+    background-color: var(--blue90)
+}
+
+/*WMG-36086 230915*/
+.wrap_finance .graph_container .graph_item .bar {
+    z-index: 1;
+    width: 40px;
+    max-height: 200px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: var(--gray50)
+}
+
+.wrap_finance .graph_container .graph_item:nth-child(1) .bar {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_diagonal.png)
+}
+
+.wrap_finance .graph_container .graph_item:nth-child(2) .bar {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_lattice.png)
+}
+
+.wrap_finance .graph_container .graph_item:nth-child(3) .bar {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_wave.png)
+}
+
+.wrap_finance .graph_container .graph_item:nth-child(4) .bar {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_stripe.png)
+}
+
+/*WMG-36086 230915*/
+.cont_finance .wrap_finance .area_graph {
+    padding: 80px 9px 0
+}
+
+.cont_finance .wrap_finance .graph_info {
+    position: relative;
+    box-sizing: border-box
+}
+
+.cont_finance .wrap_finance .graph_info:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph {
+    float: left;
+    position: relative;
+    height: 239px;
+    text-align: center
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:after {
+    position: absolute;
+    right: 0;
+    bottom: -4px;
+    width: 1px;
+    height: 8px;
+    background: var(--gray40);
+    content: ""
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:last-of-type:after {
+    display: none
+}
+
+.cont_finance .wrap_finance .graph_info .tit_graph {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    color: var(--gray100);
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 22px;
+    text-align: center
+}
+
+.cont_finance .wrap_finance .graph_info .graph {
+    position: relative;
+    margin: 0 auto;
+    width: 40px;
+    height: 100%
+}
+
+.cont_finance .wrap_finance .graph_info .graph .inner_graph {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+    background-color: var(--gray50)
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:nth-child(1) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_diagonal.png)
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:nth-child(2) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_lattice.png)
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:nth-child(3) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_wave.png)
+}
+
+.cont_finance .wrap_finance .graph_info .wrap_graph:nth-child(4) .inner_graph {
+    background-image: url(//www.saraminimage.co.kr/sri/company/information/pat_horizontal_stripe.png)
+}
+
+.cont_finance .wrap_finance .graph_info .graph .txt_value {
+    position: absolute;
+    top: auto;
+    left: 50%;
+    margin-left: -42px;
+    padding-bottom: 8px;
+    width: 84px;
+    color: var(--gray120);
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_finance .wrap_finance .graph_info .emph .graph .txt_value {
+    color: var(--blue90);
+    font-weight: bold
+}
+
+.cont_finance .wrap_finance .graph_info .emph .graph .inner_graph {
+    background-color: var(--blue90)
+}
+
+.cont_finance .wrap_finance .graph_info .emph .tit_graph {
+    color: var(--blue90)
+}
+
+.cont_finance .wrap_finance .graph_info .grid_range {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    z-index: 0
+}
+
+.cont_finance .wrap_finance .graph_info .grid_range .range {
+    display: block;
+    position: relative;
+    height: 40px;
+    border-bottom: 1px solid var(--gray30);
+    box-sizing: border-box;
+    text-align: right
+}
+
+.cont_finance .wrap_finance .graph_info .grid_range .range.baseline {
+    border-color: var(--gray70)
+}
+
+.cont_finance .wrap_finance .graph_info .grid_range .range span {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: -10px;
+    color: var(--gray100);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.cont_finance .wrap_finance .graph_info .minus .graph {
+    height: 199px
+}
+
+.cont_finance .wrap_finance .graph_info .minus .graph .inner_graph {
+    top: 0;
+    border-radius: 0 0 4px 4px
+}
+
+.cont_finance .wrap_finance .graph_info .minus .graph .txt_value {
+    padding-top: 7px;
+    padding-bottom: 0
+}
+
+.cont_finance .graph_type2.area_graph {
+    padding: 40px 24px 0
+}
+
+.cont_finance .graph_type2 .graph_info .wrap_graph {
+    padding-bottom: 160px;
+    height: 280px;
+    box-sizing: border-box
+}
+
+.cont_finance .graph_type2 .graph_info .wrap_graph.minus {
+    padding-top: 121px;
+    padding-bottom: 0
+}
+
+.cont_finance .graph_type2 .graph_info .minus .graph {
+    height: 119px
+}
+
+.cont_finance .wrap_finance .wrap_graph:nth-child(1):nth-last-child(1) {
+    width: 100%
+}
+
+.cont_finance .wrap_finance .wrap_graph:nth-child(1):nth-last-child(2), .cont_finance .wrap_finance .wrap_graph:nth-child(2):nth-last-child(1) {
+    width: 50%
+}
+
+.cont_finance .wrap_finance .wrap_graph:nth-child(1):nth-last-child(3), .cont_finance .wrap_finance .wrap_graph:nth-child(2):nth-last-child(2), .cont_finance .wrap_finance .wrap_graph:nth-child(3):nth-last-child(1) {
+    width: 33.33%
+}
+
+.cont_finance .wrap_finance .wrap_graph:nth-child(1):nth-last-child(4), .cont_finance .wrap_finance .wrap_graph:nth-child(2):nth-last-child(3), .cont_finance .wrap_finance .wrap_graph:nth-child(3):nth-last-child(2), .cont_finance .wrap_finance .wrap_graph:nth-child(4):nth-last-child(1) {
+    width: 25%
+}
+
+.cont_finance .txt_helper {
+    margin-top: 20px
+}
+
+.cont_finance .tbl {
+    width: 100%;
+    border-top: 1px solid var(--gray40);
+    border-collapse: collapse;
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+    background: var(--white)
+}
+
+.cont_finance .tbl th, .cont_finance .tbl td {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--gray30)
+}
+
+.cont_finance .tbl th {
+    font-weight: bold
+}
+
+.cont_finance .tbl .link_tbl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px
+}
+
+.cont_finance .tbl .link_tbl:after {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M13 15H4.78273C4.30992 15 3.85647 14.7495 3.52215 14.3037C3.18782 13.8579 3 13.2532 3 12.6227V5' stroke='%2367738E' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M7.49694 12H13.5031C14.3298 12 15 11.0722 15 9.92763V5.07237C15 3.92783 14.3298 3 13.5031 3H7.49694C6.67021 3 6 3.92783 6 5.07237V9.92763C6 11.0722 6.67021 12 7.49694 12Z' fill='white' stroke='%2367738E' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0 no-repeat;
+    content: ""
+}
+
+.cont_finance .finance_tooltip {
+    display: inline-block
+}
+
+.cont_finance .finance_tooltip .TipTxt {
+    width: 465px;
+    white-space: normal
+}
+
+/*연봉정보*/
+.salary_view_wrap * {
+    vertical-align: top !important
+}
+
+.salary_view_wrap .box_company_view {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 39px 47px 56px 47px;
+    border: 1px solid #e5e6eb;
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: var(--white);
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.03)
+}
+
+.cont_company_view .box_company_view:last-of-type {
+    margin-bottom: 0
+}
+
+.salary_view_wrap .box_company_view h2.title {
+    margin: 0 0 40px;
+    color: #000;
+    font-size: 24px;
+    letter-spacing: -2px;
+    line-height: 32px
+}
+
+.salary_view_wrap .wrap_tags.wrap_tags_title {
+    margin-top: 5px
+}
+
+.salary_view_wrap .wrap_tags .tag {
+    margin-top: 1px
+}
+
+.salary_view_wrap .wrap_tags .toolTipWrap {
+    margin-top: 5px
+}
+
+.salary_view_wrap .graph_wrap_legend {
+    line-height: 18px
+}
+
+.salary_view_wrap .salary_avg .info_title {
+    line-height: 24px
+}
+
+.salary_view_wrap .salary_avg .tab_avg_salary {
+    padding: 0;
+    border: 0
+}
+
+.salary_view_wrap .salary_avg .tab_avg_salary .salaryinfo .average_currency {
+    line-height: 50px
+}
+
+.salary_view_wrap .salary_avg .tab_avg_salary .salaryinfo .average_currency em {
+    vertical-align: baseline !important
+}
+
+.salary_view_wrap .salary_avg .tab_avg_salary .textinfo .info .point .spr_salary {
+    vertical-align: bottom !important
+}
+
+.salary_view_wrap .salary_avg .tab_avg_salary .textinfo .info .point em {
+    vertical-align: baseline !important
+}
+
+.salary_view_wrap .salary_suited .content_gird {
+    padding: 0;
+    border: 0
+}
+
+.salary_view_wrap .salary_suited .content_gird .wrap_select {
+    font-size: 0
+}
+
+.salary_view_wrap .salary_suited .content_gird .inpSel {
+    margin-right: 8px
+}
+
+.salary_view_wrap .salary_suited .content_gird .inpSel>select {
+    width: 208px
+}
+
+.salary_view_wrap .salary_suited .content_gird .input_box {
+    margin-right: 8px;
+    width: 210px;
+    line-height: 48px
+}
+
+.salary_view_wrap .salary_suited .content_gird .btn_biggest_type02 {
+    width: 210px
+}
+
+.salary_view_wrap .salary_suited .content_gird .txt_notice01 {
+    line-height: 27px
+}
+
+.salary_view_wrap .salary_suited .content_gird .txt_notice02 {
+    line-height: 18px
+}
+
+.salary_view_wrap .salary_suited .content_gird .notice_list li {
+    line-height: 18px
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary {
+    padding: 64px 0 0 0;
+    border: 0;
+    background-color: #fff
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .title_result {
+    line-height: 32px
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .content_gird {
+    padding: 48px;
+    border: 1px solid #f1f2f3
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary p.title {
+    margin-top: 40px;
+    line-height: 28px
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .salary_matching_list .item_list {
+    margin-left: 9px;
+    width: 282px;
+    border: 1px solid #f1f2f3
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .salary_matching_list .item_list:first-child {
+    margin-left: 0
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .salary_matching_list .item_list .company_average dd {
+    line-height: 33px
+}
+
+.salary_view_wrap .salary_suited .wrap_result_salary .salary_matching_list .item_list .company_average dd em {
+    vertical-align: baseline !important
+}
+
+.salary_view_wrap .salary_college .content_gird.univ {
+    padding: 0;
+    border: 0
+}
+
+.salary_view_wrap .salary_college .content_gird.univ .wrap_bar {
+    margin-right: 80px
+}
+
+.salary_view_wrap .salary_college .content_gird.univ .salary_graph_info {
+    float: left
+}
+
+.salary_view_wrap .category_slide .category_head {
+    width: auto;
+    border-top: 0;
+    border-left: 0
+}
+
+.salary_view_wrap .category_slide .category_head .wrap_slide {
+    margin: 0;
+    height: 48px
+}
+
+.salary_view_wrap .category_slide .category_head .wrap_slide li {
+    height: 48px
+}
+
+.salary_view_wrap .category_slide .category_head .wrap_slide li button {
+    height: 48px
+}
+
+.salary_view_wrap .category_slide .category_head .btn_all {
+    width: 90px;
+    height: 48px;
+    border-right: 0
+}
+
+.salary_view_wrap .category_slide .category_head .btn_prev {
+    right: 44px;
+    width: 44px;
+    height: 48px;
+    border-top: 1px solid #ebebeb
+}
+
+.salary_view_wrap .category_slide .category_head .btn_prev:after {
+    left: 17px
+}
+
+.salary_view_wrap .category_slide .category_head .btn_next {
+    width: 44px;
+    height: 48px;
+    border-top: 1px solid #ebebeb
+}
+
+.salary_view_wrap .category_slide .category_head .btn_next:after {
+    right: 16px
+}
+
+.salary_view_wrap .category_slide .category_contents {
+    padding: 50px 0 0 0;
+    border: 0
+}
+
+.salary_view_wrap .category_slide .category_contents .list {
+    width: auto
+}
+
+.salary_view_wrap .category_slide .category_contents .linechart_area .line_chart {
+    width: 864px
+}
+
+.salary_view_wrap .footer_company_view {
+    position: relative
+}
+
+.salary_view_wrap .footer_company_view .btn_info {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 3px 11px 0 0;
+    color: #888;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 21px;
+    text-decoration: underline;
+    background: url(//www.saraminimage.co.kr/ui/salaries/2017/ico_arr.png) 100% -341px no-repeat
+}
+
+.salary_view_wrap .footer_company_view .list_info {
+    overflow: hidden;
+    width: 100%;
+    color: #888;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 21px
+}
+
+.salary_view_wrap .footer_company_view .list_info li {
+    padding: 0 0 0 11px;
+    background: url(//www.saraminimage.co.kr/ui/salaries/2017/bul_dot.png) 0 11px no-repeat
+}
+
+.salary_view_wrap .footer_company_view .list_info li+li {
+    margin-top: 7px
+}
+
+.salary_view_wrap .footer_company_view .list_info .txt_emph {
+    text-decoration: underline
+}
+
+/* 네이버 참여기업 */
+.lpop_job_view {
+    display: none;
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    z-index: 1100;
+    margin-left: -512px;
+    width: 1024px;
+    height: 768px;
+    border: solid 1px #0a0a0a;
+    background-color: #fff;
+    box-shadow: 0 12px 13px 0 rgba(0, 0, 0, 0.1)
+}
+
+.lpop_job_view .inner {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 40px 23px 140px;
+    height: 768px;
+    box-sizing: border-box
+}
+
+.lpop_job_view .cont_view {
+    margin: 0 auto;
+    width: 960px
+}
+
+.lpop_job_view .btn_close {
+    position: absolute;
+    top: -41px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: url(//www.saraminimage.co.kr/sri/theme/incheon/btn/btn_close.png) no-repeat
+}
+
+.lpop_job_view .box_pagetxt {
+    position: relative;
+    margin-top: 90px;
+    padding: 39px 30px;
+    width: 960px;
+    height: auto;
+    min-height: 120px;
+    border: 1px solid #ebebeb;
+    box-sizing: border-box;
+    text-align: center
+}
+
+.lpop_job_view .box_pagetxt:after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 194px;
+    height: 118px;
+    background: url(//www.saraminimage.co.kr/sri/common/bg/bg_interview01.png) 0 0 no-repeat;
+    content: ""
+}
+
+.lpop_job_view .box_pagetxt .txt {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    max-height: 44px;
+    color: #888;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 22px
+}
+
+.lpop_job_view .box_pagetxt .txt em {
+    font-weight: bold
+}

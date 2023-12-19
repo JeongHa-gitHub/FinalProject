@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.InterviewMgmtDAO">
+	<resultMap type="ScrapVO" id="scrapMap" autoMapping="true">
+	
+		<association property="recruit" autoMapping="true" />
+		<association property="company" autoMapping="true" />
+	</resultMap>
+	<select id="selectInterview" parameterType="String"
+		resultType="InterviewReviewVO">
+		SELECT
+		    INTREV_NO, INTR_NO, INTERV_OVRL_EVLTN, INTERV_DIFFICULTY, 
+		    INTERVIEW_TYPICAL, INTERV_PERSONNEL, INTERV_PROCESS, 
+		    INTERV_QUESTION, INTERV_TIP, INTERV_PASS, INTERV_WDATE, 
+		    INTERV_APPROVAL, INTERV_REPORT
+		FROM INTERVIEW_REVIEW
+		WHERE INTREV_NO = #{intrevNo}
+	</select>
+
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'intrevNo'">
+						INSTR(INTREV_NO, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'intrNo'">
+						INSTR(INTR_NO, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(INTREV_NO, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(INTR_NO, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM INTERVIEW_REVIEW
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectInterviewList" parameterType="PaginationInfo"
+		resultType="InterviewReviewVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		    INTREV_NO, INTR_NO, INTERV_OVRL_EVLTN, INTERV_DIFFICULTY, 
+		    INTERVIEW_TYPICAL, INTERV_PERSONNEL, INTERV_PROCESS, 
+		    INTERV_QUESTION, INTERV_TIP, INTERV_PASS, 
+		    TO_CHAR(INTERV_WDATE, 'YYYY.MM.DD') AS INTERV_WDATE, 
+		    DECODE(INTERV_APPROVAL,'Y','승인','N','반려','W','미확인','미확인') INTERV_APPROVAL,
+    		DECODE(INTERV_REPORT,'Y','지급완료','미지급') INTERV_REPORT
+		FROM INTERVIEW_REVIEW
+		<include refid="searchFrag" />
+		 ORDER BY INTERV_WDATE DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	
+	<resultMap type="InterviewReviewVO" id="interviewDetailMap" autoMapping="true">
+		<association property="interviewSchdVO" autoMapping="true" javaType="InterviewSchdVO">
+			<association property="apply" autoMapping="true" />
+		</association>
+	</resultMap>
+	
+	
+	<select id="selectInterviewInfo" resultMap="interviewDetailMap" parameterType="String" resultType="InterviewReviewVO">
+		SELECT
+		    USERS_ID, a.INTREV_NO, a.INTR_NO, a.INTERV_OVRL_EVLTN, a.INTERV_DIFFICULTY, 
+		    a.INTERVIEW_TYPICAL, a.INTERV_PERSONNEL, a.INTERV_PROCESS, a.INTERV_QUESTION, a.INTERV_TIP, 
+		    a.INTERV_PASS, a.INTERV_WDATE, a.INTERV_APPROVAL, a.INTERV_REPORT
+		FROM INTERVIEW_REVIEW a JOIN INTERVIEW_SCHD b ON (a.INTR_NO = b.INTR_NO)
+		JOIN APPLY c ON (b.APL_NO = c.APL_NO)
+		WHERE a.INTREV_NO = #{intrevNo}
+	</select>
+	
+	<!-- 승인 여부 저장 -->
+	<update id="updatePassStatus" parameterType="InterviewReviewVO">
+		UPDATE
+			INTERVIEW_REVIEW
+		SET
+			<if test='intervApproval eq "unconfirmed"'>
+				INTERV_APPROVAL='W'
+			</if>
+			<if test='intervApproval eq "pass"'>
+				INTERV_APPROVAL='Y',
+				INTERV_REPORT='Y'
+			</if>
+			<if test='intervApproval eq "fail"'>
+				INTERV_APPROVAL='N'
+			</if>
+		WHERE
+			INTREV_NO = #{intrevNo}
+				
+	</update>
+</mapper>
+
+
+

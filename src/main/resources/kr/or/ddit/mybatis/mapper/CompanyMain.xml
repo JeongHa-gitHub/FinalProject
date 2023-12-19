@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.CompanyMainDAO">
+	
+	<select id="selectClosedRecruitProcedureCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			RECRUIT
+		WHERE
+			<![CDATA[
+			RCRT_EDATE<SYSDATE
+			]]>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+			AND COMPANY_ID=#{authId}
+			</if>
+			
+	</select>
+	
+	<select id="selectUnclosedRecruitProcedureCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			RECRUIT
+		WHERE
+			<![CDATA[
+			RCRT_EDATE>SYSDATE
+			]]>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+			AND COMPANY_ID= #{authId}
+			</if>
+			
+	</select>
+
+	<select id="selectClosedRecruitProcedureList" resultType="RecruitVO" parameterType="string">
+		SELECT RCRT_TITLE, RCRT_NO
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT RCRT_TITLE, RCRT_NO
+			        FROM
+			            RECRUIT
+			        WHERE
+			            <![CDATA[
+			            RCRT_EDATE<SYSDATE
+			            ]]>
+			           <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+						AND COMPANY_ID= #{authId}
+						</if>
+			        ORDER BY RCRT_DATE DESC
+			    ) A
+			) B
+		WHERE
+			 <![CDATA[
+		    RNUM <=2
+		     ]]>
+	</select>
+	
+	<select id="selectUnclosedRecruitProcedureList" resultType="RecruitVO" parameterType="string">
+		SELECT RCRT_TITLE, RCRT_NO
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT RCRT_TITLE, RCRT_NO
+			        FROM
+			            RECRUIT
+			        WHERE
+			            <![CDATA[
+			            RCRT_EDATE>SYSDATE
+			            ]]>
+			            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(authId)">
+						AND COMPANY_ID= #{authId}
+						</if>
+			        ORDER BY RCRT_DATE DESC
+			    ) A
+			) B
+		WHERE
+			 <![CDATA[
+		    RNUM <=2
+		     ]]>
+	</select>
+	
+	<select id="selectNoticeList" resultType="NoticeVO" parameterType="string">
+		SELECT NOTICE_TITLE, TO_CHAR(NOTICE_DATE, 'YYYY.MM.DD') AS NOTICE_DATE
+			FROM(
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT NOTICE_TITLE, NOTICE_DATE
+			        FROM
+			            NOTICE
+			        WHERE NOTICE_DELETE = 'N'
+			        ORDER BY NOTICE_DATE DESC
+			    ) A
+			) B
+	</select>
+	
+	<resultMap type="CompanyVO" id="cmpyDetailMap" autoMapping="true">
+		<id property="companyId" column="COMPANY_ID" />
+		<association property="comInfo" autoMapping="true"/>		
+	</resultMap>
+	<select id="selectCompanyList" resultMap="cmpyDetailMap" parameterType="String">
+			SELECT COMINFO_FILE, COMPANY_NM, COMPANY_DNM,
+			       CASE COMPANY_PERMISSION
+			           WHEN 'Y' THEN '승인'
+			           WHEN 'N' THEN '반려'
+			           WHEN 'U' THEN '미확인'
+			           ELSE '미확인'
+			       END AS COMPANY_PERMISSION
+			FROM (
+			    SELECT ROWNUM RNUM, A.*
+			    FROM (
+			        SELECT CO.COMINFO_FILE, C.COMPANY_NM, C.COMPANY_DNM, C.COMPANY_PERMISSION
+			        FROM COMPANY C
+			        INNER JOIN COMINFO CO ON C.COMPANY_ID = CO.COMPANY_ID
+			        WHERE C.COMPANY_ID = #{authId}
+			    ) A
+			) B
+	</select>
+	
+	<select id="retrievecountValidImgAdvrtList" resultType="int" parameterType="String" >
+		<![CDATA[
+			SELECT
+			count(*)
+		FROM
+		    imgadpay B, imgadmnmt A, company C
+		WHERE
+		    B.company_id = C.company_id
+		    AND B.company_id=#{authId}
+            AND B.imgad_no = A.imgad_no
+		    AND TRUNC(SYSDATE) >= TRUNC(imgad_sdate)
+		    AND TRUNC(SYSDATE) <= TRUNC(imgad_edate)
+	    ]]>	
+	</select>
+	
+	<select id="retrievecountValidCmpAdvrtList" resultType="int" parameterType="String">
+	<![CDATA[
+		SELECT
+			count(*)
+		FROM
+		    cmpadpay B, cmpadmnmt A, company C
+		WHERE
+		    B.company_id = C.company_id
+		    AND B.company_id=#{authId}
+		    AND B.cmpad_no = A.cmpad_no
+		    AND TRUNC(SYSDATE) >= TRUNC(cmpad_sdate)
+		    AND TRUNC(SYSDATE) <= TRUNC(cmpad_edate)
+	   ]]>
+	</select>
+	
+</mapper>

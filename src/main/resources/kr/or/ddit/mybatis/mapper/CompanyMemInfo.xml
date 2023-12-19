@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.CompanyMemInfoDAO">
+<!-- 
+ * @author 김태형
+ * @since 2023.11.16
+ * @version 1.0
+ -->
+
+	<resultMap type="MemberVO" id="memberMap" autoMapping="true">
+	<id property="memId" column="MEM_ID" />
+	<association property="company" autoMapping="true" />
+	</resultMap>
+	<select id="selectCompany" parameterType="String" resultMap="memberMap">
+		SELECT
+			MEM_ID
+			, MEM_PASS
+			, COMPANY_ID
+			, COMPANY_NUM
+			, COMPANY_PERMISSION
+			, COMPANY_DNM
+			, MEM_TEL
+			, MEM_MAIL
+		FROM MEMBER JOIN COMPANY ON(MEM_ID=COMPANY_ID)
+		WHERE MEM_ID=#{memId}
+	</select>
+	
+	<!-- 수정 -->
+	<update id="updateMember" parameterType="MemberVO">
+	    UPDATE MEMBER
+	    SET
+	        MEM_PASS = #{memPass,jdbcType=VARCHAR}
+	        , MEM_TEL = #{memTel,jdbcType=VARCHAR}
+	        , MEM_MAIL = #{memMail,jdbcType=VARCHAR}
+	    WHERE MEM_ID = #{memId}
+	</update>
+	
+	<update id="updateCompany" parameterType="MemberVO">
+	    UPDATE COMPANY
+	    SET
+	        COMPANY_DNM = #{companyDnm,jdbcType=VARCHAR}
+	        , COMPANY_NM = #{companyNm,jdbcType=VARCHAR}
+	    WHERE COMPANY_ID = #{companyId}
+	</update>
+	
+	<!-- 탈퇴 -->
+	<delete id="deleteCompany" parameterType="string">
+	UPDATE MEMBER
+	SET
+		MEM_DELETE = 'Y'
+	WHERE MEM_ID = #{memId}
+	</delete>
+	
+	<!-- 기업마이페이지 수정 
+	public int editMemberPost(MemberVO memberVO);
+	 //memberVO : MemberVO(memId=kf001, memPass=1234, memTel=010-3755-2525, memMail=k11@google.com, memZip=0, memAddr1=null
+	 //, memAddr2=null, memDivision=null, memDelete=null, users=null, 
+	 //company=CompanyVO(companyId=null, companyNum=0, companyDnm=이서하, companyNm=null, companyDate=null, 
+	 //companyPermission=null, companyFile=null))
+	-->
+	<update id="editMemberPost" parameterType="MemberVO">
+		UPDATE MEMBER
+		SET    MEM_TEL=#{memTel},
+			   <if test="memPass!=null and memPass!=''">
+			  	 MEM_PASS=#{memPass},
+			   </if>
+			   MEM_MAIL=#{memMail}
+		WHERE  MEM_ID = #{memId}
+	</update>
+	<!-- 기업체 명 수정
+	public int editCompanyPost(MemberVO memberVO);-->
+	<update id="editCompanyPost" parameterType="MemberVO">
+		UPDATE COMPANY
+		SET    COMPANY_DNM = #{company.companyDnm}
+		WHERE  COMPANY_ID = #{memId}
+	</update>
+	
+	<!-- 기업회원 탈퇴 -->
+	<update id="exitPost" parameterType="String">
+		UPDATE MEMBER
+		SET    MEM_DELETE = 'Y'
+		WHERE  MEM_ID = #{memId}
+	</update>
+</mapper>
+
+
+

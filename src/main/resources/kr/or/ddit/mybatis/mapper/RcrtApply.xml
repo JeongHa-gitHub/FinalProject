@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.RcrtApplyDAO">
+	
+	<!-- 채용절차(서류, 기술시험 등)목록 조회 -->
+	<select id="selectRecruitProcedure" parameterType="String" resultType="RProcedureVO">
+		SELECT
+		    RCRT_NO
+		    , RPROC_ORDER
+		    , RPROC_TYPENO
+		    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+		    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+		    , RPROC_END
+		    , TEST_NO
+		    , COM_CODE_NM
+		FROM
+		    R_PROCEDURE LEFT OUTER JOIN TB_COM_CODE ON RPROC_TYPENO=COM_CODE
+		WHERE
+			RCRT_NO=#{rcrtNo}
+		ORDER BY RPROC_ORDER ASC
+	</select>
+	
+	<!-- 채용절차(서류, 기술시험 등) 상세조회 -->
+	<select id="selectCurrentProcedureInfo" parameterType="HashMap" resultType="RProcedureVO">
+		SELECT
+		    RCRT_NO
+		    , RPROC_ORDER
+		    , RPROC_TYPENO
+		    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+		    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+		    , RPROC_END
+		    , TEST_NO
+		    , COM_CODE_NM
+		FROM
+		    R_PROCEDURE LEFT OUTER JOIN TB_COM_CODE ON RPROC_TYPENO=COM_CODE
+		WHERE
+			RCRT_NO=#{rcrtNo}
+			AND RPROC_ORDER=#{rprocOrder}
+	</select>
+	
+	<resultMap type="ApplyVO" id="ApplicantListMap" autoMapping="true">
+		<association property="users" autoMapping="true"/>
+		<association property="interviewVO" autoMapping="true"/>
+		<association property="recruit" autoMapping="true" />
+		<association property="company" javaType="CompanyVO">
+			<result property="companyNm" column="COMPANY_NM"/>
+		</association>
+		<association property="procedure_a" autoMapping="true" />
+		<association property="procedure_r" autoMapping="true" />
+		<association property="code" autoMapping="true" />
+	</resultMap>
+	<!-- 서류 전형 합격여부 확인 조회  -->
+	<select id="selectResumeApplicant" resultMap="ApplicantListMap" parameterType="ApplyVO">
+		WITH APROCVIEW AS (
+			SELECT  AP.RCRT_NO,AP.APL_NO, RPROC_ORDER, USERS_ID, APROC_DATE, APROC_PASS, APROC_SCR, R.RESSC_NO, RESUME_TITLE
+			FROM APPLY AP INNER JOIN A_PROCEDURE APE ON AP.APL_NO = APE.APL_NO
+			            LEFT OUTER JOIN RESUME_SC R ON AP.RESSC_NO=R.RESSC_NO
+		)
+		, RPROCVIEW AS (
+			SELECT DISTINCT RE.RCRT_NO, RCRT_TITLE, RPROC_ORDER, RPROC_SDATE, RPROC_EDATE, RPROC_END, TEST_NO, COMPANY_NM
+			FROM RECRUIT RE LEFT OUTER JOIN R_PROCEDURE RPE ON RE.RCRT_NO = RPE.RCRT_NO
+			            LEFT OUTER JOIN COMPANY COM ON RE.COMPANY_ID = COM.COMPANY_ID
+		)
+		SELECT
+			DISTINCT
+			    A.APL_NO
+			    , A.RCRT_NO
+			    , COMPANY_NM
+			    , RCRT_TITLE
+			    , R.RPROC_ORDER
+			    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+			    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+			    , APROC_PASS
+			    , RPROC_END
+			    , TO_CHAR(APROC_DATE, 'YYYY-MM-DD') "aprocDate"
+			    , A.USERS_ID
+			    , RESSC_NO
+			    , RESUME_TITLE
+		FROM
+		    APROCVIEW A INNER JOIN RPROCVIEW R ON A.RCRT_NO = R.RCRT_NO AND A.RPROC_ORDER = R.RPROC_ORDER
+		WHERE R.RCRT_NO=#{rcrtNo}
+		AND A.USERS_ID=#{usersId}
+		ORDER BY R.RPROC_ORDER				
+	</select>
+	
+	<!-- 적성/기술 면접 합격여부 확인 조회  -->
+	<select id="selectTestApplicant" resultMap="ApplicantListMap" parameterType="ApplyVO">
+		WITH APROCVIEW AS (
+			SELECT  AP.RCRT_NO,AP.APL_NO, RPROC_ORDER, USERS_ID, APROC_DATE, APROC_PASS, APROC_SCR, R.RESSC_NO, RESUME_TITLE
+			FROM APPLY AP INNER JOIN A_PROCEDURE APE ON AP.APL_NO = APE.APL_NO
+			            LEFT OUTER JOIN RESUME_SC R ON AP.RESSC_NO=R.RESSC_NO
+		)
+		, RPROCVIEW AS (
+			SELECT DISTINCT RE.RCRT_NO, RCRT_TITLE, RPROC_ORDER, RPROC_SDATE, RPROC_EDATE, RPROC_END, TEST_NO, COMPANY_NM
+			FROM RECRUIT RE LEFT OUTER JOIN R_PROCEDURE RPE ON RE.RCRT_NO = RPE.RCRT_NO
+			            LEFT OUTER JOIN COMPANY COM ON RE.COMPANY_ID = COM.COMPANY_ID
+		)
+		SELECT
+			DISTINCT
+			    A.APL_NO
+			    , A.RCRT_NO
+			    , COMPANY_NM
+			    , RCRT_TITLE
+			    , R.RPROC_ORDER
+			    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+			    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+			    , APROC_PASS
+			    , RPROC_END
+			    , TO_CHAR(APROC_DATE, 'YYYY-MM-DD') "aprocDate"
+			    , APROC_SCR
+			    , A.USERS_ID
+			    , RESSC_NO
+			    , RESUME_TITLE
+		FROM
+		    APROCVIEW A INNER JOIN RPROCVIEW R ON A.RCRT_NO = R.RCRT_NO AND A.RPROC_ORDER = R.RPROC_ORDER
+		WHERE R.RCRT_NO=#{rcrtNo}
+		AND A.USERS_ID=#{usersId}
+		ORDER BY R.RPROC_ORDER			
+	</select>
+	
+		<!-- 면접 합격여부 확인 조회  -->
+	<select id="selectInterviewApplicant" resultMap="ApplicantListMap" parameterType="ApplyVO">
+		WITH APROCVIEW AS (
+			SELECT  AP.RCRT_NO,AP.APL_NO, APE.RPROC_ORDER, AP.USERS_ID, APE.APROC_DATE, APE.APROC_PASS, APE.APROC_SCR,
+					R.RESSC_NO, RESUME_TITLE, INTR_NO, INTR_INTDATE, INTR_PLACE, INTR_TYPE, COM_CODE_NM
+			FROM APPLY AP INNER JOIN A_PROCEDURE APE ON AP.APL_NO = APE.APL_NO
+			            LEFT OUTER JOIN RESUME_SC R ON AP.RESSC_NO=R.RESSC_NO
+			            LEFT OUTER JOIN INTERVIEW_SCHD INTR ON AP.RCRT_NO = INTR.RCRT_NO AND AP.APL_NO = INTR.APL_NO
+			            LEFT OUTER JOIN TB_COM_CODE TB ON INTR.INTR_TYPE = TB.COM_CODE
+			)
+		, RPROCVIEW AS (
+			SELECT DISTINCT RE.RCRT_NO, RE.RCRT_TITLE, RPE.RPROC_ORDER, RPE.RPROC_SDATE, RPE.RPROC_EDATE, RPROC_END, RPE.TEST_NO, COM.COMPANY_NM
+			FROM RECRUIT RE LEFT OUTER JOIN R_PROCEDURE RPE ON RE.RCRT_NO = RPE.RCRT_NO
+			            LEFT OUTER JOIN COMPANY COM ON RE.COMPANY_ID = COM.COMPANY_ID
+		)
+		SELECT
+			DISTINCT
+		    A.APL_NO
+		    , A.RCRT_NO
+		    , COMPANY_NM
+		    , RCRT_TITLE
+		    , R.RPROC_ORDER
+		    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+		    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+		    , APROC_PASS
+		    , RPROC_END
+		    , TO_CHAR(APROC_DATE, 'YYYY-MM-DD') "aprocDate"
+		    , INTR_NO
+		    , TO_CHAR(INTR_INTDATE, 'YYYY-MM-DD') "intrIntdate"
+		    , INTR_PLACE
+		    , COM_CODE_NM
+		    , A.USERS_ID
+		    , RESSC_NO
+		    , RESUME_TITLE
+		FROM
+		    APROCVIEW A INNER JOIN RPROCVIEW R ON A.RCRT_NO = R.RCRT_NO AND A.RPROC_ORDER=R.RPROC_ORDER
+		WHERE R.RCRT_NO=#{rcrtNo}
+		AND A.USERS_ID=#{usersId}
+		ORDER BY R.RPROC_ORDER			
+	</select>
+	
+	<!-- 지원하기 다음 단계 조회 -->
+	<select id="selectNextProcedure" parameterType="hashMap" resultType="RProcedureVO">
+		SELECT
+		    RCRT_NO
+		    , RPROC_ORDER
+		    , RPROC_TYPENO
+		    , TO_CHAR(RPROC_SDATE, 'YYYY-MM-DD') "rprocSdate"
+		    , TO_CHAR(RPROC_EDATE, 'YYYY-MM-DD') "rprocEdate"
+		    , RPROC_END
+		    , TEST_NO
+		    , COM_CODE_NM
+		FROM
+		    R_PROCEDURE LEFT OUTER JOIN TB_COM_CODE ON RPROC_TYPENO=COM_CODE
+		WHERE
+			RCRT_NO= #{rcrtNo}
+        AND RPROC_ORDER = #{rprocOrder}+ 1  
+	</select>
+	
+	<!-- 다음 절차 지원 -->
+	<insert id="insertRecruitProcedure" parameterType="AProcedureVO">
+		INSERT INTO A_PROCEDURE
+		(
+		    APL_NO
+		    , RCRT_NO
+		    , RPROC_ORDER
+		    , APROC_DATE
+		)VALUES(
+		    #{aplNo,jdbcType=VARCHAR}
+		    , #{rcrtNo,jdbcType=VARCHAR}
+		    , #{rprocOrder,jdbcType=VARCHAR}
+		    , SYSDATE
+		)
+	</insert>
+	
+	<!-- 적성검사/기술시험 시험지 조회  -->
+	<resultMap type="TestVO" id="testDetailMap" autoMapping="true">
+		<id property="testNo" column="TEST_NO" />
+		<id property="testTitle" column="TEST_TITLE" />
+		<collection property="qstnList" ofType="TestQstnVO" autoMapping="true">
+			<id property="qstnNo" column="QSTN_NO"/>
+			<collection property="itemList" ofType="TestItemVO" autoMapping="true"/>
+		</collection>
+	</resultMap>	
+	<select id="selectTest" resultMap="testDetailMap" parameterType="TestVO">
+		SELECT 
+        A.TEST_NO
+        , A.TEST_TYPE
+        , A.TEST_TITLE
+        , B.QSTN_NO
+        , B.QSTN_ANSWER
+        , B.QSTN_CONT
+        , C.ITEM_NO
+        , C.ITEM_CONT
+       FROM
+        TEST A 
+        INNER JOIN TEST_QSTN B ON A.TEST_NO=B.TEST_NO
+        LEFT OUTER JOIN TEST_ITEM C ON C.QSTN_NO=B.QSTN_NO AND C.TEST_NO=B.TEST_NO
+        WHERE A.TEST_NO= #{testNo}
+        ORDER BY QSTN_NO, ITEM_NO ASC
+	</select>
+	
+	<!-- 적성검사/기술시험 시험지 제출  -->
+	<insert id="insertTestRecruitProcedure" parameterType="TestResultVO">
+		<selectKey keyProperty="rsltNo"  order="BEFORE" resultType="String">
+			SELECT 'RS'||LPAD(TEST_RESULT_SEQ.NEXTVAL, 6, '0') FROM DUAL
+		</selectKey>	
+	    INSERT INTO TEST_RESULT (
+	        RSLT_NO,
+	        TEST_NO,
+	        RCRT_NO,
+	        APL_NO,
+	        RPROC_ORDER,
+	        QSTN_NO,
+	        RSLT_SELECT
+	    ) VALUES (
+	        #{rsltNo,jdbcType=VARCHAR},
+	        #{testNo,jdbcType=VARCHAR},
+	        #{rcrtNo,jdbcType=VARCHAR},
+	        #{aplNo,jdbcType=VARCHAR},
+	        #{rprocOrder,jdbcType=NUMERIC},
+	        #{qstnNo,jdbcType=VARCHAR},
+	        #{rsltSelect,jdbcType=VARCHAR}
+	    )
+	</insert>
+	
+	<select id="selectAptResultScore" resultType="TestResultVO" parameterType="TestResultVO">
+	SELECT 
+	APL_NO
+	, a.QSTN_ANSWER
+	,b.RSLT_SELECT
+	FROM 
+	    TEST_QSTN a 
+	INNER JOIN TEST_RESULT b ON a.QSTN_NO = b.QSTN_NO
+	WHERE 
+	    RCRT_NO=#{rcrtNo} AND RPROC_ORDER = #{rprocOrder} 
+	    AND A.QSTN_NO = #{qstnNo}
+	AND A.TEST_NO= #{testNo} AND APL_NO= #{aplNo}
+	</select>
+	
+	<update id="aptScoreUpdate" parameterType="AProcedureVO">
+		UPDATE
+			A_PROCEDURE
+		SET
+   			APROC_SCR = #{aprocScr}
+		WHERE
+    		APL_NO = #{aplNo} 
+		AND 
+			RPROC_ORDER = #{rprocOrder}
+	</update>
+</mapper>

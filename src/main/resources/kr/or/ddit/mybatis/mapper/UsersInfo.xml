@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.UsersInfoDAO">
+<resultMap type="MemberVO" id="memberMap" autoMapping="true">
+	<id property="memId" column="MEM_ID"/>
+	<association property="users" autoMapping="true" />
+</resultMap>
+<select id="selectUsers" parameterType="string" resultMap="memberMap">
+	SELECT 
+		MEM_ID 
+		, MEM_PASS
+		, USERS_NM 
+		, TO_CHAR(USERS_BIR, 'YYYY.MM.DD')USERS_BIR
+		, USERS_GEN 
+		, USERS_IMG 
+		, MEM_MAIL
+		, MEM_TEL
+		, MEM_ZIP
+		, MEM_ADDR1
+		, MEM_ADDR2
+		, MEM_DELETE
+	FROM USERS JOIN MEMBER ON(USERS_ID=MEM_ID)
+	WHERE Mem_ID = #{memId}
+</select>
+<update id="editMemberPost" parameterType="MemberVO" >
+	UPDATE MEMBER
+	SET
+		<if test="memPass!=null and memPass!=''">
+		MEM_PASS= #{memPass}
+		 </if>
+		, MEM_MAIL = #{memMail}
+		, MEM_TEL = #{memTel}
+		, MEM_ZIP= #{memZip}
+		, MEM_ADDR1= #{memAddr1}
+		, MEM_ADDR2= #{memAddr2}
+	WHERE MEM_ID = #{memId}
+</update>
+<update id="editUsersPost" parameterType="MemberVO">
+	UPDATE USERS
+	SET 
+		USERS_NM = #{users.usersNm}
+		, USERS_BIR = #{users.usersBir}
+		, USERS_GEN = #{users.usersGen}
+		<if test="users.usersImg!=null and users.usersImg!=''">
+		, USERS_IMG = #{users.usersImg}
+		</if>
+	WHERE USERS_ID = #{memId}
+</update>
+<update id="exitPost" parameterType="string">
+	UPDATE MEMBER
+	SET
+		MEM_DELETE = 'Y'
+	WHERE MEM_ID = #{memId}
+</update>
+</mapper>

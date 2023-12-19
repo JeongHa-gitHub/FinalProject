@@ -1,0 +1,1239 @@
+@charset "utf-8"; /* 로그인 관리 */
+.wrap_social_login .wrap_title {
+    margin-bottom: 46px
+}
+
+.wrap_social_login .area_list {
+    position: relative;
+    margin-top: 80px
+}
+
+.wrap_social_login h2.title {
+    color: #383e4f;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: -2px;
+    line-height: 40px
+}
+
+.wrap_social_login h2.title .sub {
+    display: inline-block;
+    margin-left: 14px;
+    color: #9aa0aa;
+    font-size: 13px;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 16px
+}
+
+.wrap_social_login .list_social {
+    margin-top: 24px
+}
+
+.wrap_social_login .list_social:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.wrap_social_login .list_social dl {
+    float: left;
+    position: relative;
+    padding: 20px 0 20px 80px;
+    width: 236px;
+    height: 88px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 0;
+    background: #f8fafc
+}
+
+.wrap_social_login .list_social dl+dl {
+    margin-left: 17px
+}
+
+.wrap_social_login .list_social dl dt {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    vertical-align: top
+}
+
+.wrap_social_login .list_social dl dd.icon {
+    position: absolute;
+    top: 20px;
+    left: 24px;
+    padding: 12px 0 0 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.wrap_social_login .list_social dl dd.icon svg {
+    width: 24px;
+    height: 24px
+}
+
+.wrap_social_login .list_social dl dd.date {
+    display: inline-block;
+    margin-left: 8px;
+    color: #9aa0aa;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    vertical-align: top
+}
+
+.wrap_social_login .list_social dl dd.status {
+    display: block
+}
+
+.wrap_social_login .list_social dl dd.status a {
+    display: inline-block;
+    color: #9aa0aa;
+    font-size: 13px;
+    line-height: 16px;
+    vertical-align: top
+}
+
+.wrap_social_login .list_social dl.linked {
+    background: #eff5ff
+}
+
+.wrap_social_login .list_social dl.linked dt {
+    font-weight: bold
+}
+
+.wrap_social_login .title~.TblBox {
+    margin-top: 24px
+}
+
+.wrap_social_login .TblBox.tbl_login:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.wrap_social_login .TblBox.tbl_login table td {
+    letter-spacing: 0
+}
+
+.wrap_social_login .TblBox.tbl_login table td .now {
+    color: #4876ef
+}
+
+.wrap_social_login .TblBox.tbl_login table td .BtnType {
+    width: 102px;
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.wrap_social_login .TblBox.tbl_login table td .BtnType:hover {
+    background: var(--gray20)
+}
+
+.wrap_social_login .btn_table {
+    margin-top: 12px;
+    text-align: right
+}
+
+.wrap_social_login .btn_table>.BtnType {
+    display: inline-block;
+    width: 126px;
+    vertical-align: top
+}
+
+.wrap_social_login .btn_table+.PageBox {
+    margin-top: 8px
+}
+
+.wrap_social_login .btn_table+.pagination2 {
+    margin-top: 8px !important
+}
+
+.wrap_social_login .btn_table .BtnType {
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.wrap_social_login .btn_table .BtnType:hover {
+    border-color: var(--gray80);
+    background: var(--gray20)
+}
+
+.wrap_social_login .info_social_login {
+    margin-bottom: 80px;
+    color: #8491A7;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.wrap_social_login .TabBox {
+    margin-bottom: 6px;
+    padding: 0
+}
+
+/* WMG-31147 */
+.wrap_social_login .tbl_login .btn_expand {
+    position: relative;
+    color: #575D60;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    text-decoration: underline
+}
+
+.wrap_social_login .tbl_login .btn_expand:before {
+    position: absolute;
+    top: 5px;
+    right: -16px;
+    height: 6px;
+    width: 6px;
+    border: solid #5C667B;
+    border-width: 0 1px 1px 0;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg)
+}
+
+.wrap_social_login .tbl_login .btn_expand:after {
+    content: "자세히"
+}
+
+.wrap_social_login .tbl_login .service_detail td {
+    padding: 0;
+    line-height: 20px;
+    text-align: left;
+    background: #F8FAFC
+}
+
+.wrap_social_login .tbl_login .service_detail dl {
+    position: relative;
+    padding: 24px 24px 24px 194px
+}
+
+.wrap_social_login .tbl_login .service_detail dt {
+    position: absolute;
+    top: 24px;
+    left: 52px;
+    padding-left: 10px
+}
+
+.wrap_social_login .tbl_login .service_detail dt:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 1;
+    content: "\2022"
+}
+
+.wrap_social_login .tbl_login .service_detail dd {
+    color: #373F57
+}
+
+.wrap_social_login .tbl_login .service_detail dd + dd {
+    margin-top: 8px
+}
+
+.wrap_social_login .tbl_login tr.expand td.service_name {
+    font-weight: bold
+}
+
+.wrap_social_login .tbl_login tr.expand .btn_expand:before {
+    top: 8px;
+    -webkit-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    transform: rotate(225deg)
+}
+
+.wrap_social_login .tbl_login tr.expand .btn_expand:after {
+    content: "접기"
+}
+
+.wrap_social_login .no_oauth_list {
+    margin: 72px 0 46px;
+    padding: 64px 0 72px;
+    text-align: center;
+    border-top: 1px solid #DCDEE3;
+    border-bottom: 1px solid #DCDEE3
+}
+
+.wrap_social_login .no_oauth_list .txt {
+    padding-top: 156px;
+    color: #5c667b;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: -1px;
+    background: url(//www.saraminimage.co.kr/sri/person/resume/img_empty_announce.png) 50% 0 no-repeat
+}
+
+.modal_disconnect_oauth {
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    text-align: center;
+    transform: translate(-50%, -50%)
+}
+
+.modal_disconnect_oauth .modal_cont {
+    color: #5C667B;
+    font-size: 14px;
+    line-height: 20px
+}
+
+/* 비밀번호 재확인  */
+.password_confirm_wrap {
+    margin-top: 56px
+}
+
+.password_confirm_subtitle {
+    margin-bottom: 16px;
+    height: 40px;
+    color: #373f57;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1.42;
+    text-align: center
+}
+
+.password_confirm_desc {
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43;
+    text-align: center
+}
+
+.password_confirm_field {
+    margin: 40px auto 64px;
+    width: 500px;
+    border-collapse: collapse;
+    table-layout: fixed
+}
+
+.password_confirm_field th, .password_confirm_field td {
+    padding: 0;
+    height: 72px;
+    border-bottom: 1px solid #eaedf4;
+    box-sizing: border-box;
+    text-align: left;
+    vertical-align: middle
+}
+
+.password_confirm_field th {
+    margin: 12px 64px 20px 0;
+    width: 144px;
+    color: #5c667b;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.password_confirm .btn_group {
+    margin: 64px auto 136px;
+    text-align: center
+}
+
+.password_confirm_caution {
+    margin-bottom: 24px;
+    height: 24px;
+    color: #8491a7;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.password_confirm .icon_exclam {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle
+}
+
+.password_confirm .btn_submit {
+    width: 104px
+}
+
+/* 개인정보 수정 */
+.person_update {
+    margin-top: 56px
+}
+
+.person_update_sidearea {
+    float: left;
+    width: 176px
+}
+
+.person_update_sidearea .photo_wrap {
+    position: relative;
+    width: 96px;
+    height: 96px
+}
+
+.photo_wrap .photo {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    border-radius: 100%;
+    box-sizing: border-box;
+    background: #d7dce5 url(//www.saraminimage.co.kr/sri/person/img/profile_noimg.png) no-repeat center center
+}
+
+.photo_wrap .photo>img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.photo_wrap .photo_border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(150,160,181,0.2);
+    border-radius: 100%;
+    box-sizing: border-box
+}
+
+.photo_wrap .btn_photo {
+    position: absolute;
+    right: -8px;
+    bottom: 0;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #d7dce5;
+    border-radius: 100%;
+    background: #fff url(//www.saraminimage.co.kr/sri/person/ico/ico_camera.png) no-repeat center center
+}
+
+.photo_wrap:hover .btn_photo {
+    background-color: #f4f6fa
+}
+
+.photo_edit_btn {
+    display: none;
+    position: absolute;
+    top: 104px;
+    left: 72px;
+    z-index: 2;
+    padding: 9px 1px;
+    width: 114px;
+    border: 1px solid #edeef0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 2px 6px 16px 0 rgba(17, 42, 128, 0.08)
+}
+
+.photo_edit_btn>button {
+    padding: 8px 0;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43;
+    text-align: center
+}
+
+.photo_edit_btn>button:hover, .photo_edit_btn>button:focus {
+    background-color: #f4f6fa
+}
+
+.person_update_main {
+    padding-left: 176px;
+    width: 616px
+}
+
+.person_field_wrap+.person_field_wrap {
+    margin-top: 48px
+}
+
+.person_field_legend {
+    margin-bottom: 12px;
+    height: 24px;
+    color: #373f57;
+    font-size: 16px;
+    letter-spacing: -1.14px;
+    line-height: 1.5
+}
+
+.person_field_table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed
+}
+
+.person_field_table th, .person_field_table td {
+    padding: 8px 0;
+    border-bottom: 1px solid #eaedf4;
+    text-align: left
+}
+
+.person_field_table th {
+    width: 135px;
+    color: #8491a7;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 40px;
+    vertical-align: top
+}
+
+.person_field_table tr.active th {
+    color: #373f57
+}
+
+.person_field .inactive {
+    display: none
+}
+
+.person_field_body {
+    display: inline-block;
+    padding: 4px 0;
+    min-height: 32px;
+    box-sizing: border-box;
+    color: #373f57;
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 32px;
+    vertical-align: top
+}
+
+.person_field_body .empty {
+    color: #8491a7;
+    font-size: 15px;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.person_field_body .oversea_nation {
+    font-size: 14px;
+    letter-spacing: -1px
+}
+
+.person_field_sub {
+    margin-top: 4px;
+    padding: 4px 0;
+    min-height: 32px;
+    box-sizing: border-box;
+    line-height: 32px;
+    vertical-align: top
+}
+
+.person_field_body.radiogroup, .person_field_body.checkboxgroup, .person_field_sub.radiogroup, .person_field_sub.checkboxgroup {
+    padding-top: 12px
+}
+
+.person_field_body.radiogroup .InpBox, .person_field_sub.radiogroup .InpBox {
+    margin-right: 24px;
+    margin-left: -0.25em
+}
+
+.person_field_body.radiogroup .InpBox:first-child, .person_field_sub.radiogroup .InpBox:first-child {
+    margin-left: 0
+}
+
+.person_field_edit {
+    margin: -4px 0
+}
+
+.person_field_btn {
+    float: right;
+    padding: 4px 0
+}
+
+.person_field_btn button {
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.person_field_btn button:hover {
+    border-color: var(--gray80);
+    background: var(--gray20)
+}
+
+.person_field_btn button:disabled {
+    display: none
+}
+
+.person_field_btn .btn_confirm {
+    color: var(--blue90);
+    border-color: var(--blue90)
+}
+
+.person_field_btn .btn_confirm:hover {
+    background: var(--blue20)
+}
+
+.person_field .ico_social {
+    vertical-align: middle
+}
+
+.person_field .remain_time {
+    display: inline-block;
+    margin-left: 12px;
+    color: #ff6d6a;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 1.54;
+    vertical-align: middle
+}
+
+.person_field .badge {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 0 10px;
+    border-radius: 4px;
+    color: #8491a7;
+    font-size: 12px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    text-align: center;
+    background-color: #f4f6fa
+}
+
+.person_field .badge_verified {
+    color: #4876ef;
+    background-color: #eff5ff
+}
+
+.person_field .type_button {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    width: 300px;
+    height: 40px;
+    box-sizing: border-box;
+    line-height: 32px
+}
+
+.person_field .type_button input {
+    padding: 0 60px 2px 12px;
+    width: 100%;
+    box-sizing: border-box
+}
+
+.person_field .type_button input::-ms-clear {
+    display: none
+}
+
+.person_field .type_button input:-ms-input-placeholder {
+    color: #9aa0aa;
+    letter-spacing: -1px
+}
+
+.person_field .type_button input::placeholder {
+    color: #9aa0aa;
+    letter-spacing: -1px;
+    opacity: 1
+}
+
+.person_field .type_button:hover, .person_field .type_button:focus-within {
+    border-color: #4876ef
+}
+
+.person_field .type_button .btn_verify, .person_field .type_button .btn_confirm {
+    position: absolute;
+    top: 4px;
+    right: 3px;
+    z-index: 1
+}
+
+.person_field_verify .btn_confirm {
+    width: 75px
+}
+
+.person_view_address {
+    display: inline-block;
+    width: 344px;
+    line-height: 22px;
+    word-break: break-all
+}
+
+.person_view_overseascell {
+    display: inline-block;
+    height: 32px;
+    color: #8491a7;
+    font-size: 15px;
+    letter-spacing: -1px
+}
+
+.person_update_main .person_subscribe_wrap {
+    margin-top: 16px;
+    height: 24px;
+    color: #373f57;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.person_update_main .ipin_guide {
+    position: relative;
+    margin-top: 88px;
+    padding-left: 24px;
+    height: 24px;
+    box-sizing: border-box;
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px
+}
+
+.person_update_main .ipin_guide .icon_exclam {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -9px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle
+}
+
+.person_update_main .ipin_guide .ipin_link, .person_update_main .ipin_guide .pay_link {
+    color: #4876ef
+}
+
+.person_update_main .ipin_guide .ipin_link:hover, .person_update_main .ipin_guide .pay_link:hover, .person_update_main .ipin_guide .ipin_link:focus, .person_update_main .ipin_guide .pay_link:focus {
+    text-decoration: underline
+}
+
+.person_update_main .ChkSw .Lbl {
+    display: inline-block;
+}
+
+/* 개인정보마스킹 */
+.person_field_body.privacy {
+    display: block
+}
+
+.person_field_body.checkboxgroup {
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 0
+}
+
+.person_field_body.person_field_edit.privacy_edit .inpTypo.type_button input {
+    padding: 0 60px 0 12px
+}
+
+.person_field_body.person_field_edit.privacy_edit .inpTypo.type_button .btn_verify, .person_field_body.person_field_edit.privacy_edit .inpTypo.type_button .btn_confirm {
+    padding: 0;
+    width: 66px;
+    height: 32px;
+    border-radius: 4px
+}
+
+.person_field_body.person_field_edit.privacy_edit .inpTypo.type_button .btnSizeXS {
+    width: 56px
+}
+
+.person_field_body.inactive {
+    display: none
+}
+
+.person_update_main .privacy_guide {
+    margin-top: 10px;
+}
+
+/* 비밀번호 변경 */
+.update_password_wrap {
+    margin: 56px auto 0;
+    width: 500px;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.update_password_desc {
+    height: 24px;
+    color: #373f57
+}
+
+.update_password_desc_long {
+    height: 62px;
+    color: #373f57
+}
+
+.update_password_desc_long strong {
+    color: #ff0000;
+    font-weight: normal;
+}
+
+.update_password_table {
+    margin-top: 24px;
+    width: 100%;
+    border-collapse: collapse;
+    color: #5c667b;
+    table-layout: fixed
+}
+
+.update_password_table th, .update_password_table td {
+    padding: 16px 0;
+    border-bottom: 1px solid #eaedf4;
+    text-align: left
+}
+
+.update_password_table th {
+    width: 144px;
+    line-height: 50px;
+    vertical-align: top
+}
+
+.update_password_table .type_button {
+    width: 320px;
+    box-sizing: border-box
+}
+
+.update_password_table .type_button .Typo {
+    width: 100%
+}
+
+.update_password_table .btn_toggle {
+    margin-right: 16px;
+    width: 24px;
+    height: 24px;
+    color: #afbac8;
+    z-index: 1
+}
+
+.update_password_table .btn_toggle:hover, .update_password_table .btn_toggle:focus {
+    color: #8491a7
+}
+
+.update_password_table .btn_toggle>svg {
+    width: 100%;
+    height: 100%
+}
+
+.update_password_table .verified_password {
+    margin-left: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    vertical-align: middle;
+    background-color: #deebff
+}
+
+.update_password_table .verified_password use {
+    color: #5189fa
+}
+
+.update_password_new th, .update_password_new td {
+    padding-bottom: 6px;
+    border-bottom: 0
+}
+
+.update_password_new+tr th, .update_password_new+tr td {
+    padding-top: 6px
+}
+
+.update_password_table .verified_result {
+    display: none;
+    margin-top: 12px
+}
+
+.update_password_table .verified_result_bar:after {
+    display: table;
+    clear: both;
+    content: ""
+}
+
+.update_password_table .verified_result_bar span {
+    float: left;
+    margin-left: 4px;
+    width: 60px;
+    height: 4px;
+    border-radius: 2px
+}
+
+.update_password_table .verified_result_bar span:first-child {
+    margin-left: 2px
+}
+
+.verified_result.level_0, .verified_result.level_1, .verified_result.level_2 {
+    display: block;
+    color: #ff5656
+}
+
+.verified_result.level_3, .verified_result.level_4, .verified_result.level_5 {
+    display: block;
+    color: #4876ef
+}
+
+.verified_result.level_1 .verified_result_bar span, .verified_result.level_2 .verified_result_bar span {
+    background-color: #ff5656
+}
+
+.verified_result.level_3 .verified_result_bar span {
+    background-color: #94b5fc
+}
+
+.verified_result.level_4 .verified_result_bar span {
+    background-color: #5189fa
+}
+
+.verified_result.level_5 .verified_result_bar span {
+    background-color: #3769ed
+}
+
+.verified_result.level_0 .verified_result_bar span, .verified_result.level_1 .verified_result_bar span:not(:first-child), .verified_result.level_2 .verified_result_bar span:nth-of-type(2)~span, .verified_result.level_3 .verified_result_bar span:nth-of-type(n + 3)~span, .verified_result.level_4 .verified_result_bar span:nth-of-type(n + 4)~span {
+    background-color: #eaedf4
+}
+
+.update_password_table .verified_result_text {
+    margin: 8px 0;
+    width: 320px;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 1.54
+}
+
+.update_password_caution {
+    margin: 40px 0 56px;
+    width: 470px;
+    color: #8491a7;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 1.43
+}
+
+.password_caution_title {
+    display: inline-block;
+    margin-bottom: 8px;
+    height: 24px;
+    font-weight: bold
+}
+
+.update_password_caution .icon_exclam {
+    width: 24px;
+    height: 24px;
+    color: #8491a7;
+    vertical-align: middle
+}
+
+.password_caution_list>li {
+    padding-left: 1em;
+    word-break: keep-all
+}
+
+.password_caution_list>li:before {
+    margin-left: -0.75em;
+    padding-right: 0.25em;
+    color: #5c667b;
+    content: "·"
+}
+
+.password_caution_list>li>strong {
+    color: #373f57;
+    font-weight: normal
+}
+
+.update_password_btns {
+    margin: 0 auto;
+    text-align: center
+}
+
+.update_password_btns .BtnType {
+    width: 104px
+}
+
+.update_password_btns .BtnType:not(.btn_submit) {
+    color: var(--blue90);
+    border-color: var(--blue90);
+    background: var(--white)
+}
+
+.update_password_btns .BtnType:not(.btn_submit):hover {
+    background: var(--blue20)
+}
+
+.update_password_btns .BtnType+.BtnType {
+    margin-left: 8px
+}
+
+.update_password_btns .btn_next {
+    width: 150px
+}
+
+.social_loggedin_noti {
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -125px;
+    width: 400px;
+    height: 250px;
+    text-align: center
+}
+
+/*WMG-33736*/
+.login_input_wrap .setting .setting_inp {
+    margin-right: 8px;
+}
+
+.login_input_wrap .setting .setting_label {
+    color: #373f57;
+    margin-right: 12px;
+}
+
+.login_input_wrap .login-form .id-input-box, .login_input_wrap .login-form .pw-input-box {
+    position: relative
+}
+
+.login_input_wrap .signup-forgotten .sign_up:after {
+    position: absolute;
+    content: "";
+    background-color: #373f57;
+    width: 1px;
+    height: 14px;
+    top: 6px;
+    right: -8px;
+}
+
+.login_input_wrap .signup-forgotten .sign_up, .login_input_wrap .signup-forgotten .forgotten, .login_input_wrap .signup-forgotten .link_rater {
+    color: #373f57;
+}
+
+.login_input_wrap .signup-forgotten .link_rater {
+    margin-left: auto;
+    letter-spacing: -0.5px;
+    text-decoration: underline;
+}
+
+.login_input_wrap .social_login .login_naver, .login_input_wrap .social_login .login_kakao, .login_input_wrap .social_login .login_google, .login_input_wrap .social_login .login_facebook, .login_input_wrap .social_login .login_apple {
+    position: relative
+}
+
+.login_message h3 em {
+    font-weight: bold;
+    color: #2d65f2
+}
+
+/* 사람인과 연결된 서비스 */
+.connect_service {
+    margin-bottom: 80px
+}
+
+.connect_service .sub_txt {
+    margin-top: 16px;
+    color: #8491a7;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -1px
+}
+
+.wrap_social_login .TblBox table .service_info td .service_more {
+    display: inline-flex;
+    align-items: center;
+    color: #5c667b;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    text-decoration: underline
+}
+
+.wrap_social_login .TblBox table .service_info td .service_more:after {
+    margin-left: 8px;
+    width: 12px;
+    height: 6px;
+    background: url("data:image/svg+xml,%3Csvg width='12' height='6' viewBox='0 0 12 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 5.11466L10.6206 0.849449C10.7728 0.708972 11.0101 0.718462 11.1506 0.870645C11.291 1.02283 11.2815 1.26007 11.1294 1.40055L6.25436 5.90055C6.11071 6.03315 5.8893 6.03315 5.74565 5.90055L0.870647 1.40055C0.718464 1.26007 0.708974 1.02283 0.849451 0.870645C0.989927 0.718462 1.22717 0.708972 1.37936 0.849449L6 5.11466Z' fill='%235C667B'/%3E%3C/svg%3E%0A") no-repeat;
+    content: ''
+}
+
+.wrap_social_login .TblBox table .service_info.active td .service_more:after {
+    transform: rotate(180deg)
+}
+
+.wrap_social_login .TblBox table .service_detail td {
+    padding: 24px 52px;
+    text-align: left;
+    border: none;
+    background: #f4f6fa
+}
+
+.wrap_social_login .TblBox table .service_detail td .detail_box {
+    display: flex;
+    align-items: flex-start;
+    color: #373f57;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -1px
+}
+
+.wrap_social_login .TblBox table .service_detail td .detail_box h5 {
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    color: #5c667b
+}
+
+.wrap_social_login .TblBox table .service_detail td .detail_box h5:before {
+    display: inline-block;
+    margin-right: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #5c667b;
+    content: ''
+}
+
+.wrap_social_login .TblBox table .service_detail td .detail_box ul li+li {
+    margin-top: 8px
+}
+
+.wrap_social_login .TblBox table .service_detail {
+    display: none
+}
+
+.wrap_social_login .TblBox table .active+.service_detail {
+    display: table-row
+}
+
+.wrap_social_login .TblBox table .service_none td {
+    padding: 72px 0 79px;
+    border-bottom: 1px solid #eaedf4;
+    text-align: center
+}
+
+.wrap_social_login .TblBox table .service_none .txt {
+    padding: 163px 0 14px;
+    color: #5c667b;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    letter-spacing: -1px;
+    background: url(//www.saraminimage.co.kr/sri/person/resume/img_empty_announce.png) 50% 0 no-repeat
+}
+
+/* 소셜 가입자 개인정보 수정 */
+.password_confirm_field.social_join .social_check.line {
+    border-top: 1px solid #eaedf4
+}
+
+.password_confirm_field.social_join .social_check .InpBox {
+    padding: 22px 0;
+    width: 100%;
+    display: inline-block;
+    border-bottom: 1px solid #eaedf4
+}
+
+.password_confirm_field.social_join .social_check ul {
+    padding: 16px 0
+}
+
+.password_confirm_field.social_join .social_check ul li {
+    display: flex;
+    flex-direction: row
+}
+
+.password_confirm_field.social_join .social_check ul li:first-child {
+    margin-bottom: 8px
+}
+
+.password_confirm_field.social_join .social_check .wrap_lab {
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+    color: #5c667b;
+    width: 25%
+}
+
+.password_confirm_field.social_join .social_check .wrap_input .box_input {
+    display: flex;
+    align-items: center;
+    width: 337px
+}
+
+.password_confirm_field.social_join .social_check .wrap_input .box_input.TypoBox .Typo {
+    width: 100%
+}
+
+.password_confirm_field.social_join .social_check .wrap_input .box_input .BtnType {
+    flex-shrink: 0;
+    margin-right: 4px;
+    width: 80px
+}
+
+.password_confirm_field.social_join input[type="number"]::-webkit-outer-spin-button, .password_confirm_field.social_join input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.password_confirm_field.social_join .social_check .wrap_input .box_input .expiredin {
+    position: absolute;
+    right: 100px;
+    display: inline-block;
+    font-size: 13px;
+    color: #d63131;
+    line-height: 48px;
+    height: 48px
+}
+
+.password_confirm_field.social_join .social_check .wrap_input .box_input input.number {
+    padding-right: 190px
+}
+
+.password_confirm_field.social_join .social_check.line_bottom {
+    border-bottom: 1px solid #eaedf4
+}
+
+/* 사람인 계정 연결을 해제하시겠습니까? */
+.ModalBox.disconnect_modal {
+    margin: 0;
+    transform: translate(-50%, -50%)
+}
+
+.ModalBox.disconnect_modal .Tit {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 30px;
+    letter-spacing: -1px
+}
+
+.ModalBox.disconnect_modal .Txt {
+    margin-top: 24px
+}
+
+.ModalBox.disconnect_modal .Tit span {
+    max-width: 200px
+}
+
+.ModalBox.disconnect_modal span {
+    display: inline-block;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: top
+}
+
+.ModalBox.disconnect_modal .BtmArea .BtnType {
+    width: 120px
+}
+
+.ModalBox.disconnect_modal .BtmArea .BtnType.btn_close {
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.ModalBox.disconnect_modal .BtmArea .BtnType.btn_close:hover {
+    background: var(--gray20)
+}

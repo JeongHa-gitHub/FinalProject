@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.common.dao.JobCodeDAO">
+
+<!-- 직업 상위코드 -->
+<select id="selectTcode" resultType="JobCodeVO">
+
+SELECT
+    job_code,
+    job_nm,
+    tjob_code
+FROM
+    job_code
+WHERE tjob_code is null
+
+</select>
+
+<!-- 직업 하위코드 -->
+<select id="selectCode" resultType="JobCodeVO" parameterType="string">
+
+SELECT
+    job_code,
+    job_nm,
+    tjob_code
+FROM
+    job_code
+<where>
+	<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(regCode)">
+		tjob_code =#{tjobCode,jdbcType=VARCHAR}
+	</if>
+	and tjob_code is not null
+</where>
+</select>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

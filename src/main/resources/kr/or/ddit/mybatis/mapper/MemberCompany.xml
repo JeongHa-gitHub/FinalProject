@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.MemberCompanyDAO">
+
+	<resultMap type="MemberVO" id="memberDetailMap" autoMapping="true">
+		<id property="memId" column="MEM_ID" />
+		<association property="company" autoMapping="true" />
+		
+	</resultMap>
+	<select id="selectMember" resultMap="memberDetailMap" parameterType="String">
+		SELECT
+		    mem_id,
+		    mem_tel,
+		    mem_mail,
+		    mem_zip,
+		    mem_addr1,
+		    mem_addr2,
+		    mem_division,
+		    mem_delete,    
+		    company_id,
+		    company_num,
+		    company_file,
+		    company_dnm,
+		    company_nm,
+		    company_date,
+		    company_permission
+		FROM
+		    member inner join company on(mem_id=company_id)
+	</select>
+
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'companyNum'">
+						INSTR(COMPANY_NUM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'companyNm'">
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(COMPANY_NUM, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.memDivision)">
+				<choose>
+					<when test='variousCondition.memDivision eq "H03"'>
+						AND MEM_DIVISION = 'H03'
+					</when>
+					<otherwise>
+						AND WHERE MEM_DIVISION = 'H02'
+					</otherwise>
+					
+				</choose>
+			</if>
+		</trim>
+	</sql>
+
+	<select id="countMembers" parameterType="PaginationInfo" resultType="int">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		 	mem_id,
+		    mem_tel,
+		    mem_mail,
+		    mem_zip,
+		    mem_addr1,
+		    mem_addr2,
+		    mem_division,
+		    DECODE(MEM_DELETE,'Y','탈퇴회원',' ') MEM_DELETE,
+		    company_id,
+		    company_num,
+		    company_file,
+		    company_dnm,
+		    company_nm,
+		    company_date,
+		    company_permission
+		FROM member inner join company on(mem_id=company_id)
+		<include refid="searchFrag" />
+		ORDER BY MEM_ID DESC
+		)A
+		)
+		SELECT count(*) FROM ORDEREDBRD
+	</select>
+
+
+	<select id="selectMemberList" parameterType="PaginationInfo" resultMap="memberDetailMap">
+		
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		 	mem_id,
+		    mem_tel,
+		    mem_mail,
+		    mem_zip,
+		    mem_addr1,
+		    mem_addr2,
+		    mem_division,
+		    DECODE(MEM_DELETE,'Y','탈퇴회원',' ') MEM_DELETE,
+		    company_id,
+		    company_num,
+		    company_file,
+		    company_dnm,
+		    company_nm,
+		    company_date,
+		    company_permission
+		FROM member inner join company on(mem_id=company_id)
+		<include refid="searchFrag" />
+		ORDER BY MEM_ID DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+ 			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}  
+ 		]]> 
+	</select>
+	
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET
+			MEM_DELETE = 'Y'
+		WHERE MEM_ID = #{memId}
+	</delete>
+	
+	<select id="selectCompanyInfo" parameterType="String" resultType="ComInfoVO">
+		SELECT
+			COMPANY_ID
+            , INDUSTRY_NM
+			, COMINFO_PAGE
+			, COMINFO_CONTENT
+			, COMINFO_CEONM
+			, COMINFO_EMP
+			, COMINFO_SALES
+			, COMINFO_BENEFIT
+			, COMINFO_HIT
+		FROM COMINFO A
+        INNER JOIN INDUSTRY B ON A.COMINFO_SECTORS = B.INDUSTRY_NO 
+		WHERE COMPANY_ID = #{companyId} 
+	</select>
+	
+</mapper>
+
+
+

@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.RecruitProcedureDAO">
+	
+	<!-- ==================================채용공고 목록 조회 관련==================================  -->
+	<!-- 채용공고 목록 조회 sql 조각 -->
+	<sql id="listSearchFlag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.companyId)">
+				AND COMPANY_ID=#{variousCondition.companyId}
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.sDate)">
+				<![CDATA[
+				AND RCRT_DATE >= #{variousCondition.sDate}
+				]]>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.eDate)">
+				<![CDATA[
+				AND RCRT_DATE <= #{variousCondition.eDate}
+				]]>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.rcrtTitle)">
+				AND INSTR(RCRT_TITLE, #{variousCondition.rcrtTitle}) > 0
+			</if>
+			<choose>
+				<when test='variousCondition.tabCategory.equals("closed")' >
+					<![CDATA[
+					AND RCRT_EDATE < SYSDATE
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+					AND RCRT_EDATE >= SYSDATE
+					]]>
+				</otherwise>
+			</choose>
+		</trim>
+	</sql>
+	
+	<!-- 채용공고 목록 레코드 수 조회 -->
+	<select id="selectTotalRecord" parameterType="PaginationInfo" resultType="int">
+		SELECT COUNT(*) FROM RECRUIT
+		<include refid="listSearchFlag" />
+	</select>
+	
+	<!-- 채용공고 목록 조회 -->
+	<select id="selectRecruitList" resultType="HashMap" parameterType="PaginationInfo">
+		<!-- 총지원자 수 -->
+		WITH TOTALCOUNTVIEW AS
+		(
+		    SELECT A.RCRT_NO, COUNT(APL_NO) TOTALCOUNT
+		    FROM RECRUIT A LEFT OUTER JOIN APPLY B ON A.RCRT_NO=B.RCRT_NO
+		    GROUP BY A.RCRT_NO
+		)
+		
+		<!-- 현재절차 -->
+		, CURRPROCEDUREVIEW AS(
+			SELECT
+				RCRT_NO, RPROC_ORDER CURRPROCEDURE, RPROC_END
+			FROM
+				V_CURRPROCEDURE
+		)
+		
+		<!-- 확인 수 -->
+		, CHECKEDVIEW AS
+		(
+		    SELECT
+		    	V.RCRT_NO, COUNT(*) CHECKED
+		    FROM
+		    	V_CURRPROCEDURE V  LEFT OUTER JOIN A_PROCEDURE AP ON AP.RCRT_NO=V.RCRT_NO
+		    WHERE
+		    	AP.RPROC_ORDER = V.RPROC_ORDER
+		    	AND APROC_PASS IS NOT NULL
+		    GROUP BY
+		    	V.RCRT_NO, V.RPROC_ORDER
+		)
+		
+		<!-- 미확인 수 -->
+		, UNCHECKEDVIEW AS
+		(
+		    SELECT
+		    	V.RCRT_NO, COUNT(*) UNCHECKED
+		    FROM
+		    	V_CURRPROCEDURE V  LEFT OUTER JOIN A_PROCEDURE AP ON AP.RCRT_NO=V.RCRT_NO
+		    WHERE
+		    	AP.RPROC_ORDER = V.RPROC_ORDER
+		    	AND APROC_PASS IS NULL
+		    GROUP BY
+		    	V.RCRT_NO, V.RPROC_ORDER
+		)
+		
+		<!-- 최종합격자 수 -->
+		, FINALPASSVIEW AS
+		(
+		    SELECT F.RCRT_NO, COUNT(APL_NO) FINALPASS
+		    FROM (
+		            SELECT A.RCRT_NO, A.FINALORDER, B.RPROC_END
+		            FROM (
+		                    SELECT
+		                        A.RCRT_NO, MAX(RPROC_ORDER) FINALORDER
+		                    FROM
+		                        RECRUIT A LEFT OUTER JOIN R_PROCEDURE B ON A.RCRT_NO = B.RCRT_NO
+		                    GROUP BY A.RCRT_NO
+		                ) A
+		                LEFT OUTER JOIN
+		                (
+		                    SELECT
+		                        RCRT_NO, RPROC_ORDER, RPROC_END
+		                    FROM R_PROCEDURE
+		                ) B
+		                ON A.RCRT_NO=B.RCRT_NO AND A.FINALORDER=B.RPROC_ORDER
+		            WHERE RPROC_END = 'Y'
+		        ) F
+		        LEFT OUTER JOIN A_PROCEDURE AP ON F.RCRT_NO=AP.RCRT_NO AND FINALORDER=RPROC_ORDER
+		        WHERE AP.APROC_PASS='Y'
+		        GROUP BY F.RCRT_NO
+		)
+		SELECT B.*
+		FROM (
+			SELECT ROWNUM RNUM, A.*
+			FROM (
+				SELECT
+				    A.RCRT_NO       "rcrtNo"
+				    <!-- 여기에 큰따옴표 안쓰고 rcrtNo 라고 줘버리면 오라클은 소문자를 전부 대문자로 바꿔서 프로퍼티명을 RCRTNO 이런식으로 만들어버림
+				    	> 그래서 쓰는게 "" -->
+				    ,COMPANY_ID     "companyId"
+				    ,RCRT_TITLE     "rcrtTitle"
+				    ,RCRT_HIT       "rcrtHit"
+				    ,RCRT_KEYWORDNM "rcrtKeywordnm"
+				    ,RCRT_FIELD     "rcrtField"
+				    ,RCRT_PERSON    "rcrtPerson"
+				    ,RCRT_CAREER    "rcrtCareer"
+				    ,RCRT_CONDITION "rcrtCondition"
+				    ,RCRT_EDU       "rcrtEdu"
+				    ,RCRT_LOC       "rcrtLoc"
+				    ,RCRT_TYPE      "rcrtType"
+				    ,RCRT_SALARY    "rcrtSalary"
+				    ,RCRT_WEEK      "rcrtWeek"
+				    ,TO_CHAR(RCRT_DATE,  'YYYY-MM-DD')  "rcrtDate"
+				    ,TO_CHAR(RCRT_SDATE, 'YYYY-MM-DD')  "rcrtSdate"
+				    ,TO_CHAR(RCRT_EDATE, 'YYYY-MM-DD')  "rcrtEdate"
+				    ,RCRT_NM        "rcrtNm"
+				    ,RCRT_TEL       "rcrtTel"
+				    ,RCRT_MAIL      "rcrtMail"
+				    ,RCRT_WLFR      "rcrtWlfr"
+				    ,RCRT_RECTYPE   "rcrtRectype"
+				    ,RCRT_STIME     "rcrtStime"
+				    ,RCRT_ETIME     "rcrtEtime"
+				    ,RCRT_DELETE    "rcrtDelete"
+				    , TOTALCOUNT    "totalCount"
+				    , CURRPROCEDURE "currprocedure"
+				    , CHECKED       "checked"
+				    , UNCHECKED     "unchecked"
+				    , FINALPASS     "finalpass"
+				FROM
+				    recruit A LEFT OUTER JOIN TOTALCOUNTVIEW B ON (A.RCRT_NO=B.RCRT_NO)
+				        LEFT OUTER JOIN CURRPROCEDUREVIEW C ON (A.RCRT_NO=C.RCRT_NO)
+				        LEFT OUTER JOIN CHECKEDVIEW D ON (A.RCRT_NO=D.RCRT_NO)
+				        LEFT OUTER JOIN UNCHECKEDVIEW E ON (A.RCRT_NO=E.RCRT_NO)
+				        LEFT OUTER JOIN FINALPASSVIEW F ON (A.RCRT_NO=F.RCRT_NO)
+				<include refid="listSearchFlag" />
+				<choose>
+					<when test='variousCondition.sortCategory.equals("eDate")' >
+						ORDER BY RCRT_EDATE DESC
+					</when>
+					<otherwise>
+						ORDER BY RCRT_DATE DESC
+					</otherwise>
+				</choose>
+			) A
+		) B
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 채용절차목록 조회 -->
+	<select id="selectRecruitProcedure" parameterType="string" resultType="RProcedureVO">
+		SELECT
+		    RCRT_NO
+		    , RPROC_ORDER
+		    , RPROC_TYPENO
+		    , RPROC_SDATE
+		    , RPROC_EDATE
+		    , RPROC_END
+		    , TEST_NO
+		    , COM_CODE_NM
+		FROM
+		    R_PROCEDURE LEFT OUTER JOIN TB_COM_CODE ON RPROC_TYPENO=COM_CODE
+		WHERE
+			RCRT_NO=#{rcrtNo}
+		ORDER BY RPROC_ORDER ASC
+	</select>
+	
+	<!-- 채용절차 상세조회 -->
+	<select id="selectCurrentProcedureInfo" parameterType="HashMap" resultType="RProcedureVO">
+		SELECT
+		    RCRT_NO
+		    , RPROC_ORDER
+		    , RPROC_TYPENO
+		    , RPROC_SDATE
+		    , RPROC_EDATE
+		    , RPROC_END
+		    , TEST_NO
+		    , COM_CODE_NM
+		FROM
+		    R_PROCEDURE LEFT OUTER JOIN TB_COM_CODE ON RPROC_TYPENO=COM_CODE
+		WHERE
+			RCRT_NO=#{rcrtNo}
+			AND RPROC_ORDER=#{rprocOrder}
+	</select>
+
+	
+	<!-- ==================================채용절차 조회 관련==================================  -->
+	<sql id="viewSearchFlag">
+		WHERE
+		    AP.RCRT_NO=#{variousCondition.rcrtNo}
+		    AND AP.RPROC_ORDER=#{variousCondition.rprocOrder}
+		    <if test="variousCondition.aprocPass neq null">
+			    <choose>
+			    	<when test='variousCondition.aprocPass.equals("pass")'>
+			    		AND APROC_PASS='Y'
+			    	</when>
+			    	<when test='variousCondition.aprocPass.equals("fail")'>
+			    		AND  APROC_PASS='N'
+			    	</when>
+			    	<otherwise>
+			    		AND  APROC_PASS IS NULL
+			    	</otherwise>
+			    </choose>
+		    </if>
+		    <if test="variousCondition neq null">
+			    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersGen)">
+			    	AND USERS_GEN=#{variousCondition.usersGen}
+			    </if>
+			    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersNm)">
+			    	AND INSTR(USERS_NM,#{variousCondition.usersNm})>0
+			    </if>
+		    </if>
+	</sql>
+	
+	<!-- 면접제외 각 전형별 지원자 레코드 수 조회 -->
+	<select id="selectApplicantTotalRecord" parameterType="PaginationInfo">
+		SELECT
+			COUNT(*)
+		FROM
+			A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+		<include refid="viewSearchFlag" />
+	</select>
+	
+	<!-- 면접전형 지원자 레코드 수 조회 -->
+	<select id="selectIntrApplicantTotalRecord" parameterType="PaginationInfo">
+		WITH INTRINFOVIEW AS(
+		    SELECT
+		        I.INTR_NO
+		        , APL_NO
+		        , INTR_INTDATE
+		        , INTR_PLACE
+		        , COM_CODE_NM "INTRTYPENM"
+		        , INTR_DATE
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z01' THEN 1 END) MAILCOUNT
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z02' THEN 1 END) ALARMCOUNT
+		    FROM
+		        INTERVIEW_SCHD I LEFT OUTER JOIN INTERVIEW_ALARM IA ON I.INTR_NO=IA.INTR_NO
+		        	LEFT OUTER JOIN TB_COM_CODE ON INTR_TYPE=COM_CODE
+		    GROUP BY 
+		       I.INTR_NO
+		       , APL_NO
+		       , INTR_INTDATE
+		       , INTR_PLACE
+		       , INTR_DATE
+		       , COM_CODE_NM
+		)
+		SELECT
+			COUNT(*)
+		FROM
+			a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+			      LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
+			      INNER JOIN MEMBER ON USERS_ID=MEM_ID
+		<include refid="viewSearchFlag" />
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
+	    	<choose>
+	    		<when test='variousCondition.intrStatus eq "NotNull"'>
+	    			AND INTR_DATE is NOT NULL
+	    		</when>
+	    		<otherwise>
+	    			AND INTR_DATE is NULL
+	    		</otherwise>
+	    	</choose>
+	    </if>
+	</select>
+	
+	<!-- 서류전형의 지원자 목록 조회 -->
+	<resultMap type="AProcedureVO" id="ApplicantListMap" autoMapping="true">
+		<association property="users" autoMapping="true"/>
+		<association property="interviewVO" autoMapping="true"/>
+	</resultMap>
+	<select id="selectResumeApplicantList" resultMap="ApplicantListMap" parameterType="PaginationInfo">
+		WITH RESATTVIEW AS(
+		    SELECT DISTINCT A.APL_NO, A.RESATT_NO, RESUME_TITLE
+		    FROM APPLY A LEFT OUTER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+		)
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (
+				SELECT
+				    AP.apl_no
+				    , rcrt_no
+				    , rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , RESUME_TITLE
+				    , RESATT_NO
+				FROM
+				    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+				        LEFT OUTER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
+				<include refid="viewSearchFlag" />
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<when test='variousCondition.sortCategory eq "score"'>
+						ORDER BY NVL(APROC_SCR,0) DESC
+					</when>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 적섬검사, 기술시험 지원자 목록 조회 -->
+	<select id="selectTestApplicantList"  resultMap="ApplicantListMap" parameterType="PaginationInfo">
+		WITH RESATTVIEW AS(
+		    SELECT APL_NO, A.RESATT_NO
+		    FROM APPLY A INNER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+		)	
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (
+				SELECT
+				    AP.apl_no
+				    , AP.rcrt_no
+				    , AP.rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , TEST_NO
+				    , RESATT_NO
+				FROM
+				    A_PROCEDURE AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+						INNER JOIN R_PROCEDURE RP ON AP.RCRT_NO=RP.RCRT_NO AND AP.RPROC_ORDER=RP.RPROC_ORDER
+						INNER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
+				<include refid="viewSearchFlag" />
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<otherwise>
+						ORDER BY NVL(APROC_SCR,0) DESC
+					</otherwise>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>	
+	</select>
+	
+	<!-- 면접 지원자 목록 조회 -->
+	<select id="selectInterviewApplicantList" resultMap="ApplicantListMap" parameterType="PaginationInfo">
+		WITH INTRINFOVIEW AS(
+		    SELECT
+		        I.INTR_NO
+		        , APL_NO
+		        , INTR_INTDATE
+		        , INTR_PLACE
+		        , INTR_TYPE
+		        , COM_CODE_NM "INTRTYPENM"
+		        , INTR_DATE
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z01' THEN 1 END) MAILCOUNT
+		        , COUNT(CASE WHEN I_ALARM_TYPE='Z02' THEN 1 END) ALARMCOUNT
+		    FROM
+		        INTERVIEW_SCHD I LEFT OUTER JOIN INTERVIEW_ALARM IA ON I.INTR_NO=IA.INTR_NO
+		        	LEFT OUTER JOIN TB_COM_CODE ON INTR_TYPE=COM_CODE
+		    GROUP BY 
+		       I.INTR_NO
+		       , APL_NO
+		       , INTR_INTDATE
+		       , INTR_PLACE
+		       , INTR_DATE
+		       , COM_CODE_NM
+		       , INTR_TYPE
+		)
+		,RESATTVIEW AS(
+            SELECT APL_NO, A.RESATT_NO
+            FROM APPLY A INNER JOIN RESUME_ATTATCH R ON A.RESATT_NO=R.RESATT_NO
+        )
+		SELECT T.*
+		FROM (
+			SELECT ROWNUM RNUM, RN.*
+			FROM (	
+				SELECT
+				    AP.apl_no
+				    , AP.rcrt_no
+				    , AP.rproc_order
+				    , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+				    , aproc_pass
+				    , aproc_scr
+				    , USERS_ID
+				    , USERS_NM
+				    , MEM_MAIL
+				    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+				    , USERS_GEN
+				    , TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate"
+				    , INTR_NO
+				    , INTR_PLACE
+				    , INTR_TYPE
+				    , INTRTYPENM "intrTypeNm"
+				    , TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate"
+				    , NVL(MAILCOUNT,0) "mailCount"
+				    , NVL(ALARMCOUNT,0) "alarmCount"
+				    , RESATT_NO
+				FROM
+				    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+				        LEFT OUTER JOIN INTRINFOVIEW I ON AP.APL_NO=I.APL_NO
+				        INNER JOIN MEMBER ON USERS_ID=MEM_ID
+				        INNER JOIN RESATTVIEW R ON AP.APL_NO=R.APL_NO
+				<include refid="viewSearchFlag" />
+				<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.intrStatus)">
+			    	<choose>
+			    		<when test='variousCondition.intrStatus eq "NotNull"'>
+			    			AND INTR_DATE is NOT NULL
+			    		</when>
+			    		<otherwise>
+			    			AND INTR_DATE is NULL
+			    		</otherwise>
+			    	</choose>
+			    </if>
+				<choose>
+					<when test='variousCondition.sortCategory eq "date"'>
+						ORDER BY APROC_DATE DESC
+					</when>
+					<otherwise>
+						ORDER BY INTR_INTDATE DESC
+					</otherwise>
+				</choose>
+			) RN
+		) T
+		<![CDATA[
+		WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
+		]]>		
+	</select>
+	
+	
+	<select id="selectInterviewScheduleList">
+	
+	</select>
+	
+	<!-- ==================================채용절차 관리 관련==================================  -->
+	<!-- 합불 여부 저장 -->
+	<update id="updatePassStatus" parameterType="AProcedureVO">
+		UPDATE
+			A_PROCEDURE
+		SET
+			<if test='aprocPass eq "unconfirmed"'>
+				APROC_PASS=NULL
+			</if>
+			<if test='aprocPass eq "pass"'>
+				APROC_PASS='Y'
+			</if>
+			<if test='aprocPass eq "fail"'>
+				APROC_PASS='N'
+			</if>
+		WHERE
+			APL_NO=#{aplNo}
+				AND RCRT_NO=#{rcrtNo}
+				AND RPROC_ORDER=#{rprocOrder}
+	</update>
+	
+	<!-- 채용절차 마감 -->
+	<update id="updateCloseStatus" parameterType="HashMap">
+		UPDATE
+			R_PROCEDURE
+		SET
+			RPROC_END = 'Y'
+		WHERE
+			RCRT_NO=#{rcrtNo}
+			AND RPROC_ORDER=#{rprocOrder}
+	</update>
+	
+	<!-- 채점표 갯수 조회 -->
+	<select id="selectResumeScoreFormCount">
+		SELECT
+			COUNT(*)
+		FROM
+			RESUME_FORM
+		WHERE
+			RCRT_NO = #{rcrtNo}
+		    AND RPROC_ORDER = #{rprocOrder}
+	</select>
+	
+	<!-- 기업 정보 조회 -->
+	<select id="selectCompanyInfo" parameterType="string" resultType="CompanyVO">
+		SELECT
+		    COMPANY_ID,
+		    COMPANY_NUM,
+		    COMPANY_FILE,
+		    COMPANY_DNM,
+		    COMPANY_NM,
+		    COMPANY_DATE,
+		    COMPANY_PERMISSION
+		FROM
+		    COMPANY
+		WHERE
+			COMPANY_ID=#{companyId}
+	</select>
+
+	<!-- 메일 - 채용공고 정보 조회 -->
+	<select id="selectRecruitInfo" resultType="RecruitVO" parameterType="string">
+		SELECT
+		    RCRT_NO,
+		    COMPANY_ID,
+		    RCRT_TITLE,
+		    RCRT_HIT,
+		    RCRT_KEYWORDNM,
+		    RCRT_FIELD,
+		    RCRT_PERSON,
+		    RCRT_CAREER,
+		    RCRT_CONDITION,
+		    RCRT_EDU,
+		    RCRT_LOC,
+		    RCRT_TYPE,
+		    RCRT_SALARY,
+		    RCRT_WEEK,
+		    TO_CHAR(RCRT_DATE, 'YYYY-MM-DD') "rcrtDate",
+		    TO_CHAR(RCRT_SDATE, 'YYYY-MM-DD') "rcrtSdate",
+		    TO_CHAR(RCRT_EDATE, 'YYYY-MM-DD') "rcrtEdate",
+		    RCRT_NM,
+		    RCRT_TEL,
+		    RCRT_MAIL,
+		    RCRT_WLFR,
+		    RCRT_RECTYPE,
+		    RCRT_STIME,
+		    RCRT_ETIME,
+		    RCRT_DELETE
+		FROM
+		    RECRUIT
+		WHERE RCRT_NO = #{rcrtNo}
+	</select>
+	
+	<!-- 메일 - 채용절차 지원자 이메일 조회 -->
+	<select id="selectApplicantEmailList" resultType="string" parameterType="AProcedureVO">
+		SELECT
+		    MEM_MAIL
+		FROM
+		    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+		        INNER JOIN MEMBER ON USERS_ID=MEM_ID
+		WHERE
+			RCRT_NO = #{rcrtNo}
+			AND RPROC_ORDER = #{rprocOrder}
+	</select>
+	
+	<!-- ================================== 엑셀 다운로드 ==================================  -->
+	<!-- 지원자 목록 조회 -->
+	<select id="selectApplicantList" parameterType="HashMap" resultMap="ApplicantListMap">
+			SELECT
+                USERS_NM
+			    , TO_CHAR(USERS_BIR,  'YYYY-MM-DD') "usersBir"
+			    , case when USERS_GEN='F' then '여' else '남' end "usersGen"
+                , TO_CHAR(APROC_DATE,  'YYYY-MM-DD') "aprocDate"
+                , case when aproc_pass='Y' then '합격'
+                        when aproc_pass='N' then '불합격'
+                        else '미확인'
+                    end "aprocPass"
+			    , AP.apl_no
+			    , AP.rcrt_no
+			    , AP.rproc_order
+                , case when rproc_end='N' then '진행중' else '마감' end "rprocEnd"
+			FROM
+			    a_procedure AP LEFT OUTER JOIN V_APPLICANTINFO B ON AP.APL_NO=B.APL_NO
+                       inner join r_procedure RP on AP.rcrt_no=RP.rcrt_no and AP.rproc_order=RP.rproc_order
+			WHERE
+                   AP.RCRT_NO=#{rcrtNo}
+                   AND AP.RPROC_ORDER=#{rprocOrder}
+                   <if test="aprocPass neq null">
+	                   <choose>
+		             	   <when test='aprocPass.equals("pass")'>
+					    		AND APROC_PASS='Y'
+					    	</when>
+					    	<when test='aprocPass.equals("fail")'>
+					    		AND  APROC_PASS='N'
+					    	</when>
+					    	<otherwise>
+					    		AND  APROC_PASS IS NULL
+					    	</otherwise>
+				    	</choose>
+			    	</if>
+               ORDER BY APROC_DATE ASC
+	</select>
+	
+</mapper>

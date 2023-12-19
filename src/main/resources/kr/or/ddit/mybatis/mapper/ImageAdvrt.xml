@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.ImageAdvrtDAO">
+
+
+	<select id="selectImageAdvrtList" resultType="ImageAdvrtVO">
+		SELECT
+		    imgad_no,
+		    imgad_name,
+		    imgad_period,
+		    imgad_price,
+		    imgad_loc
+		FROM
+		    imgadmnmt
+		WHERE
+			imgad_loc = 'L01'
+	</select>
+
+	<select id="selectBannerAdvrtList" resultType="ImageAdvrtVO">
+		SELECT
+		    imgad_no,
+		    imgad_name,
+		    imgad_period,
+		    imgad_price,
+		    imgad_loc
+		FROM
+		    imgadmnmt
+		WHERE
+			imgad_loc = 'L02'
+	</select>
+	
+	<select id="selectCmpPass" parameterType="String" resultType="CompanyVO">
+		SELECT
+	    	company_num
+		FROM
+	    	company
+		WHERE company_id=#{authId}
+	</select>
+	
+	<insert id="sendImgAdPay" parameterType="ImgAdvrtPayVO">
+		INSERT INTO imgadpay (
+		    imgad_pmtno,
+		    imgad_no,
+		    company_id,
+		    pmt_methdno,
+		    imgad_pdate,
+		    imgad_sdate,
+		    imgad_edate,
+		    imgad_bprice,
+		    imgad_title,
+		    imgad_content,
+		    imgad_file,
+		    imgad_loc
+		) VALUES (
+		    'IADP' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000'),
+		    #{imgadNo},
+		    #{companyId},
+		    #{pmtMethdno},
+		    SYSDATE,
+		    #{imgadSdate},
+		    #{imgadEdate},
+		    #{imgadBprice},
+		    #{imgadTitle},
+		    #{imgadContent},
+		    #{imgadFile},
+		    #{imgadLoc}
+		)
+	</insert>
+	
+	<select id="selectImgAdvrtIndex" resultType="ImgAdvrtPayVO">
+		<![CDATA[	
+		SELECT
+		    imgad_pmtno,
+		    imgad_no,
+		    company_id,
+		    pmt_methdno,
+		    imgad_pdate,
+		    imgad_sdate,
+		    imgad_edate,
+		    imgad_bprice,
+		    imgad_result,
+		    imgad_title,
+		    imgad_content,
+		    imgad_file,
+		    imgad_loc
+		FROM
+		    imgadpay
+		WHERE
+		    imgad_result = 'Y'
+		    AND imgad_loc = 'L01'
+		    AND TRUNC(SYSDATE) >= TRUNC(imgad_sdate)
+		    AND TRUNC(SYSDATE) <= TRUNC(imgad_edate)
+		]]>
+	</select>
+	
+	<select id="selectBannerAdvrtIndex" resultType="ImgAdvrtPayVO">
+		<![CDATA[	
+		SELECT
+		    imgad_pmtno,
+		    imgad_no,
+		    company_id,
+		    pmt_methdno,
+		    imgad_pdate,
+		    imgad_sdate,
+		    imgad_edate,
+		    imgad_bprice,
+		    imgad_result,
+		    imgad_title,
+		    imgad_content,
+		    imgad_file,
+		    imgad_loc
+		FROM
+		    imgadpay
+		WHERE
+		    imgad_result = 'Y'
+		    AND imgad_loc = 'L02'
+		    AND TRUNC(SYSDATE) >= TRUNC(imgad_sdate)
+		    AND TRUNC(SYSDATE) <= TRUNC(imgad_edate)
+		]]>
+	</select>
+	
+	<resultMap id="myImgAdvrListResultMap" type="kr.or.ddit.company.vo.ImgAdvrtPayVO" autoMapping="true">
+		<association property="imageAdvrtVO" autoMapping="true">
+			<association property="companyVO" autoMapping="true"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectMyImgAdvrList" parameterType="String" resultType="ImgAdvrtPayVO" resultMap="myImgAdvrListResultMap">
+		SELECT
+			rownum as rnum,
+		    A.imgad_name,
+		    A.imgad_period,
+		    A.imgad_price,
+		    B.imgad_pmtno,
+		    B.imgad_no,
+		    B.company_id,
+		    C.company_nm,
+		    B.pmt_methdno,
+		    B.imgad_pdate,
+		    B.imgad_sdate,
+		    B.imgad_edate,
+		    B.imgad_bprice,
+		    B.imgad_result,
+		    B.imgad_title,
+		    B.imgad_content,
+		    B.imgad_file,
+		    B.imgad_loc
+		FROM
+		    imgadpay B, imgadmnmt A, company C
+		WHERE B.imgad_no = A.imgad_no
+		    AND B.company_id = C.company_id
+	        AND B.company_id= #{companyId}
+	</select>
+	
+	<select id="validImgAdvrtList"  parameterType="String" resultType="ImgAdvrtPayVO" resultMap="myImgAdvrListResultMap">
+		<![CDATA[
+		SELECT
+		   	A.imgad_name,
+		    A.imgad_period,
+		    A.imgad_price,
+		    B.imgad_pmtno,
+		    B.imgad_no,
+		    B.company_id,
+		    C.company_nm,
+		    B.pmt_methdno,
+		    B.imgad_pdate,
+		    B.imgad_sdate,
+		    B.imgad_edate,
+		    B.imgad_bprice,
+		    B.imgad_result,
+		    B.imgad_title,
+		    B.imgad_content,
+		    B.imgad_file,
+		    B.imgad_loc
+		FROM
+		    imgadpay B, imgadmnmt A, company C
+		WHERE B.imgad_no = A.imgad_no
+	        AND B.imgad_result = 'Y'
+		    AND B.company_id = C.company_id
+	        AND B.company_id=#{companyId}	
+	        AND TRUNC(SYSDATE) >= TRUNC(imgad_sdate)
+       		AND TRUNC(SYSDATE) <= TRUNC(imgad_edate)			
+       		]]>					
+	</select>	
+	
+	<resultMap type="kr.or.ddit.common.vo.MemberVO" id="memberMap" autoMapping="true">
+		<id property="memId" column="MEM_ID" />
+		<association property="company" autoMapping="true" />
+	</resultMap>
+	
+	<select id="selectCompany" parameterType="String" resultMap="memberMap">
+		SELECT
+			MEM_ID
+			, MEM_PASS
+			, COMPANY_ID
+			, COMPANY_NUM
+			, COMPANY_PERMISSION
+			, COMPANY_DNM
+			, MEM_TEL
+			, MEM_MAIL
+		FROM MEMBER JOIN COMPANY ON(MEM_ID=COMPANY_ID)
+		WHERE MEM_ID=#{memId}
+	</select>
+	
+</mapper>

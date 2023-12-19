@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.BsnsLcnsNmbrDAO">
+	<select id="selectCompany" parameterType="String"
+		resultType="CompanyVO">
+		SELECT
+		    COMPANY_ID,
+			COMPANY_NUM,
+			COMPANY_FILE,
+			COMPANY_DNM,
+			COMPANY_NM,
+			TO_CHAR(COMPANY_DATE, 'YYYY.MM.DD') AS COMPANY_DATE,
+			COMPANY_PERMISSION
+		FROM COMPANY
+		WHERE COMPANY_ID = #{companyId}
+	</select>
+
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'companyId'">
+						INSTR(COMPANY_ID, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'companyNm'">
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(COMPANY_ID, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM COMPANY
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectCompanyList" parameterType="PaginationInfo"
+		resultType="CompanyVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		    COMPANY_ID,
+			COMPANY_NUM,
+			COMPANY_FILE,
+			COMPANY_DNM,
+			COMPANY_NM,
+			TO_CHAR(COMPANY_DATE, 'YYYY.MM.DD') AS COMPANY_DATE,
+			DECODE(COMPANY_PERMISSION,'Y','승인','N','반려','U','미확인','미확인') COMPANY_PERMISSION
+		FROM COMPANY
+		<include refid="searchFrag" />
+		 ORDER BY 
+            CASE 
+                WHEN COMPANY_PERMISSION = '미확인' THEN 1 
+                ELSE 2 
+            END
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	
+	<select id="selectBsnsInfo" parameterType="String" resultType="CompanyVO">
+		SELECT
+		    COMPANY_ID,
+			COMPANY_NUM,
+			COMPANY_FILE,
+			COMPANY_DNM,
+			COMPANY_NM,
+			TO_CHAR(COMPANY_DATE, 'YYYY.MM.DD') AS COMPANY_DATE,
+			COMPANY_PERMISSION
+		FROM COMPANY
+		WHERE COMPANY_ID = #{companyId}
+	</select>
+	
+	<!-- 승인 여부 저장 -->
+	<update id="updatePassStatus" parameterType="CompanyVO">
+		UPDATE
+			COMPANY
+		SET
+			<if test='companyPermission eq "unconfirmed"'>
+				COMPANY_PERMISSION='U'
+			</if>
+			<if test='companyPermission eq "pass"'>
+				COMPANY_PERMISSION='Y'
+			</if>
+			<if test='companyPermission eq "fail"'>
+				COMPANY_PERMISSION='N'
+			</if>
+		WHERE
+			COMPANY_ID = #{companyId}
+				
+	</update>
+</mapper>
+
+
+

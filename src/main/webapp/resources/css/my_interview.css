@@ -1,0 +1,1331 @@
+@charset "utf-8"; .my_interview {
+    margin: 0 auto;
+    width: 1248px;
+    letter-spacing: -1px
+}
+
+.cursor-pointer {
+    cursor: pointer
+}
+
+.briefing_wrap {
+    position: relative;
+    margin-top: 56px;
+    width: calc(100% + 30px);
+    height: 182px;
+    color: #383e4f;
+    letter-spacing: -1px
+}
+
+.briefing_wrap .briefing_list {
+    display: block;
+    font-size: 0
+}
+
+.briefing_wrap .briefing_list>li {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    margin: 0 16px 0 0;
+    width: 300px;
+    height: 234px;
+    box-sizing: border-box;
+    vertical-align: top
+}
+
+.briefing_wrap .briefing_list>li .card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 24px 24px 0;
+    width: 300px;
+    height: 172px;
+    border: 1px solid #eff5ff;
+    border-radius: 16px;
+    box-sizing: border-box;
+    background-color: #eff5ff
+}
+
+.briefing_wrap .briefing_list>li:last-child {
+    margin-right: 0
+}
+
+.briefing_wrap .briefing_list>li:hover .card {
+    border: solid 1px #d7dce5;
+    background-color: #fff;
+    box-shadow: 2px 6px 16px 0 rgba(17, 42, 128, 0.08);
+    cursor: pointer
+}
+
+.briefing_wrap .briefing_list>li .card>a.link_briefing {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: url(//www.saraminimage.co.kr/sri/person/resume/bg_alink.png) repeat
+}
+
+.briefing_wrap .briefing_list li .tit {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 12px;
+    width: 100%;
+    color: #373f57;
+    font-size: 15px;
+    line-height: 22px;
+    word-break: break-all
+}
+
+.briefing_wrap .briefing_list li .tit span {
+    color: #4876ef
+}
+
+.briefing_wrap .briefing_list li .txt {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 20px;
+    color: #8f91a7;
+    font-size: 13px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.briefing_wrap .briefing_list li .tit em {
+    display: inline-block;
+    overflow: hidden;
+    max-width: 160px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap
+}
+
+.briefing_wrap .briefing_list li .txt span {
+    display: inline-block;
+    overflow: hidden;
+    max-width: 185px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap
+}
+
+.briefing_wrap .briefing_list li .card.txt_only {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    height: 172px
+}
+
+.briefing_wrap .briefing_list li .card.txt_only .text_only_con {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle
+}
+
+.briefing_wrap .briefing_list li .card.txt_only .txt_only_tit {
+    display: inline-block;
+    color: #373f57;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+    text-align: center;
+    vertical-align: middle
+}
+
+.briefing_wrap .briefing_list li .card.txt_only .text_btn {
+    display: inline-block;
+    margin-top: 8px;
+    width: 100%;
+    color: #8491a7;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 20px;
+    text-decoration: underline
+}
+
+.briefing_wrap .briefing_list li .card.txt_only .text_btn:hover {
+    color: #373f57
+}
+
+.briefing_wrap .briefing_list li.main .card {
+    border: 1px solid #4876ef;
+    background-color: #4876ef;
+    cursor: default
+}
+
+.briefing_wrap .briefing_list li.main .tit {
+    color: #fff
+}
+
+.briefing_wrap .briefing_list li.main .total {
+    position: absolute;
+    top: 30px;
+    right: 27px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: right
+}
+
+.briefing_wrap .briefing_list li.main .total strong {
+    display: inline-block;
+    padding-right: 6px;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 34px
+}
+
+.briefing_wrap .briefing_list li.main .count_area {
+    position: absolute;
+    right: 0;
+    bottom: 24px;
+    left: 24px;
+    box-sizing: border-box;
+    font-size: 0
+}
+
+.briefing_wrap .briefing_list li.main .count_area .count {
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    padding: 10px 16px 0;
+    width: 122px;
+    height: 40px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 13px;
+    line-height: 20px;
+    background-color: #5189fa
+}
+
+.briefing_wrap .briefing_list li.main .count_area .count strong {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: right
+}
+
+.briefing_wrap .briefing_list li.main .inpSel {
+    position: absolute;
+    right: 0;
+    bottom: 24px;
+    left: 24px;
+    width: 252px;
+    height: 40px;
+    box-sizing: border-box;
+    font-size: 0;
+    background: #5189fa
+}
+
+.briefing_wrap .briefing_list li.main .inpSel select {
+    padding-left: 24px;
+    border: 1px solid #5189fa;
+    color: #fff;
+    background-color: #5189fa
+}
+
+.briefing_wrap .briefing_list li.main .inpSel select option {
+    color: #5c667b;
+    background-color: #fff
+}
+
+.briefing_wrap .briefing_list li .logo_list {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    left: 20px
+}
+
+.briefing_wrap .briefing_list li .logo_list li {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    margin-left: -18px;
+    width: 36px;
+    height: 36px;
+    border: 3px solid #eff5ff;
+    border-radius: 50%;
+    text-align: center;
+    background-color: #fff
+}
+
+.briefing_wrap .briefing_list li .logo_list li:before {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    border: 1px solid #ebedf2;
+    border-radius: 50%;
+    content: ""
+}
+
+.briefing_wrap .briefing_list li .logo_list li:first-child {
+    margin-left: 0
+}
+
+.briefing_wrap .briefing_list li .logo_list li img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 28px;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.briefing_wrap .briefing_list li .code_number {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    width: 252px
+}
+
+.briefing_wrap .briefing_list li .code_number.TypoBox {
+    width: 252px;
+    background: #eff5ff
+}
+
+.briefing_wrap .briefing_list li .code_number.TypoBox::placeholder {
+    color: #8491a7
+}
+
+.briefing_wrap .briefing_list>li .code_number .BtnType {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px
+}
+
+.briefing_wrap .briefing_list>li:hover .logo_list li {
+    border: 3px solid #fff
+}
+
+.briefing_wrap .briefing_list>li:hover .logo_list li:before {
+    display: inline-block
+}
+
+.briefing_wrap .briefing_list>li:hover .code_number.TypoBox {
+    background: var(--white)
+}
+
+.briefing_wrap .briefing_list>li:hover .code_number .BtnType {
+    display: inline-block
+}
+
+.briefing_wrap .briefing_list>li.code .card {
+    cursor: default
+}
+
+.bx-controls {
+    position: absolute;
+    right: 30px;
+    bottom: -38px
+}
+
+.bx-controls button {
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #eaedf4;
+    border-radius: 16px;
+    text-indent: -9999px;
+    background: #fff
+}
+
+.bx-controls button.disabled {
+    background: #fff;
+    cursor: default
+}
+
+.bx-controls button:hover {
+    background: #f4f6fa
+}
+
+.bx-controls button:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-style: solid;
+    border-color: #5c667b;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -ms-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
+    content: ""
+}
+
+.bx-controls button.disabled:hover {
+    background-color: #fff
+}
+
+.bx-controls button.disabled:after {
+    border-color: #afbac8
+}
+
+.bx-controls button.bx-prev:after {
+    margin-left: 2px;
+    border-width: 0 0 2px 2px
+}
+
+.bx-controls button.bx-next {
+    margin-left: 8px
+}
+
+.bx-controls button.bx-next:after {
+    margin-left: -2px;
+    border-width: 2px 2px 0 0
+}
+
+.interview_list_header {
+    clear: both;
+    padding: 74px 0 12px;
+    border-bottom: 1px solid #d7dce5
+}
+
+.interview_list_header:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.interview_list_header .total_interviews {
+    float: left;
+    margin-top: 17px;
+    padding-left: 24px;
+    color: #5c667b;
+    font-size: 15px;
+    line-height: 20px
+}
+
+.interview_list_header .search_interview {
+    float: right
+}
+
+.interview_list_header .search_interview .inpSel {
+    margin-right: 3px;
+    width: 120px
+}
+
+.interview_list_header .search_interview .inpSel.search_order {
+    width: 135px
+}
+
+.interview_list_header .search_interview .period {
+    display: none;
+    margin-right: 3px
+}
+
+.interview_list_header .search_interview .period.show {
+    display: inline-block
+}
+
+.interview_list_header .search_interview .period .date {
+    display: inline-block;
+    width: 142px
+}
+
+.interview_list_header .search_interview .period .date .TypoBox {
+    width: 100%
+}
+
+.interview_list_header .search_interview .period .ui-datepicker-trigger {
+    display: none
+}
+
+.interviewListWrap .search_area {
+    margin-top: 160px;
+    width: 1246px;
+}
+
+
+.interview_list_header .search_interview .search_area button {
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+    background: url("https://www.saraminimage.co.kr/sri/person/resume/bg_alink.png") repeat
+}
+
+.interview_list_header .search_interview .search_area button .icon_search {
+    width: 24px;
+    height: 24px;
+    color: #575d6d
+}
+
+.interview_list .row {
+    display: inline-block;
+    position: relative;
+    padding: 32px 0;
+    width: 100%;
+    border-bottom: 1px solid #eaedf4;
+    box-sizing: border-box;
+    color: #383e4f
+}
+
+.interview_list .row:after {
+    display: table;
+    clear: both;
+    content: "";
+    table-layout: fixed
+}
+
+.interview_list .row .col_data {
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    padding-left: 32px;
+    width: 186px;
+    box-sizing: border-box;
+    color: #96a0b5;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 24px
+}
+
+.interview_list .row .col_data .data_time {
+    padding-left: 10px
+}
+
+.interview_list .row .col_informs {
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    width: 528px;
+    box-sizing: border-box
+}
+
+.interview_list .row .col_informs .name_company {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    max-width: 450px;
+    height: 26px;
+    box-sizing: border-box;
+    color: #373f57;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 26px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.interview_list .row .col_informs .name_interview {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
+    max-width: 450px;
+    height: 22px;
+    box-sizing: border-box;
+    color: #5c667b;
+    font-size: 15px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.interview_list .row .col_informs .schedule {
+    margin-top: 16px;
+    height: 22px
+}
+
+.interview_list .row .col_informs .schedule span {
+    display: inline-block;
+    margin-right: 32px;
+    color: #8491a7;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 22px
+}
+
+.interview_list .row .col_informs .schedule span svg {
+    margin-right: 6px;
+    padding-top: 3px;
+    width: 16px;
+    height: 16px;
+    color: #8491a7;
+    vertical-align: top
+}
+
+.interview_list .row .col_state {
+    display: inline-block;
+    float: left;
+    width: 247px;
+    box-sizing: border-box
+}
+
+.interview_list .row .col_state .request_state {
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    color: #373f57;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 26px
+}
+
+.interview_list .row .col_state .request_state.arrive {
+    padding-right: 8px;
+    color: #4876ef
+}
+
+.interview_list .row .col_state .request_state.arrive:after {
+    display: inline-block;
+    margin-left: 4px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    vertical-align: top;
+    background: #4876ef;
+    content: ""
+}
+
+.interview_list .row .col_state .state_txt {
+    display: block;
+    margin-top: 10px;
+    height: 22px;
+    color: #5c667b;
+    font-size: 15px;
+    line-height: 22px
+}
+
+.interview_list .row .col_btns {
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    width: 276px;
+    min-height: 40px
+}
+
+.interview_list .row .col_btns .BtnType {
+    margin-bottom: 8px;
+    width: 140px
+}
+
+.interview_list .row .col_btns .BtnType:not(.colorBlue) {
+    color: var(--blue90);
+    border-color: var(--blue90);
+    background: var(--white)
+}
+
+.interview_list .row .col_btns .BtnType:not(.colorBlue):hover {
+    background: var(--blue20)
+}
+
+.interview_list .row .col_btns .btn_history {
+    position: absolute;
+    top: 0;
+    right: 21px;
+    padding: 0 24px 0 16px;
+    color: #8491a7;
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 40px
+}
+
+.interview_list .row .col_btns .btn_history:hover {
+    color: #373f57
+}
+
+.interview_list .row .col_btns .btn_history:after {
+    position: absolute;
+    top: 47%;
+    right: 8px;
+    z-index: 1;
+    margin-left: -2px;
+    width: 5px;
+    height: 5px;
+    border: 1px solid currentColor;
+    border-width: 1px 1px 0 0;
+    -webkit-transform: translate(-50%, -50%) rotate(135deg);
+    -ms-transform: translate(-50%, -50%) rotate(135deg);
+    transform: translate(-50%, -50%) rotate(135deg);
+    content: ""
+}
+
+.interview_list .row.open .btn_history {
+    color: #373f57
+}
+
+.interview_list .row.open .btn_history:after {
+    -webkit-transform: translate(-50%, 0) rotate(-45deg);
+    -ms-transform: translate(-50%, 0) rotate(-45deg);
+    transform: translate(-50%, 0) rotate(-45deg)
+}
+
+.interview_list .row.open .col_history {
+    display: block
+}
+
+.interview_list .col_history {
+    display: none;
+    float: left;
+    margin: 36px 0 0 160px;
+    padding: 8px 32px;
+    width: 1086px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: #f4f6fa
+}
+
+.interview_list .col_history .timeline li {
+    padding: 10px 0;
+    border-top: 1px solid #eaedf4
+}
+
+.interview_list .col_history .timeline li:first-child {
+    border-top: 0
+}
+
+.interview_list .col_history .timeline .date {
+    float: left;
+    width: 143px;
+    color: #8491a7;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 20px
+}
+
+.interview_list .col_history .timeline .desc {
+    display: block;
+    overflow: hidden;
+    color: #8491a7;
+    font-size: 14px;
+    line-height: 20px
+}
+
+.interview_list .col_history .timeline .desc>strong {
+    display: inline-block;
+    padding-right: 20px;
+    color: #373f57;
+    vertical-align: top
+}
+
+.interview_list .col_history .timeline .desc button.txt {
+    display: inline-block;
+    padding-right: 8px;
+    color: #373f57;
+    letter-spacing: -1px;
+    line-height: 20px;
+    text-decoration: underline;
+    vertical-align: top
+}
+
+.interview_list .col_history .timeline .desc button, .interview_list .col_history .timeline .desc span {
+    margin-right: 8px
+}
+
+.interview_list .row.disabled {
+    color: #8491a7
+}
+
+.interview_list .row.disabled>div a:hover {
+    color: currentColor
+}
+
+.interview_list .row.disabled .name_company {
+    color: #8491a7
+}
+
+.interview_list .row.disabled .name_job {
+    color: #8491a7
+}
+
+.interview_list .row.disabled .col_state>span {
+    color: #8491a7
+}
+
+.interview_list .row.disabled .name_interview {
+    color: #8491a7
+}
+
+.interview_list .empty_data {
+    padding: 72px 0 80px;
+    border-bottom: 1px solid #ebedf2;
+    color: #575d6d;
+    text-align: center
+}
+
+.interview_list .empty_data img {
+    display: block;
+    margin: 0 auto
+}
+
+.interview_list .empty_data .tit {
+    display: block;
+    margin: 24px auto 4px;
+    color: #5c667b;
+    font-size: 18px;
+    line-height: 32px
+}
+
+.interview_list .empty_data .txt {
+    margin: 0 auto 24px;
+    color: #8491a7;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.interview_list .empty_data .btnText {
+    display: inline-block;
+    position: relative;
+    padding: 0 12px 0 0
+}
+
+.interview_list .empty_data .btnText>span {
+    display: block;
+    color: #4876ef;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.interview_list .empty_data .btnText:hover>span {
+    color: #3157dd
+}
+
+.interview_list .empty_data .btnText:after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-left: -2px;
+    width: 5px;
+    height: 5px;
+    border-top: 1px solid #4876ef;
+    border-right: 1px solid #96a0b5;
+    transform: translate(-50%, -50%) rotate(45deg);
+    content: ""
+}
+
+.interview_list .empty_data select {
+    padding-left: 17px;
+    width: 200px
+}
+
+.interview_list .empty_data .btnSizeM {
+    margin-top: 24px;
+    width: 200px
+}
+
+/* 면접 관련 레이어 */
+.layer_position_wrap {
+    display: none;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1030;
+    margin: -299px 0 0 -490px;
+    width: 980px;
+    height: 598px;
+    border: 1px solid #444;
+    box-sizing: border-box;
+    letter-spacing: -1px;
+    word-break: break-all
+}
+
+.layer_position_wrap.show {
+    display: block
+}
+
+.layer_position_wrap button {
+    border: 0;
+    background: none
+}
+
+.layer_position_wrap .layer_cont_position {
+    overflow-y: auto;
+    float: left;
+    padding: 0 40px;
+    width: 686px;
+    height: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.layer_position_wrap .layer_cont_position:after {
+    display: block;
+    padding-bottom: 60px;
+    content: ""
+}
+
+.layer_position_wrap .layer_cont_position h3 {
+    margin: 0 -40px;
+    padding: 44px 0 0 39px;
+    height: 168px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 29px;
+    font-weight: bold;
+    line-height: 39px;
+    background: #22ae8f
+}
+
+.layer_position_wrap .layer_cont_position .box_receive {
+    position: relative;
+    margin: -55px auto 0;
+    padding: 20px 35px 23px;
+    width: 590px;
+    height: 90px;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.layer_position_wrap .layer_cont_position .wrap_thumb {
+    display: table;
+    float: left;
+    margin-right: 35px;
+    width: 128px;
+    height: 44px;
+    text-align: center
+}
+
+.layer_position_wrap .layer_cont_position .thumb_logo {
+    display: table-cell;
+    height: 100%;
+    line-height: 0;
+    vertical-align: middle
+}
+
+.layer_position_wrap .layer_cont_position .thumb_logo img {
+    display: inline-block;
+    max-width: 128px;
+    max-height: 44px
+}
+
+.layer_position_wrap .layer_cont_position .desc_receive_box {
+    margin: -35px -40px 0;
+    padding: 44px 41px 12px;
+    height: 94px;
+    box-sizing: border-box;
+    color: #222;
+    font-size: 12px;
+    line-height: 19px;
+    background: #f7f8f9
+}
+
+.layer_position_wrap .layer_cont_position .info_company {
+    overflow: hidden;
+    float: left;
+    max-width: 100%;
+    color: #666;
+    font-size: 14px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.layer_position_wrap .layer_cont_position .info_company strong {
+    display: block;
+    overflow: hidden;
+    margin-top: 8px;
+    max-width: 100%;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.layer_position_wrap .layer_cont_position .wrap_thumb+.info_company {
+    width: 350px
+}
+
+.layer_position_wrap .layer_cont_position .wrap_thumb+.info_company strong {
+    width: 350px
+}
+
+.layer_position_wrap .layer_cont_position .desc_receive {
+    margin-top: 30px;
+    color: #000;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.layer_position_wrap .layer_cont_position .list_date {
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: #222;
+    font-size: 14px;
+    line-height: 24px;
+    background: #f7f8f9
+}
+
+.layer_position_wrap .layer_cont_position .list_date dt {
+    float: left;
+    margin: 16px 20px 0 0;
+    font-weight: bold
+}
+
+.layer_position_wrap .layer_cont_position .list_date dd {
+    overflow: hidden;
+    margin-top: 16px
+}
+
+.layer_position_wrap .layer_cont_position .list_date dt:first-of-type, .layer_position_wrap .layer_cont_position .list_date dd:first-of-type {
+    margin-top: 0
+}
+
+.layer_position_wrap .layer_cont_position .list_date dd .emph {
+    color: #ff3b3b;
+    font-weight: bold;
+    letter-spacing: 0
+}
+
+.layer_position_wrap .layer_cont_position .list_date dd .txt_noti {
+    display: block;
+    color: #777;
+    font-size: 13px;
+    letter-spacing: -1px;
+    line-height: 24px
+}
+
+.layer_position_wrap .layer_cont_position .tit_layer {
+    display: block;
+    margin-top: 40px;
+    color: #000;
+    font-size: 17px;
+    line-height: 26px
+}
+
+.layer_position_wrap .layer_cont_position .list_receive {
+    overflow: hidden;
+    margin-top: 8px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #ebebeb;
+    line-height: 24px
+}
+
+.layer_position_wrap .layer_cont_position .list_receive dt {
+    float: left;
+    margin: 8px 20px 0 0;
+    width: 58px;
+    color: #0da08f;
+    font-size: 14px;
+    font-weight: bold
+}
+
+.layer_position_wrap .layer_cont_position .list_receive dd {
+    overflow: hidden;
+    margin-top: 8px;
+    color: #222;
+    font-size: 15px;
+    letter-spacing: 0
+}
+
+.layer_position_wrap .layer_cont_position .list_receive dd .txt {
+    display: block;
+    color: #666;
+    font-size: 14px
+}
+
+.layer_position_wrap .layer_cont_position .list_info {
+    overflow: hidden;
+    margin-top: 8px;
+    line-height: 20px
+}
+
+.layer_position_wrap .layer_cont_position .list_info dt {
+    float: left;
+    margin: 12px 7px 0 0;
+    width: 69px;
+    color: #666;
+    font-size: 14px
+}
+
+.layer_position_wrap .layer_cont_position .list_info dd {
+    overflow: hidden;
+    margin-top: 12px;
+    min-height: 20px;
+    color: #222;
+    font-size: 15px;
+    word-break: break-all
+}
+
+.layer_position_wrap .layer_cont_position .list_task {
+    margin-top: 16px
+}
+
+.layer_position_wrap .layer_cont_position .list_task li {
+    color: #222;
+    font-size: 15px;
+    line-height: 24px
+}
+
+.layer_position_wrap .layer_cont_position .box_info {
+    position: relative;
+    margin-top: 40px;
+    padding: 24px 30px 40px;
+    border: 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background: #f0faf9
+}
+
+.layer_position_wrap .layer_cont_position .box_info .tit_layer {
+    margin-top: 0
+}
+
+.layer_position_wrap .layer_cont_position .box_info .link_info {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    padding: 5px 0 6px 12px;
+    width: 85px;
+    height: 28px;
+    border-radius: 14px;
+    box-sizing: border-box;
+    color: #666;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 17px;
+    background: #fff
+}
+
+.layer_position_wrap .layer_cont_position .box_info .link_info:after {
+    display: inline-block;
+    margin: 5px 0 0 7px;
+    width: 6px;
+    height: 9px;
+    vertical-align: top;
+    background: url(//www.saraminimage.co.kr/sri/person/ico/layer_position_arrow.png);
+    content: ""
+}
+
+.layer_position_wrap .layer_cont_choice {
+    overflow: hidden;
+    position: relative;
+    padding: 30px 30px 20px;
+    height: 100%;
+    box-sizing: border-box;
+    background: #fafbfc
+}
+
+.layer_position_wrap .layer_cont_choice .tit_choice {
+    color: #000;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    line-height: 24px
+}
+
+.layer_position_wrap .layer_cont_choice .list_choice {
+    margin-top: 16px
+}
+
+.layer_position_wrap .layer_cont_choice .list_choice li {
+    margin-top: 8px
+}
+
+.layer_position_wrap .InpBox {
+    display: block;
+    width: 234px;
+    height: 50px;
+    padding: 15px 0 17px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff
+}
+
+.layer_position_wrap .Rdo .Lbl {
+    height: 100%;
+    box-sizing: border-box
+}
+
+.layer_position_wrap .desc_choice {
+    padding: 5px 0 7px;
+    color: #999;
+    font-size: 13px;
+    line-height: 18px
+}
+
+.layer_position_wrap .box_noti {
+    position: absolute;
+    right: 30px;
+    bottom: 82px;
+    left: 30px;
+    padding: 12px 15px 15px;
+    border-radius: 5px;
+    color: #888;
+    font-size: 13px;
+    line-height: 20px;
+    background: #fff
+}
+
+.layer_position_wrap .box_noti em {
+    text-decoration: underline
+}
+
+.layer_position_wrap .list_limits {
+    position: absolute;
+    right: 30px;
+    bottom: 85px;
+    left: 30px
+}
+
+.layer_position_wrap .list_limits li {
+    margin-top: 10px
+}
+
+.layer_position_wrap .list_limits .sri_input3 label {
+    height: auto;
+    color: #222;
+    font-size: 14px;
+    line-height: 21px
+}
+
+.layer_position_wrap .layer_cont_choice .btn_receive {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    padding: 13px 0 14px;
+    width: 234px;
+    height: 48px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 16px;
+    line-height: 21px;
+    background: #444
+}
+
+.layer_position_wrap .layer_cont_choice .btn_receive:disabled {
+    color: #fff;
+    background: #ebebed;
+    cursor: default
+}
+
+.layer_position_wrap .btn_close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10
+}
+
+.layer_position_wrap .btn_close:after {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(//www.saraminimage.co.kr/sri/pattern/btn_close_modal.png) 0 0 no-repeat;
+    content: ""
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice {
+    display: none;
+    margin-top: -10px;
+    padding: 22px 16px 16px;
+    width: 234px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #f4f5f6
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .tit_choice {
+    display: block;
+    padding-top: 4px;
+    color: #888;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 17px
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .tf_choice {
+    margin-top: 8px;
+    padding: 12px 16px;
+    width: 202px;
+    height: 140px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 20px;
+    vertical-align: top;
+    background-color: #fff;
+    resize: none
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .tf_choice::placeholder {
+    color: #999;
+    opacity: 1
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .scroll {
+    overflow: hidden;
+    overflow-y: auto;
+    margin: 0 -16px -16px 0;
+    padding-bottom: 16px;
+    max-height: 200px
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .list_choice {
+    margin-top: -3px
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .list_choice li {
+    margin-top: 14px
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .list_choice .inpRdo {
+    width: auto;
+    height: auto;
+    border: 0;
+    background: none
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .list_choice .tf_choice {
+    height: 154px
+}
+
+.layer_position_wrap .layer_cont_choice .box_choice .box_choice {
+    margin: 0;
+    padding: 0
+}
+
+.layer_position_wrap .layer_cont_choice .list_choice li.on>.box_choice {
+    display: block
+}
+
+.layer_position_wrap.layer_cancel {
+    margin: -300px 0 0 -335px;
+    width: 670px;
+    height: 600px
+}
+
+.layer_position_wrap.layer_cancel .layer_cont_position {
+    width: 667px
+}
+
+.layer_position_wrap.layer_cancel .layer_cont_position .list_receive dd {
+    text-decoration: line-through
+}
+
+.layer_position_wrap.layer_cancel .btn_close {
+    right: 35px
+}

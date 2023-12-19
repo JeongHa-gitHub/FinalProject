@@ -1,0 +1,82 @@
+@charset "UTF-8";
+
+/* companyList.jsp  */
+
+.companyList .wrap_main_panel .tab_section button {
+	 width: 379px !important;
+}
+
+.companyList .wrap_main_panel .tab_section li:first-child button {
+	
+}
+
+.companyList .btnSizeM {
+padding: 0 22px 0px;
+}
+
+.companyList {
+	width:1260px !important;
+	min-height: 100px;
+	margin: 56px auto 80px auto !important;
+}
+
+.companyList .common_recruilt_list .list_info {
+	justify-content: end;
+}
+
+.companyList .list_recruiting .list_body .list_item .recruit_info>ul>li p {
+	line-height: 60px;
+	font-size: 17px;
+}
+
+.companyList .list_recruiting .list_body .list_item .support_info {
+	margin-top: 18px;
+}
+
+.companyList i {
+	line-height: 5.2;
+    color: #a7a7a7;
+    font-size: 14px;
+    letter-spacing: 4.5px;
+}
+
+.companyList .sri_btn_md span.sri_btn_immediately, .sri_btn_md span.sri_btn_recruitin_apply {
+	border: 1px solid #73b0e5;
+    color: #0472d1;
+}
+
+.companyDetail .wrap_company_view .sidebar {
+	background: #f4f6fa;
+}
+
+.companyForm .wrap_title {
+    color: #373f57;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: -3px;
+    line-height: 56px;
+}
+
+.companyForm .wrap_bottom_btn .btn_next_step {
+    width: 300px !important;
+}
+
+.str_tit span {
+	font-size: 18px;
+}
+
+/* BUTTON */
+[class*="companyForm BtnType"] {
+    display: inline-flex;
+    position: relative;
+    border: 1px solid #b8b9ba;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--white);
+    letter-spacing: -1px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #b4b5b7;
+    justify-content: center;
+    align-items: center;
+}

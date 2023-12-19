@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.PromotionMnmtDAO">
+
+<update id="updateUserPromotion" parameterType="ticketMnmtVO">
+    UPDATE ticketmnmt
+    SET
+        ticket_name = #{ticketName, jdbcType=VARCHAR},
+        ticket_period = #{ticketPeriod, jdbcType=INTEGER},
+        ticket_price = #{ticketPrice, jdbcType=INTEGER}
+    WHERE
+        ticket_no = #{ticketNo, jdbcType=VARCHAR}
+</update>
+
+<delete id="deleteUserPromotion" parameterType="ticketMnmtVO">
+	DELETE FROM ticketmnmt
+	WHERE
+	        ticket_no = #{ticketNo, jdbcType=VARCHAR}
+</delete>
+
+<insert id="insertUserPromotion" parameterType="ticketMnmtVO">
+	INSERT INTO ticketmnmt (
+	    ticket_no,
+	    ticket_name,
+	    ticket_period,
+	    ticket_price
+	) VALUES (
+	    'PT' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000'),
+	    #{ticketName, jdbcType=VARCHAR},
+	    #{ticketPeriod, jdbcType=INTEGER},
+	    #{ticketPrice, jdbcType=INTEGER}
+	)
+
+</insert>
+
+<resultMap id="imageAdvrtResultMap" type="kr.or.ddit.company.vo.ImageAdvrtVO"/>
+<resultMap id="companyAdvrtResultMap" type="kr.or.ddit.company.vo.CompanyAdvrtVO"/>
+
+<select id="selectAdList" resultMap="imageAdvrtResultMap">
+        SELECT
+		    t.*,
+		    ROWNUM AS rnum
+		FROM
+		    (
+		        SELECT
+		            imgad_no,
+		            imgad_name,
+		            imgad_period,
+		            imgad_price,
+		            imgad_loc
+		        FROM
+		            imgadmnmt
+		
+		        UNION
+		
+		        SELECT
+		            cmpad_no,
+		            cmpad_name,
+		            cmpad_period,
+		            cmpad_price,
+		            NULL AS imgad_loc
+		        FROM
+		            cmpadmnmt
+    	) t
+</select>
+</mapper>

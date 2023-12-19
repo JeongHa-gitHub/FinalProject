@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.TicketMnmtDAO">
+
+	<select id="selectTicketList" resultType="TicketMnmtVO">
+		SELECT
+		ROW_NUMBER() OVER (ORDER BY ticket_no) AS rnum,
+		ticket_no,
+		ticket_name,
+		ticket_period,
+		ticket_price
+		FROM
+		ticketmnmt
+		ORDER BY
+		ticket_no
+	</select>
+
+	<select id="selectTicketDetail" parameterType="String"
+		resultType="TicketMnmtVO">
+		SELECT
+		ticket_no,
+		ticket_name,
+		ticket_period,
+		ticket_price
+		FROM ticketmnmt
+		WHERE ticket_no = #{ticketNo}
+	</select>
+
+	<select id="selectCouponDetail" parameterType="String"
+		resultType="CouponVO">
+		SELECT
+		c.cpn_no,
+		c.users_id,
+		c.clist_isn_date,
+		c.clist_use_date,
+		c.ucpn_no,
+		p.cpn_no,
+		p.cpn_name,
+		p.cpn_content,
+		p.cpn_img,
+		p.cpn_price,
+		p.rgst_date,
+		p.start_date,
+		p.end_date
+		FROM
+		couponlist c
+		JOIN coupon p ON c.cpn_no = p.cpn_no
+		WHERE
+		c.users_id = #{authId}
+		AND c.clist_use_date IS NULL
+		AND p.end_date >= SYSDATE
+	</select>
+
+	<select id="selectUserPass" parameterType="String"
+		resultType="MemberVO">
+		SELECT
+		mem_pass
+		FROM
+		member
+		WHERE mem_id = #{memId}
+	</select>
+
+
+	<resultMap id="MycouponListResultMap"
+		type="kr.or.ddit.users.vo.CouponListVO" autoMapping="true">
+		<association property="couponVO" autoMapping="true">
+		</association>
+	</resultMap>
+
+	<select id="selectMyCouponList" parameterType="String"
+		resultMap="MycouponListResultMap" resultType="CouponListVO">
+		SELECT
+		rownum as rnum,
+		B.cpn_no,
+		B.cpn_content,
+		B.cpn_price,
+		B.end_date,
+		B.cpn_name,
+		A.clist_isn_date,
+		A.clist_use_date
+		FROM
+		couponlist A, coupon B
+		WHERE
+		A.cpn_no = B.cpn_no
+		and A.users_id = #{authId}
+	</select>
+
+	<select id="countMyCouponList" parameterType="String"
+		resultType="int">
+  	<![CDATA[		
+		SELECT
+			COUNT(*) AS total_count
+		FROM
+			couponlist A JOIN coupon B ON A.cpn_no = B.cpn_no
+		WHERE
+		A.clist_use_date IS NULL
+		AND B.end_date >= SYSDATE
+		AND A.users_id = #{authId}
+	 ]]>	
+	</select>
+
+</mapper>

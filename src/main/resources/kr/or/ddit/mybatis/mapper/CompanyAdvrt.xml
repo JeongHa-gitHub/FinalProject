@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.CompanyAdvrtDAO">
+
+<select id="selectCmpAdvrtList" resultType="CompanyAdvrtVO">
+	SELECT
+	    cmpad_no,
+	    cmpad_name,
+	    cmpad_period,
+	    cmpad_price
+	FROM
+   		cmpadmnmt
+</select>
+
+<insert id="sendCmpAdPay" parameterType="cmpAdvrtPayVO">
+	INSERT INTO cmpadpay (
+	    cmpad_pmtno,
+	    cmpad_no,
+	    company_id,
+	    pmt_methdno,
+	    cmpad_pdate,
+	    cmpad_sdate,
+	    cmpad_edate,
+	    cmpad_bprice
+	) VALUES (
+	    'CADP' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000'),
+	    #{cmpadNo},
+	    #{companyId},
+	    #{pmtMethdno},
+	    SYSDATE,
+	    #{cmpadSdate},
+	    #{cmpadEdate},
+	    #{cmpadBprice}
+	)
+</insert>
+
+
+	<resultMap id="myCmpAdvrListResultMap" type="kr.or.ddit.company.vo.CmpAdvrtPayVO" autoMapping="true">
+		<association property="companyAdvrtVO" autoMapping="true" javaType="kr.or.ddit.company.vo.CompanyAdvrtVO">
+			<association property="companyVO" autoMapping="true"/>
+		</association>
+	</resultMap>
+	
+<select id="validCmpAdvrtList"  parameterType="String" resultType="CmpAdvrtPayVO" resultMap="myCmpAdvrListResultMap">
+	<![CDATA[
+	SELECT
+		rownum as rnum,
+	    A.cmpad_name,
+	    A.cmpad_period,
+	    A.cmpad_price,
+	    B.cmpad_pmtno,
+	    B.cmpad_no,
+	    B.company_id,
+	    B.pmt_methdno,
+	    B.cmpad_pdate,
+	    B.cmpad_sdate,
+	    B.cmpad_edate,
+	    B.cmpad_bprice,
+	    C.company_nm
+	FROM
+	    cmpadpay B, cmpadmnmt A, company C
+	WHERE
+	    B.company_id = C.company_id
+	    AND B.company_id=#{companyId}
+	    AND B.cmpad_no = A.cmpad_no
+	    AND TRUNC(SYSDATE) >= TRUNC(cmpad_sdate)
+	    AND TRUNC(SYSDATE) <= TRUNC(cmpad_edate)
+    ]]>	
+</select>
+
+<select id="retriveMyCmpAdvrtList" parameterType="String" resultType="CmpAdvrtPayVO" resultMap="myCmpAdvrListResultMap">
+	SELECT
+		rownum as rnum,
+	    A.cmpad_name,
+	    A.cmpad_period,
+	    A.cmpad_price,
+	    B.cmpad_pmtno,
+	    B.cmpad_no,
+	    B.company_id,
+	    B.pmt_methdno,
+	    B.cmpad_pdate,
+	    B.cmpad_sdate,
+	    B.cmpad_edate,
+	    B.cmpad_bprice,
+	    C.company_nm
+	FROM
+	    cmpadpay B, cmpadmnmt A, company C
+	WHERE
+	    B.company_id = C.company_id
+	    AND B.company_id=#{companyId}
+	    AND B.cmpad_no = A.cmpad_no
+</select>
+
+<resultMap id="CmpAdvrtIndexResultMap" type="kr.or.ddit.company.vo.CmpAdvrtPayVO" autoMapping="true">
+		<association property="companyVO" autoMapping="true" javaType="kr.or.ddit.company.vo.CompanyVO">
+			<association property="comInfo" autoMapping="true" javaType="kr.or.ddit.company.vo.ComInfoVO">
+				<association property="recruitVO" autoMapping="true"/>
+			</association>
+		</association>
+</resultMap>
+
+<select id="selectCmpAdvrtIndex" resultType="CmpAdvrtPayVO" resultMap="CmpAdvrtIndexResultMap">
+	<![CDATA[	
+	SELECT
+	    B.company_nm,
+	    C.cominfo_file,
+	    (
+	        SELECT RCRT_TITLE
+	        FROM (
+	            SELECT ROWNUM RNUM, A.*
+	            FROM (
+	                SELECT RCRT_TITLE, RCRT_NO
+	                FROM RECRUIT
+	                WHERE RCRT_EDATE > SYSDATE
+	                ORDER BY RCRT_DATE DESC
+	            ) A
+	            WHERE ROWNUM = 1
+	        ) B
+	        WHERE RNUM = 1
+	    ) AS LastRecruit,
+	    A.cmpad_pmtno,
+	    A.cmpad_no,
+	    A.company_id,
+	    A.pmt_methdno,
+	    A.cmpad_pdate,
+	    A.cmpad_sdate,
+	    A.cmpad_edate,
+	    A.cmpad_bprice
+	FROM
+	    cmpadpay A
+	    JOIN company B ON B.company_id = A.company_id
+	    JOIN cominfo C ON C.company_id = B.company_id
+	    LEFT JOIN (
+	        SELECT RCRT_TITLE, RCRT_NO, ROW_NUMBER() OVER (ORDER BY RCRT_DATE DESC) AS RNUM
+	        FROM RECRUIT
+	        WHERE RCRT_EDATE > SYSDATE
+	    ) D ON D.RNUM = 1
+	WHERE
+	    TRUNC(SYSDATE) >= TRUNC(A.cmpad_sdate)
+	    AND TRUNC(SYSDATE) <= TRUNC(A.cmpad_edate)
+	]]>
+</select>
+
+</mapper>

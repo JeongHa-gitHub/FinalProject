@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.UsersDAO">
+
+<!-- 사용자 회원가입 -->
+<insert id="createUsers" parameterType="UsersVO">
+	INSERT INTO
+	USERS(
+	users_id,
+	users_nm,
+	users_bir,
+	users_gen,
+	users_vpoint
+
+	)VALUES(
+	#{usersId,jdbcType=VARCHAR}
+	,#{usersNm,jdbcType=VARCHAR}
+	,#{usersBir,jdbcType=DATE}
+	,#{usersGen,jdbcType=VARCHAR}
+	,#{usersVpoint,jdbcType=NUMERIC}
+	)
+
+</insert>
+
+<!-- 사용자 회원가입시 포인트 테이블 insert -->
+<insert id="createPoint" parameterType="PointPayVO">
+	<selectKey keyProperty="pointPmtno" resultType="String" order="BEFORE">
+	select 'PTP' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000') from dual
+	</selectKey>
+
+INSERT INTO POINTPAY (
+	POINT_PMTNO
+	, USERS_ID
+	, POINT_PDATE
+	, POINT_HOLD
+	, POINT_CHARGE
+	, POINT_USE
+	, POINT_REMAIN
+	, POINT_RECORD)
+
+VALUES(
+	 #{pointPmtno,jdbcType=VARCHAR}
+	, #{usersId,jdbcType=VARCHAR}
+	, sysdate
+	, #{pointHold,jdbcType=NUMERIC}
+	, #{pointCharge,jdbcType=NUMERIC}
+	, #{pointUse,jdbcType=NUMERIC}
+	, #{pointRemain,jdbcType=NUMERIC}
+	, #{pointRecord,jdbcType=VARCHAR}
+    
+    )
+</insert>
+
+<!-- <select id="selectUsers" resultType="kr.or.ddit.users.vo.UsersVO" parameterType="string"> -->
+<!-- select *  -->
+<!-- from users -->
+<!-- where users_id =#{usersId, jdbcType=VARCHAR} -->
+
+<!-- </select> -->
+
+
+
+
+
+
+</mapper>

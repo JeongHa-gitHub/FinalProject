@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.RecruitMgmtDAO">
+	<select id="selectRecruit" parameterType="String"
+		resultType="RecruitVO">
+		SELECT
+		RCRT_NO, COMPANY_ID, RCRT_TITLE, RCRT_HIT, RCRT_KEYWORDNM
+		, RCRT_FIELD, RCRT_PERSON, RCRT_CAREER, RCRT_CONDITION
+		, RCRT_EDU, RCRT_LOC, RCRT_TYPE, RCRT_SALARY, RCRT_WEEK
+		, TO_CHAR(RCRT_DATE, 'YYYY.MM.DD') AS RCRT_DATE
+		, TO_CHAR(RCRT_SDATE, 'YYYY.MM.DD') AS RCRT_SDATE
+		, TO_CHAR(RCRT_EDATE, 'YYYY.MM.DD') AS RCRT_EDATE
+		, RCRT_NM, RCRT_TEL
+		, RCRT_MAIL, RCRT_WLFR, RCRT_RECTYPE, RCRT_STIME, RCRT_ETIME, RCRT_DELETE
+		FROM RECRUIT
+		WHERE RCRT_NO = #{rcrtNo}
+	</select>
+
+	<sql id="searchFrag">
+		<where>
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'title'">
+						INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'companyId'">
+						INSTR(COMPANY_ID, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(COMPANY_ID, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM RECRUIT
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectRecruitList" parameterType="PaginationInfo"
+		resultType="RecruitVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		RCRT_NO, COMPANY_ID, RCRT_TITLE, RCRT_HIT, RCRT_KEYWORDNM
+		, RCRT_FIELD, RCRT_PERSON, RCRT_CAREER, RCRT_CONDITION
+		, RCRT_EDU, RCRT_LOC, RCRT_TYPE, RCRT_SALARY, RCRT_WEEK
+		, TO_CHAR(RCRT_DATE, 'YYYY.MM.DD') AS RCRT_DATE
+		, TO_CHAR(RCRT_SDATE, 'YYYY.MM.DD') AS RCRT_SDATE
+		, TO_CHAR(RCRT_EDATE, 'YYYY.MM.DD') AS RCRT_EDATE
+		, RCRT_NM, RCRT_TEL
+		, RCRT_MAIL, RCRT_WLFR, RCRT_RECTYPE, RCRT_STIME, RCRT_ETIME, RCRT_DELETE
+		FROM RECRUIT
+		<include refid="searchFrag" />
+		ORDER BY RCRT_DATE DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	
+	<select id="selectRecruitInfo" parameterType="String" resultType="RecruitVO">
+		SELECT
+			RCRT_NO
+			, COMPANY_ID
+			, RCRT_TITLE
+			, RCRT_HIT
+			, RCRT_KEYWORDNM
+			, RCRT_FIELD
+			, RCRT_PERSON
+			, RCRT_CAREER
+			, RCRT_CONDITION
+			, RCRT_EDU
+			, RCRT_LOC
+			, RCRT_TYPE
+			, RCRT_SALARY
+			, RCRT_WEEK
+			, TO_CHAR(RCRT_DATE, 'YYYY.MM.DD') AS RCRT_DATE
+			, TO_CHAR(RCRT_SDATE, 'YYYY.MM.DD') AS RCRT_SDATE
+			, TO_CHAR(RCRT_EDATE, 'YYYY.MM.DD') AS RCRT_EDATE
+			, RCRT_NM
+			, RCRT_TEL
+			, RCRT_MAIL
+			, RCRT_WLFR
+			, RCRT_RECTYPE
+			, RCRT_STIME
+			, RCRT_ETIME
+			RCRT_DELETE
+		FROM RECRUIT 
+		WHERE RCRT_NO = #{rcrtNo} 
+	</select>
+</mapper>
+
+
+

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.ApplyDAO">
+<!-- 	주연 -->
+	<resultMap type="ApplyVO" id="applyMap" autoMapping="true">
+		<association property="company" autoMapping="true" />
+		<association property="recruit" autoMapping="true" />
+		<association property="procedure_a" autoMapping="true" />
+	</resultMap>
+		<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'title'">
+						AND INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(RCRT_TITLE, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersId)">
+				AND USERS_ID=#{variousCondition.usersId}
+			</if>
+			AND RPROC_ORDER = 1
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo" resultType="int">
+		SELECT COUNT(*)
+			FROM APPLY A
+			JOIN RECRUIT B ON(A.RCRT_NO=B.RCRT_NO)
+			JOIN COMPANY C ON(B.COMPANY_ID=C.COMPANY_ID)
+			JOIN A_PROCEDURE D ON(A.apl_no=D.apl_no)
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectApplyList" parameterType="PaginationInfo" resultType="ApplyVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		A.APL_NO
+		, A.RCRT_NO
+		, A.USERS_ID
+		, A.APL_CANCEL
+		, A.RESSC_NO
+		, B.RCRT_TITLE "recruit.rcrtTitle"
+		, B.RCRT_FIELD "recruit.rcrtField"
+		, B.COMPANY_ID "recruit.companyId"
+		, C.COMPANY_NM "company.companyNm"
+		, D.APROC_DATE "procedure_a.aprocDate"
+    	, D.RPROC_ORDER "procedure_a.rprocOrder" 
+		FROM APPLY A 
+		JOIN RECRUIT B ON(A.RCRT_NO=B.RCRT_NO)
+		JOIN COMPANY C ON(B.COMPANY_ID=C.COMPANY_ID)
+		JOIN A_PROCEDURE D ON(A.APL_NO=D.APL_NO)
+		<include refid="searchFrag" />
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	
+	
+<!-- 	소원 -->
+<!-- 이력서 이미지 -->
+<insert id="createResumeAttatch" parameterType="ResumeAttatchVO">
+<selectKey keyProperty="resattNo" resultType="String" order="BEFORE">
+select 'RATT' || LPAD(RESUMEATT_SEQ.NEXTVAL, 4, '0') from dual
+
+</selectKey>
+INSERT INTO resume_attatch (
+    resatt_no,
+    resume_title,
+    resatt_originalnm,
+    resatt_savename,
+    resatt_filesize,
+    resatt_mime
+) VALUES (
+      #{resattNo,jdbcType=VARCHAR}
+	, #{resumeTitle,jdbcType=VARCHAR}
+	, #{resattOriginalnm,jdbcType=VARCHAR}
+	, #{resattSavename,jdbcType=VARCHAR}
+	, #{resattFilesize,jdbcType=NUMERIC}
+	, #{resattMime,jdbcType=VARCHAR}
+)
+
+</insert>
+
+<!-- 지원  apply테이블 -->
+<insert id="createApply" parameterType="ApplyVO">
+<selectKey  keyProperty="aplNo" resultType="String" order="BEFORE">
+SELECT 'apl' || LPAD(APPLY_SEQ.NEXTVAL, 5, '0') AS generated_id FROM dual
+
+</selectKey>
+
+INSERT INTO apply (
+    apl_no,
+    rcrt_no,
+    users_id,
+  	resatt_no
+) VALUES (
+	  #{aplNo,jdbcType=VARCHAR}
+	, #{rcrtNo,jdbcType=VARCHAR}
+	, #{usersId,jdbcType=VARCHAR}
+    , #{resattNo,jdbcType=VARCHAR}
+)
+
+</insert>
+
+<insert id="creatAprocedure" parameterType="AProcedureVO">
+
+INSERT INTO a_procedure (
+    apl_no,
+    rcrt_no,
+    rproc_order,
+    aproc_date
+) VALUES (
+      #{aplNo,jdbcType=VARCHAR}
+	, #{rcrtNo,jdbcType=VARCHAR}
+	, #{rprocOrder,jdbcType=NUMERIC}
+	, sysdate
+)
+
+</insert>
+
+<!-- 지원시 자신의 이력서 리스트! 이력서 테이블 -->
+<select id="resumeList" resultType="ResumeVO" parameterType="string">
+SELECT
+    resume_no,
+    users_id,
+    resume_title,
+    resume_portfolio,
+    resume_open_status
+FROM
+    resume
+WHERE users_id=#{usersId,jdbcType=VARCHAR}
+
+</select>
+
+<!-- 채용공고 중복지원 막기 -->
+<select id="selectCheckApply" resultType="int" parameterType="ApplyVO">
+SELECT
+   count(*)
+FROM
+    apply
+WHERE users_id =#{usersId,jdbcType=VARCHAR} and rcrt_no = #{rcrtNo,jdbcType=VARCHAR}
+
+</select>
+
+</mapper>

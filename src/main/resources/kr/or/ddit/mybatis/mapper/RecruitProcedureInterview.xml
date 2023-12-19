@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.company.dao.RecruitProcedureInterviewDAO">
+	
+	<!-- 면접일정 등록 -->
+	<insert id="insertInterviewSchd" parameterType="InterviewSchdVO">
+		<selectKey order="BEFORE" keyProperty="intrNo" resultType="String">
+			SELECT 'INTR'||LPAD(INTR_SCHD_SEQ.NEXTVAL,6,'0') FROM DUAL
+		</selectKey>
+		INSERT INTO interview_schd (
+		    intr_no
+		    , apl_no
+		    , rproc_order
+		    , rcrt_no
+		    , intr_intdate
+		    , intr_place
+		    , intr_date
+		    , intr_type
+		) VALUES (
+		    #{intrNo, jdbcType=VARCHAR}
+		    , #{aplNo, jdbcType=VARCHAR}
+		    , #{rprocOrder, jdbcType=NUMERIC}
+		    , #{rcrtNo, jdbcType=VARCHAR}
+		    , #{intrIntdate}
+		    , #{intrPlace}
+		    , sysdate
+		    , #{intrType, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 면접알림 테이블 등록 -->
+	<insert id="insertIntrMail" parameterType="HashMap">
+		<selectKey keyProperty="iAlarmNo" keyColumn="I_ALARM_NO" order="BEFORE" resultType="string">
+			SELECT 'IA'||LPAD(INTRALARM_SEQ.NEXTVAL,6,'0') FROM DUAL
+		</selectKey>
+		INSERT INTO interview_alarm (
+		    i_alarm_no,
+		    intr_no
+		    , i_alarm_type
+		) VALUES (
+		    #{iAlarmNo, jdbcType=VARCHAR}
+		    , #{intrNo, jdbcType=VARCHAR}
+		    , 'Z01'
+		)  
+	</insert>
+	
+	<!-- 면접일정 조회 -->
+	<select id="selectInterviewSchd" parameterType="InterviewSchdVO" resultType="InterviewSchdVO">
+		SELECT
+		    INTR_NO,
+		    APL_NO,
+		    RPROC_ORDER,
+		    RCRT_NO,
+		    TO_CHAR(INTR_INTDATE,  'YYYY-MM-DD') "intrIntdate",
+		    INTR_PLACE,
+		    TO_CHAR(INTR_DATE,  'YYYY-MM-DD') "intrDate",
+		    INTR_TYPE
+		FROM
+		    INTERVIEW_SCHD
+		WHERE
+			INTR_NO = #{intrNo}
+	</select>
+	
+	<!-- 면접일정 수정 -->
+	<update id="updateInterviewSchd" parameterType="InterviewSchdVO">
+		UPDATE interview_schd
+		SET
+		    intr_intdate = #{intrIntdate, jdbcType=VARCHAR}
+		    , intr_type = #{intrType, jdbcType=VARCHAR}
+		    <if test="intrPlace neq null">
+		    , intr_place = #{intrPlace, jdbcType=VARCHAR}
+		    </if>
+		WHERE
+			INTR_NO = #{intrNo, jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 면접일정 삭제 -->
+	<delete id="deleteInterviewSchd" parameterType="string">
+		DELETE FROM INTERVIEW_SCHD
+			WHERE INTR_NO = #{intrNo}
+	</delete>
+</mapper>

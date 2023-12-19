@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.PointPayDAO">
+
+	<insert id="savePointPay" parameterType="PointPayVO">
+		<selectKey keyProperty="pointRemain" order="BEFORE" resultType="int">
+			SELECT POINT_REMAIN
+			  FROM (
+			    SELECT POINT_REMAIN, ROW_NUMBER() OVER (ORDER BY POINT_PDATE DESC) AS rn
+			    FROM POINTPAY
+			    WHERE USERS_ID = #{usersId}
+			    ORDER BY POINT_PDATE DESC
+  			)
+ 			 WHERE rn = 1
+		</selectKey>
+		INSERT INTO POINTPAY (
+			POINT_PMTNO,
+			USERS_ID,
+			TICKET_NO,
+			PMT_METHDNO,
+			POINT_PDATE,
+			POINT_HOLD,
+			POINT_CHARGE,
+			POINT_USE,
+			POINT_REMAIN,
+			POINT_RECORD
+			)
+		VALUES (
+			'PTP' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000'), 
+			#{usersId},
+			NULL,
+			#{pmtMethdno},
+			TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'), 
+			#{pointRemain},
+			#{pointCharge},
+			0,
+			#{pointRemain} + #{pointCharge},
+			#{pointRecord}
+		)
+	</insert>
+	
+	<insert id="usePointPay" parameterType="PointPayVO">
+		<selectKey keyProperty="pointRemain" order="BEFORE" resultType="int">
+			SELECT POINT_REMAIN
+			  FROM (
+			    SELECT POINT_REMAIN, ROW_NUMBER() OVER (ORDER BY POINT_PDATE DESC) AS rn
+			    FROM POINTPAY
+			    WHERE USERS_ID = #{usersId}
+			    ORDER BY POINT_PDATE DESC
+  			)
+ 			 WHERE rn = 1
+		</selectKey>
+		INSERT INTO POINTPAY (
+			POINT_PMTNO,
+			USERS_ID,
+			TICKET_NO,
+			PMT_METHDNO,
+			POINT_PDATE,
+			POINT_HOLD,
+			POINT_CHARGE,
+			POINT_USE,
+			POINT_REMAIN,
+			POINT_RECORD
+			)
+		VALUES (
+			'PTP' || TO_CHAR(POINT_PMTNO_SEQ.NEXTVAL, 'FM000000'), 
+			#{usersId},
+			#{ticketNo},
+			NULL,
+			TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'), 
+			#{pointRemain},
+			0,
+			#{pointUse},
+			#{pointRemain} - #{pointUse},
+			#{pointRecord}
+		)
+	</insert>
+	
+	<update id="useCoupon" parameterType="CouponVO">
+		UPDATE couponlist
+		SET
+		    clist_use_date = sysdate
+		WHERE
+		    users_id = #{usersId}
+		    and ucpn_no = #{ucpnNo}
+	</update>
+	
+	<resultMap id="MyPointResultMap" type="kr.or.ddit.users.vo.PointPayVO" autoMapping="true">
+		<association property="usersVO" autoMapping="true" javaType="kr.or.ddit.users.vo.UsersVO">
+			<association property="ticketMnmtVO" autoMapping="true"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectMyPoint" parameterType="PointPayVO" resultType="PointPayVO" resultMap="MyPointResultMap">
+		SELECT
+	    ROWNUM AS rnum,
+	    P.point_pmtno,
+	    P.users_id,
+	    U.users_nm,
+	    P.ticket_no,
+	    T.ticket_name,
+	    T.ticket_period,
+	    P.pmt_methdno,
+	    P.point_pdate,
+	    P.point_hold,
+	    P.point_charge,
+	    P.point_use,
+	    P.point_remain,
+	    P.point_record
+	FROM
+	    pointpay P
+	JOIN
+	    users U ON P.users_id = U.users_id
+	LEFT JOIN
+	    ticketmnmt T ON P.ticket_no = T.ticket_no
+	WHERE
+	    P.users_id = #{usersId}
+	ORDER BY point_pdate desc
+	</select>
+	
+	<select id="selectMyTicket" parameterType="String" resultType="PointPayVO" resultMap="MyPointResultMap">
+		SELECT
+		rownum as rnum,
+	    T.ticket_name,
+	    T.ticket_period,
+	    T.ticket_price,
+	    P.point_pmtno,
+	    P.users_id,
+	    U.users_nm,
+	    P.ticket_no,
+	    P.point_pdate,
+	    P.point_hold,
+	    P.pmt_methdno,
+	    P.point_charge,
+	    P.point_use,
+	    P.point_remain,
+	    P.point_record
+	FROM
+	    pointpay P, ticketmnmt T, users U
+	WHERE 
+	    P.users_id = #{usersId}
+	AND P.users_id = U.users_id
+	AND P.ticket_no IS NOT NULL
+	AND P.ticket_no = T.ticket_no
+	</select>
+	
+	<select id="countMyTicketList" parameterType="String"
+	resultType="int">
+  	<![CDATA[		
+	SELECT
+	    COUNT(*) AS totalTicket_count
+	FROM
+	    pointpay P JOIN ticketmnmt T ON P.ticket_no = T.ticket_no
+	WHERE 
+	    P.users_id = #{usersId}
+	AND P.ticket_no IS NOT NULL
+	AND (P.point_pdate + T.ticket_period) >= SYSDATE
+	 ]]>	
+	</select>
+</mapper>

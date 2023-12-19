@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.AdminMainDAO">
+	
+	<select id="selectCompanyCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			COMPANY
+		WHERE
+			COMPANY_PERMISSION = 'U'	
+	</select>
+	
+	<select id="selectReviewCount" parameterType="string" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			INTERVIEW_REVIEW
+		WHERE
+			INTERV_APPROVAL='W'	
+	</select>
+
+	<select id="selectFreBoardList" parameterType="string" resultType="FrBoardVO">
+		SELECT FRB_TITLE, FRB_REP
+		FROM(
+		    SELECT  A.*
+		    FROM (
+		        SELECT ROW_NUMBER() OVER(ORDER BY FRB_DATE DESC) RNUM,FRB_NO, USERS_ID, FRB_TITLE, FRB_WRITE, FRB_DATE, FRB_LNO
+		        , DECODE(FRB_REP,'Y','신고',' ') FRB_REP, FRB_DELETE
+		        FROM
+		            FRBOARD
+		        WHERE FRB_REP = 'Y'
+		    ) A
+		    WHERE A.RNUM BETWEEN 1 AND 5
+		) B
+	</select>
+	
+	<select id="selectQnaBoardList" parameterType="string" resultType="QnAVO">
+		SELECT QSTN_TITLE, QSTN_REPLY
+		FROM(
+		    SELECT  A.*
+		    FROM (
+		        SELECT ROW_NUMBER() OVER(ORDER BY QSTN_DATE DESC) RNUM
+		        , QSTN_NO
+				, MEM_ID
+				, QSTN_TITLE
+				, TO_CHAR(QSTN_DATE, 'YYYY.MM.DD') QSTN_DATE
+				, DECODE(QSTN_REPLY,'N','답변대기중',' ') QSTN_REPLY
+		        FROM
+		            M_QUESTION
+		        WHERE QSTN_REPLY = 'N'
+		    ) A
+		    WHERE A.RNUM BETWEEN 1 AND 5
+		) B
+	</select>
+	
+</mapper>

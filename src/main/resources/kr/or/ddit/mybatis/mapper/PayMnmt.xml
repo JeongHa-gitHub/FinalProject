@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.PayMnmtDAO">
+
+<resultMap id="imageAdvrtPayResultMap" type="kr.or.ddit.company.vo.ImgAdvrtPayVO" autoMapping="true">
+	<association property="imageAdvrtVO" autoMapping="true">
+		<association property="companyVO" autoMapping="true"/>
+	</association>
+</resultMap>
+
+<select id="selectImgAdFormList" resultMap="imageAdvrtPayResultMap">
+		SELECT
+	    A.imgad_name,
+	    A.imgad_period,
+	    A.imgad_price,
+	    B.imgad_pmtno,
+	    B.imgad_no,
+	    B.company_id,
+	    C.company_nm,
+	    B.pmt_methdno,
+	    B.imgad_pdate,
+	    TO_CHAR(B.imgad_sdate, 'YYYY-MM-DD') as imgad_sdate,
+	    TO_CHAR(B.imgad_edate, 'YYYY-MM-DD') as imgad_edate,
+	    B.imgad_bprice,
+	    B.imgad_result,
+	    B.imgad_title,
+	    B.imgad_content,
+	    B.imgad_file,
+	    B.imgad_loc
+	FROM
+	    imgadpay B, imgadmnmt A, company C
+	WHERE B.imgad_no = A.imgad_no
+	    AND B.imgad_result = 'W'
+	    AND B.company_id = C.company_id
+</select>
+
+<select id="disagreeImgAdFormList" resultMap="imageAdvrtPayResultMap">
+		SELECT
+	    A.imgad_name,
+	    A.imgad_period,
+	    A.imgad_price,
+	    B.imgad_pmtno,
+	    B.imgad_no,
+	    B.company_id,
+	    C.company_nm,
+	    B.pmt_methdno,
+	    B.imgad_pdate,
+	    TO_CHAR(B.imgad_sdate, 'YYYY-MM-DD') as imgad_sdate,
+	    TO_CHAR(B.imgad_edate, 'YYYY-MM-DD') as imgad_edate,
+	    B.imgad_bprice,
+	    B.imgad_result,
+	    B.imgad_title,
+	    B.imgad_content,
+	    B.imgad_file,
+	    B.imgad_loc
+	FROM
+	    imgadpay B, imgadmnmt A, company C
+	WHERE B.imgad_no = A.imgad_no
+	    AND B.imgad_result = 'N'
+	    AND B.company_id = C.company_id
+</select>
+
+<select id="agreeImgAdFormList" resultMap="imageAdvrtPayResultMap">
+		SELECT
+	    A.imgad_name,
+	    A.imgad_period,
+	    A.imgad_price,
+	    B.imgad_pmtno,
+	    B.imgad_no,
+	    B.company_id,
+	    C.company_nm,
+	    B.pmt_methdno,
+	    B.imgad_pdate,
+	    TO_CHAR(B.imgad_sdate, 'YYYY-MM-DD') as imgad_sdate,
+	    TO_CHAR(B.imgad_edate, 'YYYY-MM-DD') as imgad_edate,
+	    B.imgad_bprice,
+	    B.imgad_result,
+	    B.imgad_title,
+	    B.imgad_content,
+	    B.imgad_file,
+	    B.imgad_loc
+	FROM
+	    imgadpay B, imgadmnmt A, company C
+	WHERE B.imgad_no = A.imgad_no
+	    AND B.imgad_result = 'Y'
+	    AND B.company_id = C.company_id
+</select>
+
+<update id="disagreeImgForm" parameterType="ImgAdvrtPayVO">
+	UPDATE imgadpay
+	SET
+	    imgad_result = 'N'
+	WHERE
+	    imgad_pmtno = #{imgadPmtno}
+</update>      
+
+<update id="agreeImgForm" parameterType="ImgAdvrtPayVO">
+	UPDATE imgadpay
+	SET
+	    imgad_result = 'Y'
+	WHERE
+	    imgad_pmtno = #{imgadPmtno}
+</update>  
+
+<update id="holdImgForm" parameterType="ImgAdvrtPayVO">
+	UPDATE imgadpay
+	SET
+	    imgad_result = 'W'
+	WHERE
+	    imgad_pmtno = #{imgadPmtno}
+</update>                        
+
+
+<resultMap id="PeriodTicketPayResultMap" type="kr.or.ddit.users.vo.PointPayVO" autoMapping="true">
+	<association property="usersVO" autoMapping="true" javaType="kr.or.ddit.users.vo.UsersVO">
+		<association property="ticketMnmtVO" autoMapping="true"/>
+	</association>
+</resultMap>
+
+
+
+<select id="selectPeriodTicketPay" resultMap="PeriodTicketPayResultMap">
+SELECT
+    P.point_pmtno,
+    P.users_id,
+    U.users_nm,
+    T.ticket_name,  
+    P.ticket_no,
+    P.pmt_methdno,
+    P.point_pdate,
+    P.point_hold,
+    P.point_charge,
+    P.point_use,
+    P.point_remain,
+    P.point_record
+FROM
+    pointpay P
+JOIN
+    users U ON P.users_id = U.users_id
+JOIN
+    ticketmnmt T ON P.ticket_no = T.ticket_no 
+WHERE
+    P.pmt_methdno IS NULL
+</select>
+
+
+<resultMap id="ImgAdPayResultMap" type="kr.or.ddit.company.vo.ImgAdvrtPayVO" autoMapping="true">
+	<association property="imageAdvrtVO" autoMapping="true" javaType="kr.or.ddit.company.vo.ImageAdvrtVO">
+		<association property="companyVO" autoMapping="true"/>
+	</association>
+</resultMap>
+
+
+<select id="selectImgAdPay" resultMap="ImgAdPayResultMap">
+SELECT
+    P.imgad_pmtno,
+    P.imgad_no,
+    P.company_id,
+    P.pmt_methdno,
+    P.imgad_pdate,
+    P.imgad_sdate,
+    P.imgad_edate,
+    P.imgad_bprice,
+    P.imgad_result,
+    P.imgad_title,
+    P.imgad_content,
+    P.imgad_file,
+    P.imgad_loc,
+    C.company_nm,
+    A.imgad_name
+FROM
+    imgadpay P
+JOIN
+    imgadmnmt A ON P.imgad_no = A.imgad_no
+JOIN
+    company C ON P.company_id = C.company_id
+</select>
+
+
+<resultMap id="CmpAdPayResultMap" type="kr.or.ddit.company.vo.CmpAdvrtPayVO" autoMapping="true">
+	<association property="companyAdvrtVO" autoMapping="true" javaType="kr.or.ddit.company.vo.CompanyAdvrtVO">
+		<association property="companyVO" autoMapping="true"/>
+	</association>
+</resultMap>
+
+
+<select id="selectcmpAdPay" resultMap="CmpAdPayResultMap">
+SELECT
+    p.cmpad_pmtno,
+    p.cmpad_no,
+    p.company_id,
+    p.pmt_methdno,
+    p.cmpad_pdate,
+    p.cmpad_sdate,
+    p.cmpad_edate,
+    p.cmpad_bprice,
+    C.company_nm,
+    A.cmpad_name
+FROM
+    cmpadpay p
+JOIN
+    cmpadmnmt A ON P.cmpad_no = A.cmpad_no
+JOIN
+    company C ON P.company_id = C.company_id
+</select>
+
+</mapper>

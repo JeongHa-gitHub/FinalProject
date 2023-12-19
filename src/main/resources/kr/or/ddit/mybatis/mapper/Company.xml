@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.dao.CompanyDAO">
+
+
+
+<insert id="createCompany" parameterType="CompanyVO">
+INSERT INTO
+	COMPANY(
+	
+	company_id,
+    company_num,
+    company_file,
+    company_dnm,
+    company_nm,
+    company_date,
+    company_permission
+
+	)VALUES(
+	 #{companyId,jdbcType=VARCHAR}
+	,#{companyNum,jdbcType=NUMERIC}
+	,#{companyFile,jdbcType=VARCHAR}
+	,#{companyDnm,jdbcType=VARCHAR}
+	,#{companyNm,jdbcType=VARCHAR}
+	,#{companyDate,jdbcType=DATE}
+	,'U'
+	)
+
+</insert>
+
+<select id="selectCompany" resultType="CompanyVO" parameterType="string">
+select mem_id 
+from company
+where company_id =#{companyId, jdbcType=VARCHAR}
+
+
+</select>
+
+
+
+
+
+
+</mapper>

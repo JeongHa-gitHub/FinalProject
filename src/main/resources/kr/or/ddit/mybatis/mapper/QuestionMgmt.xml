@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.QuestionMgmtDAO">
+	<select id="selectQuestion" parameterType="String"
+		resultType="QnAVO">
+		SELECT
+		QSTN_NO, MEM_ID, QSTN_TITLE, QSTN_CONTENT
+		, TO_CHAR(QSTN_DATE, 'YYYY.MM.DD') AS QSTN_DATE
+		, QSTN_REPLY
+		FROM M_QUESTION
+		WHERE QSTN_NO = #{qstnNo}
+	</select>
+
+	<sql id="searchFrag">
+		<where>
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'id'">
+						INSTR(MEM_ID, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'content'">
+						INSTR(QSTN_CONTENT, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(MEM_ID, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(QSTN_CONTENT, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</where>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM M_QUESTION
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectQuestionList" parameterType="PaginationInfo"
+		resultType="QnAVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		QSTN_NO, MEM_ID, QSTN_TITLE, QSTN_CONTENT
+		, TO_CHAR(QSTN_DATE, 'YYYY.MM.DD') AS QSTN_DATE
+		, DECODE(QSTN_REPLY,'Y','답변완료','N','답변대기중') QSTN_REPLY
+		FROM M_QUESTION
+		<include refid="searchFrag" />
+		ORDER BY QSTN_DATE DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+</mapper>
+
+
+

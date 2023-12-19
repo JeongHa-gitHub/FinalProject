@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+<!--     index___________________________________________________________________________-->
+   <mvc:view-controller path="/userRegistration.do" view-name="/userRegistration" />
+   <mvc:view-controller path="/companyRegistration.do" view-name="/companyRegistration" />
+   <mvc:view-controller path="/rollet.do" view-name="/rollet" />
+   
+   
+<!--     사용자____________________________________________________________________________-->   
+   <!-- auth -->   
+   <mvc:view-controller path="/idFind.do" view-name="users/auth/idFind" />
+   <mvc:view-controller path="/login.do" view-name="users/auth/login" />
+   <mvc:view-controller path="/pwFind.do" view-name="users/auth/pwFind" />
+   <mvc:view-controller path="/userJoin.do" view-name="users/auth/userJoin" />
+   <mvc:view-controller path="/companyJoin.do" view-name="users/auth/companyJoin" />
+   <!-- board -->   
+   <mvc:view-controller path="/boardDetail.do" view-name="users/board/boardDetail" />
+   <mvc:view-controller path="/boardForm.do" view-name="users/board/boardForm" />
+   <mvc:view-controller path="/boardList.do" view-name="users/board/boardList" />
+   <!-- company -->   
+   <mvc:view-controller path="/companyDetail.do" view-name="users/company/companyDetail" />
+   <mvc:view-controller path="/companyList.do" view-name="users/company/companyList" />
+   <mvc:view-controller path="/companyPay.do" view-name="users/company/companyPay" />
+   <mvc:view-controller path="/companyResume.do" view-name="users/company/companyResume" />
+   <mvc:view-controller path="/companyReview.do" view-name="users/company/companyReview" />
+   <mvc:view-controller path="/companyStatus.do" view-name="users/company/companyStatus" />
+   <mvc:view-controller path="/companyForm.do" view-name="users/company/companyForm" />
+   <mvc:view-controller path="/companyReviewDetail.do" view-name="users/company/companyReviewDetail" />
+   <!-- event -->
+   <mvc:view-controller path="/eventIng.do" view-name="users/event/eventIng" />
+   <mvc:view-controller path="/eventIngDetail.do" view-name="users/event/eventIngDetail" />
+   <mvc:view-controller path="/eventEnd.do" view-name="users/event/eventEnd" />
+   <mvc:view-controller path="/eventEndDetail.do" view-name="users/event/eventEndDetail" />
+   <!-- member -->
+   <mvc:view-controller path="/applicationList.do" view-name="users/member/applicationList" />
+   <mvc:view-controller path="/interviewReviewForm.do" view-name="users/member/interviewReviewForm" />
+   <mvc:view-controller path="/interviewReviewList.do" view-name="users/member/interviewReviewList" />
+   <mvc:view-controller path="/interviewSchedule.do" view-name="users/member/interviewSchedule" />
+   <mvc:view-controller path="/interviewtList.do" view-name="users/member/interviewtList" />
+   <mvc:view-controller path="/likeCompanyForm.do" view-name="users/member/likeCompanyForm" />
+   <mvc:view-controller path="/likeCompanyList.do" view-name="users/member/likeCompanyList" />
+   <mvc:view-controller path="/memberCoupon.do" view-name="users/member/memberCoupon" />
+   <mvc:view-controller path="/memberDashBoard.do" view-name="users/member/memberDashBoard" />
+   <mvc:view-controller path="/memberInfo.do" view-name="users/member/memberInfo" />
+   <mvc:view-controller path="/memberInfoEdit.do" view-name="users/member/memberInfoEdit" />
+<!--    <mvc:view-controller path="/memberPoint.do" view-name="users/member/memberPoint" />
+ -->   <mvc:view-controller path="/memberTicket.do" view-name="users/member/memberTicket" />
+   <mvc:view-controller path="/notificationList.do" view-name="users/member/notificationList" />
+   <mvc:view-controller path="/paperApplicationList.do" view-name="users/member/paperApplicationList" />
+   <mvc:view-controller path="/questionList.do" view-name="users/member/questionList" />
+   <mvc:view-controller path="/recruitmentCalendar.do" view-name="users/member/recruitmentCalendar" />
+   <mvc:view-controller path="/scrapCalendar.do" view-name="users/member/scrapCalendar" />
+   <mvc:view-controller path="/resumeEdit.do" view-name="users/member/resumeEdit" />
+   <mvc:view-controller path="/resumeDetail.do" view-name="users/member/resumeDetail" />
+   <mvc:view-controller path="/resumeForm.do" view-name="users/member/resumeForm" />
+   <mvc:view-controller path="/resumeList.do" view-name="users/member/resumeList" />
+   <mvc:view-controller path="/scrapList.do" view-name="users/member/scrapList" />
+   <!-- notice -->
+   <mvc:view-controller path="/usersNoticeDetail.do" view-name="users/notice/usersNoticeDetail" />
+	<mvc:view-controller path="/usersNoticeList.do" view-name="users/notice/usersNoticeList" />
+	<mvc:view-controller path="/usersQuestionDetail.do" view-name="users/notice/usersQuestionDetail" />
+	<mvc:view-controller path="/usersQuestionForm.do" view-name="users/notice/usersQuestionForm" />
+	<mvc:view-controller path="/usersQuestionList.do" view-name="users/notice/usersQuestionList" />
+   <!-- promotion -->
+   <!-- <mvc:view-controller path="/PeriodtTicket.do" view-name="users/promotion/PeriodtTicket" /> -->
+   <!-- <mvc:view-controller path="/PointCharge.do" view-name="users/promotion/PointCharge" /> -->
+   <!-- recruit -->
+   <mvc:view-controller path="/recruitDetail.do" view-name="users/recruit/recruitDetail" />
+   <mvc:view-controller path="/recruitJobList.do" view-name="users/recruit/recruitJobList" />
+   <mvc:view-controller path="/recruitRegionList.do" view-name="users/recruit/recruitRegionList" />
+   <mvc:view-controller path="/recruitTop100List.do" view-name="users/recruit/recruitTop100List" />
+   <mvc:view-controller path="/rcrtApplyView.do" view-name="users/rcrtApply/rcrtApplyView" />
+   
+   
+<!--    기업______________________________________________________________________________-->
+   <!-- companymypage -->
+   <mvc:view-controller path="/companyInfo.do" view-name="company/companymypage/companyInfo" />
+   <mvc:view-controller path="/companyMemInfo.do" view-name="company/companymypage/companyMemInfo" />
+   <mvc:view-controller path="/companyMemInfoEdit.do" view-name="company/companymypage/companyMemInfoEdit" />
+   <!-- notice -->
+   <mvc:view-controller path="/noticeDetail.do" view-name="company/notice/noticeDetail" />   
+   <mvc:view-controller path="/noticeList.do" view-name="company/notice/noticeList" />   
+   <mvc:view-controller path="/questionDetail.do" view-name="company/notice/questionDetail" />   
+   <mvc:view-controller path="/questionForm.do" view-name="company/notice/questionForm" />   
+   <mvc:view-controller path="/questionList.do" view-name="company/notice/questionList" />   
+   <!-- promotion -->
+   <mvc:view-controller path="/companyAdvrt.do" view-name="company/promotion/companyAdvrt" />      
+   <mvc:view-controller path="/imageAdvrt.do" view-name="company/promotion/imageAdvrt" />      
+   <mvc:view-controller path="/listUp.do" view-name="company/promotion/listUp" />         
+   <!-- recruit -->
+   <mvc:view-controller path="/aptitudeResult.do" view-name="company/recruit/aptitudeResult" />
+   <mvc:view-controller path="/aptitudeScoreList.do" view-name="company/recruit/aptitudeScoreList" />
+   <mvc:view-controller path="/interviewList.do" view-name="company/recruit/interviewList" />
+   <mvc:view-controller path="/recruitForm.do" view-name="company/recruit/recruitForm" />
+   <mvc:view-controller path="/recruitList.do" view-name="company/recruit/recruitList" />
+   <mvc:view-controller path="/resumeScore.do" view-name="company/recruit/resumeScore" />
+   <mvc:view-controller path="/resumeScoreList.do" view-name="company/recruit/resumeScoreList" />
+   <mvc:view-controller path="/technicalScore.do" view-name="company/recruit/technicalScore" />
+   <mvc:view-controller path="/technicalScoreList.do" view-name="company/recruit/technicalScoreList" />
+   <!-- test -->
+   <mvc:view-controller path="/aptitudeTestForm.do" view-name="company/test/aptitudeTestForm" />
+   <mvc:view-controller path="/technicalTestForm.do" view-name="company/test/technicalTestForm" />
+   
+   
+   
+<!--    관리자_____________________________________________________________________________-->
+   <!-- companyInfo 기업관리 -->
+   <mvc:view-controller path="/recruitMgmt.do" view-name="admin/companyInfo/recruitMgmt" />
+   <mvc:view-controller path="/bsnsLcnsNmbr.do" view-name="admin/companyInfo/bsnsLcnsNmbr" />
+   <!-- coupon 쿠폰관리 -->
+   <mvc:view-controller path="/couponDetail.do" view-name="admin/coupon/couponDetail" />
+   <mvc:view-controller path="/couponForm.do" view-name="admin/coupon/couponForm" />
+   <mvc:view-controller path="/couponMgmt.do" view-name="admin/coupon/couponMgmt" />
+   <!-- event 이벤트관리 -->
+   <mvc:view-controller path="/eventDetail.do" view-name="admin/event/eventDetail" />
+   <mvc:view-controller path="/eventForm.do" view-name="admin/event/eventForm" />
+   <mvc:view-controller path="/eventMgmt.do" view-name="admin/event/eventMgmt" />
+   <!-- freeboard 자유게시판관리 -->
+   <mvc:view-controller path="/freeBoardMgmt.do" view-name="admin/freeboard/freeBoardMgmt" />
+   <mvc:view-controller path="/slangFiltering.do" view-name="admin/freeboard/slangFiltering" />
+   <!-- interview 면접후기관리 -->
+   <mvc:view-controller path="/intvwRevMgmt.do" view-name="admin/interview/intvwRevMgmt" />
+   <mvc:view-controller path="/intvwRevMgmtDetail.do" view-name="admin/interview/intvwRevMgmtDetail" />
+   <!-- member 회원관리 -->
+   <mvc:view-controller path="/memberMgmt.do" view-name="admin/member/memberMgmt" />
+   <mvc:view-controller path="/memberCmpny.do" view-name="admin/member/memberCmpny" />
+   <!-- notice 공지사항관리 -->
+   <mvc:view-controller path="/noticeForm.do" view-name="admin/notice/noticeForm" />
+   <mvc:view-controller path="/noticeMgmt.do" view-name="admin/notice/noticeMgmt" />
+   <mvc:view-controller path="/questionMgmt.do" view-name="admin/notice/questionMgmt" />
+   <!-- promotion 프로모션관리 -->
+   <!-- <mvc:view-controller path="/promotionMgmt.do" view-name="admin/promotion/promotionMgmt" /> -->
+   <!-- paymgmt 결제관리 -->
+   <mvc:view-controller path="/imgAdPayMgmt.do" view-name="admin/paymgmt/imgAdPayMgmt" /> 
+   <mvc:view-controller path="/PayMgmt.do" view-name="admin/paymgmt/PayMgmt" /> 
+   <!-- dashboard 대시보드 -->
+   <mvc:view-controller path="/dashboard.do" view-name="admin/dashboard" />
+   
+   
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

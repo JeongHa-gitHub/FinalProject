@@ -1,0 +1,1228 @@
+@charset "UTF-8";
+@charset "utf-8"; .wrap_rewards {
+    letter-spacing: -1px
+}
+
+.wrap_rewards .TabBox {
+    padding: 50px 0 20px
+}
+
+/* 대시보드 */
+.wrap_rewards .reward_dashboard {
+    display: grid;
+    margin: 56px 0 14px;
+    grid-template-columns: 828px 408px;
+    gap: 0 12px
+}
+
+.wrap_rewards .reward_dashboard .TabBox {
+    padding: 50px 0 20px
+}
+
+.wrap_rewards .reward_dashboard .status {
+    display: grid;
+    padding: 24px;
+    height: 144px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    background: #4876ef;
+    grid-template-areas: "name current" "expired expired";
+    place-content: space-between
+}
+
+.wrap_rewards .reward_dashboard .status .name {
+    display: inline-grid;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+    grid-template-columns: auto auto;
+    grid-area: name;
+    gap: 8px
+}
+
+.wrap_rewards .reward_dashboard .status .name svg {
+    margin-top: 2px;
+    width: 20px;
+    height: 20px;
+    color: #cdedff
+}
+
+.wrap_rewards .reward_dashboard .status .current {
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 50px;
+    grid-area: current
+}
+
+.wrap_rewards .reward_dashboard .status .current:after {
+    color: #bcd1fc;
+    font-size: 22px;
+    font-weight: normal;
+    content: "M"
+}
+
+.wrap_rewards .reward_dashboard .status .expired {
+    display: inline-grid;
+    padding: 4px 12px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: right;
+    background: #3769ed;
+    grid-template-columns: auto auto;
+    grid-area: expired;
+    justify-self: flex-end;
+    gap: 8px
+}
+
+.wrap_rewards .reward_dashboard .status .expired strong {
+    font-weight: bold;
+    letter-spacing: 0
+}
+
+.wrap_rewards .reward_dashboard .status .expired strong:after {
+    content: "M"
+}
+
+.wrap_rewards .reward_dashboard .reward_tip {
+    display: block;
+    padding: 24px;
+    height: 144px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    color: #5c667b;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+    background: #eff5ff;
+    cursor: pointer
+}
+
+.wrap_rewards .reward_dashboard .reward_tip span {
+    display: inline-block;
+    margin-bottom: 7px;
+    padding: 0 6px;
+    border-radius: 8px;
+    color: #4876ef;
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 20px;
+    background: #fff
+}
+
+/* 카테고리 목록 */
+.wrap_rewards .list_category {
+    overflow: hidden;
+    position: relative;
+    margin: 12px 0 48px;
+    padding: 0 64px;
+    height: 84px
+}
+
+.wrap_rewards .list_category .slider {
+    width: 1120px;
+    font-size: 0
+}
+
+.wrap_rewards .list_category .slider li {
+    display: inline-block;
+    width: 140px;
+    vertical-align: top
+}
+
+.wrap_rewards .list_category .slider li button {
+    display: grid;
+    position: relative;
+    width: 100%;
+    grid-template-areas: "icon" "name";
+    gap: 8px;
+    justify-items: center
+}
+
+.wrap_rewards .list_category .slider li button:before {
+    display: block;
+    z-index: 1;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: #f4f6fa;
+    content: "";
+    grid-area: icon
+}
+
+.wrap_rewards .list_category .slider li button span {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 32px
+}
+
+.wrap_rewards .list_category .slider li button span, .wrap_rewards .list_category .slider li button svg {
+    z-index: 2;
+    margin-top: 12px;
+    width: 32px;
+    height: 32px;
+    color: #b4c0d3;
+    grid-area: icon
+}
+
+.wrap_rewards .list_category .slider li button strong {
+    display: block;
+    color: #373f57;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 20px;
+    text-align: center;
+    grid-area: name
+}
+
+.wrap_rewards .list_category .slider li button.selected:before {
+    background: #4876ef
+}
+
+.wrap_rewards .list_category .slider li button.selected span, .wrap_rewards .list_category .slider li button.selected svg {
+    color: #fff
+}
+
+.wrap_rewards .list_category .slider li button.selected strong {
+    color: #4876ef;
+    font-weight: bold
+}
+
+.wrap_rewards .list_category .bx-controls button {
+    position: absolute;
+    top: 26px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #eaedf4;
+    border-radius: 16px;
+    text-indent: -9999px;
+    background: #fff
+}
+
+.wrap_rewards .list_category .bx-controls button.bx-prev {
+    left: 0
+}
+
+.wrap_rewards .list_category .bx-controls button.bx-next {
+    right: 0
+}
+
+.wrap_rewards .list_category .bx-controls button.disabled {
+    background: #fff;
+    cursor: default
+}
+
+.wrap_rewards .list_category .bx-controls button:hover {
+    background: #f4f6fa
+}
+
+.wrap_rewards .list_category .bx-controls button:after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-style: solid;
+    border-color: #5c667b;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -ms-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
+    content: ""
+}
+
+.wrap_rewards .list_category .bx-controls button.disabled:hover {
+    background-color: #fff
+}
+
+.wrap_rewards .list_category .bx-controls button.disabled:after {
+    border-color: #afbac8
+}
+
+.wrap_rewards .list_category .bx-controls button.bx-prev:after {
+    margin-left: 2px;
+    border-width: 0 0 2px 2px
+}
+
+.wrap_rewards .list_category .bx-controls button.bx-next:after {
+    margin-left: -2px;
+    border-width: 2px 2px 0 0
+}
+
+/* 리스트 상단 */
+.wrap_rewards .top_btns {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d7dce5;
+    z-index: 2;
+}
+
+.wrap_rewards .top_btns.border_none {
+    border-bottom: 0
+}
+
+.wrap_rewards .top_btns .align {
+    display: flex;
+    justify-content: space-between
+}
+
+.wrap_rewards .top_btns .align .InpBox+.InpBox {
+    margin-left: 8px
+}
+
+.wrap_rewards .top_btns .total {
+    display: inline-block;
+    padding-top: 16px;
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px
+}
+
+.wrap_rewards .top_btns .points {
+    display: grid;
+    padding-top: 16px;
+    color: #5c667b;
+    font-size: 14px;
+    line-height: 24px;
+    gap: 8px;
+    grid-template-areas: "title bar point1 point2";
+    grid-template-columns: auto;
+    align-items: center;
+    justify-content: start
+}
+
+.wrap_rewards .top_btns .points:before {
+    color: #d7dce5;
+    font-size: 14px;
+    line-height: 20px;
+    content: "|";
+    grid-area: bar
+}
+
+.wrap_rewards .top_btns .points>span {
+    color: #5c667b;
+    grid-area: title
+}
+
+.wrap_rewards .top_btns .points>strong {
+    color: #373f57;
+    font-weight: normal;
+    letter-spacing: 0;
+    grid-area: point1
+}
+
+.wrap_rewards .top_btns .points>strong:after {
+    content: "M"
+}
+
+.wrap_rewards .top_btns .points>strong+strong {
+    grid-area: point2
+}
+
+.wrap_rewards .top_btns .points>strong.deposit {
+    color: #2d65f2
+}
+
+.wrap_rewards .top_btns .period {
+    display: inline-grid;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    color: #575d6d;
+    font-size: 12px;
+    line-height: 36px;
+    vertical-align: top;
+    grid-template-columns: auto auto auto;
+    gap: 8px
+}
+
+.wrap_rewards .top_btns .period.show {
+    visibility: visible;
+    margin: 0 0 0 8px;
+    width: auto;
+    height: auto
+}
+
+.wrap_rewards .top_btns .period .date {
+    display: inline-block;
+    width: 142px;
+    vertical-align: top
+}
+
+.wrap_rewards .top_btns .period .date .inpTypo {
+    width: 100%
+}
+
+.wrap_rewards .top_btns .period .ui-datepicker-trigger {
+    display: none
+}
+
+/* 쿠폰 리스트 */
+.wrap_rewards .list_product {
+    display: grid;
+    position: relative;
+    z-index: 1;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px 12px
+}
+
+.wrap_rewards .list_product>li>button {
+    width: 100%
+}
+
+/* 쿠폰 아이템 (리스트/상세 모달과 공유) */
+.item_rewards_coupon {
+    position: relative;
+    padding: 23px 23px 23px 127px;
+    width: 100%;
+    height: 156px;
+    border: 1px solid #d7dce5;
+    border-radius: 16px;
+    box-sizing: border-box;
+    letter-spacing: -1px;
+    text-align: left
+}
+
+.item_rewards_coupon .img {
+    overflow: hidden;
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px
+}
+
+.item_rewards_coupon .img>img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    transform-origin: 50% 50%;
+    object-fit: cover
+}
+
+.item_rewards_coupon .brand {
+    display: block;
+    overflow: hidden;
+    color: #5c667b;
+    font-size: 14px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap
+}
+
+.item_rewards_coupon .name {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 8px 0;
+    height: 48px;
+    color: #5c667b;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.item_rewards_coupon .info {
+    display: grid;
+    color: #373f57;
+    gap: 8px;
+    grid-template-areas: "price bar expiry";
+    grid-template-columns: auto;
+    align-items: center;
+    justify-content: start
+}
+
+.item_rewards_coupon .info:before {
+    color: #d7dce5;
+    font-size: 14px;
+    line-height: 20px;
+    content: "|";
+    grid-area: bar
+}
+
+.item_rewards_coupon .price {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+    grid-area: price
+}
+
+.item_rewards_coupon .price:after {
+    content: "M"
+}
+
+.item_rewards_coupon .expiry {
+    font-size: 14px;
+    line-height: 20px;
+    grid-area: expiry
+}
+
+/* 리스트 공통 */
+.wrap_rewards .list_rewards {
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid #eaedf4
+}
+
+.wrap_rewards .list_rewards>ul li {
+    position: relative
+}
+
+.wrap_rewards .list_rewards>ul li+li {
+    border-top: 1px solid #eaedf4
+}
+
+.wrap_rewards .list_rewards .item {
+    display: grid;
+    position: relative;
+    z-index: 1;
+    padding: 20px 32px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: -1px;
+    text-align: left;
+    gap: 12px;
+    align-items: start
+}
+
+.wrap_rewards .list_empty {
+    display: grid;
+    margin-bottom: 80px;
+    height: 332px;
+    border-bottom: 1px solid #eaedf4;
+    color: #5c667b;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    place-items: center;
+    gap: 24px;
+    grid-template-columns: 100%;
+    place-content: center
+}
+
+.wrap_rewards .list_empty:before {
+    display: block;
+    width: 170px;
+    height: 132px;
+    background: url(//www.saraminimage.co.kr/sri/person/rewards/illust_list_nothing.png) 50% 50% no-repeat;
+    content: ""
+}
+
+.wrap_rewards .top_btns.border_none~.list_empty {
+    border-top: 1px solid #d7dce5
+}
+
+/* 리스트 - 쿠폰 내역 */
+.wrap_rewards .list_mycoupon .item {
+    grid-template-columns: 150px 40px auto 420px
+}
+
+.wrap_rewards .list_mycoupon .item .date {
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 40px
+}
+
+.wrap_rewards .list_mycoupon .item .img {
+    overflow: hidden;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #eaedf4;
+    border-radius: 4px
+}
+
+.wrap_rewards .list_mycoupon .item .img>img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    transform-origin: 50% 50%;
+    object-fit: cover
+}
+
+.wrap_rewards .list_mycoupon .item .name {
+    display: flex;
+    padding: 8px 68px 0 0;
+    align-items: center
+}
+
+.wrap_rewards .list_mycoupon .item .name>a {
+    display: -webkit-box;
+    overflow: hidden;
+    max-height: 48px;
+    color: #373f57;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.wrap_rewards .list_mycoupon .item .info {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 4px
+}
+
+.wrap_rewards .list_mycoupon .item .info .price {
+    font-size: 16px;
+    letter-spacing: -1px;
+    line-height: 40px
+}
+
+.wrap_rewards .list_mycoupon .item .info .price>b {
+    color: #373f57;
+    font-weight: bold;
+}
+
+.wrap_rewards .list_mycoupon .item .info .price>span {
+    color: #5c667b;
+}
+
+.wrap_rewards .list_mycoupon .item .info .price>b:after {
+    content: "M"
+}
+
+.wrap_rewards .list_mycoupon .item .info .expiry {
+    color: #5c667b;
+    font-size: 13px;
+    line-height: 16px
+}
+
+.wrap_rewards .list_mycoupon .item:hover .name {
+    text-decoration: underline;
+    text-underline-offset: 1px
+}
+
+.wrap_rewards .list_mycoupon .status {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    z-index: 2;
+    width: 140px;
+    height: 40px;
+    color: #373f57;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    align-items: center;
+    justify-content: center
+}
+
+.wrap_rewards .list_mycoupon .btn_coupon_resend {
+    width: 100%
+}
+
+/* 리스트 - 리워드 내역 */
+.wrap_rewards .list_balance .item {
+    grid-template-columns: 158px 50px auto 128px
+}
+
+.wrap_rewards .list_balance .item .date {
+    color: #5c667b;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 40px
+}
+
+.wrap_rewards .list_balance .item .status {
+    display: flex;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 24px;
+    text-align: center;
+    place-items: center;
+    place-content: center
+}
+
+.wrap_rewards .list_balance .item .title {
+    display: grid;
+    padding-right: 68px;
+    height: 40px;
+    color: #373f57;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 40px;
+    gap: 8px;
+    grid-template-columns: auto auto;
+    justify-content: start
+}
+
+.wrap_rewards .list_balance .item .title>span {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    justify-content: start
+}
+
+.wrap_rewards .list_balance .item .title>span>strong {
+    overflow: hidden;
+    max-width: 450px;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.wrap_rewards .list_balance .item .title>span:before {
+    content: "["
+}
+
+.wrap_rewards .list_balance .item .title>span:after {
+    content: "]"
+}
+
+.wrap_rewards .list_balance .item .info {
+    display: grid;
+    text-align: right;
+    grid-template-columns: 100%;
+    gap: 4px
+}
+
+.wrap_rewards .list_balance .item .info .point {
+    color: #373f57;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 40px
+}
+
+.wrap_rewards .list_balance .item .info .point:after {
+    content: "M"
+}
+
+.wrap_rewards .list_balance .item .info .expiry {
+    color: #5c667b;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.wrap_rewards .list_balance .item.deposit .status {
+    color: #2d65f2;
+    background: #eff5ff
+}
+
+.wrap_rewards .list_balance .item.deposit .info .point {
+    color: #2d65f2
+}
+
+.wrap_rewards .list_balance .item.withdrawal .status {
+    color: #d63131;
+    background: #fef3f3
+}
+
+.wrap_rewards .list_balance .item.withdrawal .info .point {
+    color: #d63131
+}
+
+.wrap_rewards .list_balance .item.expired .status {
+    color: #5c667b;
+    background: #f4f6fa
+}
+
+.wrap_rewards .list_balance .item.expired .info .point {
+    color: #5c667b
+}
+
+/* 모달 공통 */
+.ModalBox .title.info {
+    margin-bottom: 8px
+}
+
+.ModalBox .ModalCont>.txt {
+    margin-bottom: 24px;
+    color: #8491a7;
+    font-size: 14px;
+    line-height: 20px
+}
+
+.ModalBox .wrap_cont {
+    display: grid;
+    width: 100%;
+    height: 209px;
+    place-content: center;
+    place-items: center
+}
+
+.ModalBox .scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 8px
+}
+
+.ModalBox .scroll::-webkit-scrollbar-track {
+    background: #fcfcfc
+}
+
+.ModalBox .scroll::-webkit-scrollbar-thumb {
+    background: #f2f2f3
+}
+
+/* 리워드 안내 모달 */
+.ModalBox.layer_reward_tip {
+    width: 560px
+}
+
+.ModalBox.layer_reward_tip .wrap_img {
+    border-radius: 8px;
+    background: #f8fafc
+}
+
+.ModalBox.layer_reward_tip .wrap_img img {
+    display: block
+}
+
+/* 쿠폰 상세 모달 */
+.ModalBox.layer_product_detail {
+    width: 560px;
+    height: 448px
+}
+
+.ModalBox.layer_product_detail .scroll {
+    overflow-y: auto;
+    padding-right: 2px;
+    width: 100%;
+    height: 305px;
+    box-sizing: border-box
+}
+
+.ModalBox.layer_product_detail .item_rewards_coupon {
+    padding: 0 0 0 120px;
+    height: auto;
+    min-height: 104px;
+    border: 0;
+    border-radius: 0
+}
+
+.ModalBox.layer_product_detail .item_rewards_coupon .img {
+    top: 0;
+    left: 0;
+    width: 104px;
+    height: 104px
+}
+
+.ModalBox.layer_product_detail .item_rewards_coupon .name {
+    margin: 4px 0;
+    min-height: 48px;
+}
+
+.ModalBox.layer_product_detail .summary {
+    display: grid;
+    margin: 24px 0 16px;
+    padding: 11px 15px 15px;
+    border: 1px solid #eaedf4;
+    border-radius: 8px;
+    gap: 12px;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+    align-content: start
+}
+
+.ModalBox.layer_product_detail .summary>hr {
+    margin: 0;
+    height: 1px;
+    border: 0;
+    background: #eaedf4
+}
+
+.ModalBox.layer_product_detail .summary>div {
+    display: grid;
+    color: #5c667b;
+    font-size: 14px;
+    line-height: 24px;
+    grid-template-columns: auto auto;
+    justify-content: space-between
+}
+
+.ModalBox.layer_product_detail .summary>div.deduction {
+    color: #d63131
+}
+
+.ModalBox.layer_product_detail .summary>div.result {
+    color: #373f57;
+    font-size: 16px
+}
+
+.ModalBox.layer_product_detail .summary>div>strong {
+    letter-spacing: 0
+}
+
+.ModalBox.layer_product_detail .summary>div>strong:after {
+    font-weight: normal;
+    content: "M"
+}
+
+.ModalBox.layer_product_detail .summary>p {
+    color: #5c667b;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    text-align: center
+}
+
+.ModalBox.layer_product_detail .notice {
+    display: grid;
+    color: #8491a7;
+    font-size: 13px;
+    line-height: 24px;
+    word-break: keep-all;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: start
+}
+
+.ModalBox.layer_product_detail .notice:before {
+    content: "*"
+}
+
+.ModalBox.layer_product_detail .btn_layer_cancel {
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.ModalBox.layer_product_detail .btn_layer_cancel:hover {
+    background: var(--gray20)
+}
+
+/* 문자 수신 정보 확인/수정 모달 */
+.ModalBox.layer_sms_send {
+    width: 560px;
+    height: 488px
+}
+
+.ModalBox.layer_sms_send .scroll {
+    overflow-y: auto;
+    padding-right: 2px;
+    width: 100%;
+    height: 249px;
+    box-sizing: border-box
+}
+
+.ModalBox.layer_sms_send .sms_info {
+    gap: 12px
+}
+
+.ModalBox.layer_sms_send .sms_info.edit {
+    gap: 8px;
+    grid-template-columns: 100%
+}
+
+.ModalBox.layer_sms_send .sms_info.edit label {
+    width: 72px;
+    color: #373f57;
+    font-size: 15px;
+    line-height: 24px
+}
+
+.ModalBox.layer_sms_send .sms_info .name {
+    color: #5c667b;
+    font-size: 16px;
+    line-height: 32px
+}
+
+.ModalBox.layer_sms_send .sms_info .name strong {
+    color: #373f57;
+    font-weight: bold
+}
+
+.ModalBox.layer_sms_send .sms_info .number {
+    color: #373f57;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 48px
+}
+
+.ModalBox.layer_sms_send .sms_info .btn_sms_edit {
+    color: #2d65f2;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.ModalBox.layer_sms_send .sms_info .unidentified {
+    color: #8491a7;
+    font-size: 13px;
+    line-height: 20px
+}
+
+.ModalBox.layer_sms_send .sms_info .notice {
+    margin-top: 20px;
+    color: #8491a7;
+    font-size: 13px;
+    line-height: 20px;
+    word-break: keep-all;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: start
+}
+
+.ModalBox.layer_sms_send .sms_info .notice:before {
+    content: "*"
+}
+
+.ModalBox.layer_sms_send .sms_info.edit .name {
+    display: grid;
+    width: 284px;
+    grid-template-columns: 72px 204px;
+    gap: 8px;
+    align-items: center
+}
+
+.ModalBox.layer_sms_send .sms_info.edit .number {
+    display: grid;
+    width: 284px;
+    font-weight: normal;
+    grid-template-columns: 72px 56px 66px 66px;
+    gap: 8px;
+    align-items: center
+}
+
+.ModalBox.layer_sms_send .sms_info span, .ModalBox.layer_sms_send .sms_info .btn_sms_edit, .ModalBox.layer_sms_send .sms_info.edit label, .ModalBox.layer_sms_send .sms_info.edit input[type=text] {
+    display: block
+}
+
+.ModalBox.layer_sms_send .sms_info.edit .notice {
+    display: grid
+}
+
+.ModalBox.layer_sms_send .sms_info .notice, .ModalBox.layer_sms_send .sms_info label, .ModalBox.layer_sms_send .sms_info input[type=text], .ModalBox.layer_sms_send .sms_info.edit span, .ModalBox.layer_sms_send .sms_info.edit .unidentified, .ModalBox.layer_sms_send .sms_info.edit .btn_sms_edit {
+    display: none
+}
+
+.ModalBox.layer_sms_send .wrap_agreement {
+    display: grid;
+    padding: 8px 8px 8px 12px;
+    border-radius: 4px;
+    background: #f4f6fa;
+    grid-template-areas: "check btn" "txt txt";
+    grid-template-columns: 1fr 24px;
+    justify-content: space-between
+}
+
+.ModalBox.layer_sms_send .wrap_agreement .InpBox .Chk .Lbl:after {
+    border-color: var(--gray20)
+}
+
+.ModalBox.layer_sms_send .wrap_agreement .inpChk2 {
+    grid-area: check
+}
+
+.ModalBox.layer_sms_send .wrap_agreement .btn_agreement_more {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    grid-area: btn;
+    place-items: center;
+    place-content: center
+}
+
+.ModalBox.layer_sms_send .wrap_agreement .btn_agreement_more svg {
+    width: 16px;
+    height: 16px
+}
+
+.ModalBox.layer_sms_send .wrap_agreement .agreement {
+    display: none;
+    padding: 0 4px 0 32px;
+    color: #5c667b;
+    font-size: 13px;
+    line-height: 20px;
+    grid-area: txt
+}
+
+.ModalBox.layer_sms_send .wrap_agreement.expand {
+    gap: 12px
+}
+
+.ModalBox.layer_sms_send .wrap_agreement.expand .btn_agreement_more svg {
+    transform: rotate(180deg)
+}
+
+.ModalBox.layer_sms_send .wrap_agreement.expand .btn_agreement_more+.agreement {
+    display: block
+}
+
+.ModalBox.layer_sms_send .btn_layer_cancel {
+    color: var(--gray100);
+    border-color: var(--gray80);
+    background: var(--white)
+}
+
+.ModalBox.layer_sms_send .btn_layer_cancel:hover {
+    background: var(--gray20)
+}
+
+/* 쿠폰 교환 완료 모달 */
+.ModalBox.layer_sms_complete {
+    width: 560px;
+    height: 448px
+}
+
+.ModalBox.layer_sms_complete .modal_cont .wrap_cont {
+    height: 249px
+}
+
+/* 쿠폰 내역 상세 모달 */
+.ModalBox.layer_history_detail {
+    width: 400px
+}
+
+.ModalBox.layer_history_detail dl {
+    display: grid;
+    gap: 16px 8px;
+    place-items: start;
+    place-content: start;
+    grid-template-columns: 64px 1fr
+}
+
+.ModalBox.layer_history_detail dl dt {
+    color: #5c667b;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.ModalBox.layer_history_detail dl dd {
+    color: #373f57;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px
+}
+
+.mileage_pause {
+    width: 560px
+}
+
+.mileage_pause .notice_txt {
+    color: var(--gray100);
+    font-size: 14px;
+    letter-spacing: -1px;
+    line-height: 20px;
+}
+
+.mileage_pause .notice_box {
+    margin: 16px 0;
+    padding: 24px;
+    border-radius: 8px;
+    background: var(--gray20)
+}
+
+.mileage_pause .notice_box dl {
+    display: flex;
+    color: var(--gray100);
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.mileage_pause .notice_box dl dt {
+    width: 112px
+}
+
+.mileage_pause .notice_box dl dd+dt, .mileage_pause .notice_box dl dd+dt+dd {
+    margin-top: 16px
+}
+
+.mileage_pause .notice_box dl dd {
+    width: calc(100% - 112px);
+    color: var(--gray120)
+}
+
+.mileage_pause .notice_box dl dd span {
+    display: block;
+    margin-top: 16px;
+    color: var(--gray100);
+    font-size: 13px
+}
+
+.mileage_pause .desc {
+    margin-top: 16px;
+    text-align: left
+}
+
+.mileage_pause .layer_close {
+    position: absolute;
+    right: 0;
+    bottom: -36px;
+    color: #fff
+}
+
+.mileage_pause .layer_close .option_radio {
+    display: inline-block;
+    margin-left: 24px;
+    vertical-align: top
+}
+
+.mileage_pause .layer_close .option_radio input {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    outline: none;
+    opacity: 0;
+    pointer-events: none
+}
+
+.mileage_pause .layer_close .option_radio label {
+    display: inline-block;
+    position: relative;
+    padding-left: 30px;
+    font-size: 14px;
+    line-height: 24px
+}
+
+.mileage_pause .layer_close .option_radio label:before {
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle stroke='%23D7DCE5' stroke-width='1.5' fill='%23FFF' cx='8' cy='8' r='7.25' fill-rule='evenodd'/%3E%3C/svg%3E%0A") no-repeat center center;
+    content: ""
+}
+
+.mileage_pause .layer_close .option_radio input:checked+label:before {
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle stroke='%234876EF' stroke-width='5' fill='%23FFF' cx='8' cy='8' r='5.5' fill-rule='evenodd'/%3E%3C/svg%3E%0A")
+}
+
+.mileage_pause .layer_close .btn_no_view {
+    display: inline-block;
+    margin-left: 16px;
+    padding: 0 8px;
+    height: 24px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 24px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #373f57;
+}
+
+.mileage_pause .btn_close {
+    border-color: var(--gray80);
+    color: var(--gray100);
+    background: var(--white)
+}
+
+.mileage_pause .btn_close:hover {
+    background: var(--gray20)
+}

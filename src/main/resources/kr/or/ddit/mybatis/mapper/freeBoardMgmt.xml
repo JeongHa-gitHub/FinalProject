@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.dao.FreeBoardMgmtDAO">
+	<select id="selectFreeBoard" parameterType="String"
+		resultType="FrBoardVO">
+		SELECT
+		    FRB_NO
+			, USERS_ID
+			, FRB_TITLE
+			, FRB_WRITE
+			, FRB_LNO
+			, FRB_REP
+			, FRB_DELETE
+		FROM FRBOARD
+		WHERE FRB_NO = #{frbNo}
+	</select>
+
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'usersId'">
+						INSTR(USERS_ID, #{simpleCondition.searchWord}) > 0
+					</when>
+					<when test="simpleCondition.searchType eq 'frbTitle'">
+						INSTR(FRB_TITLE, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						INSTR(USERS_ID, #{simpleCondition.searchWord}) > 0
+						OR
+						INSTR(FRB_TITLE, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM FRBOARD
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectFreeBoardList" parameterType="PaginationInfo"
+		resultType="FrBoardVO">
+		WITH ORDEREDBRD AS (
+			SELECT A.*, ROWNUM RNUM
+			FROM (
+				SELECT
+				    FRB_NO
+					,USERS_ID
+					,FRB_TITLE
+					,FRB_WRITE
+					,FRB_LNO
+					,DECODE(FRB_REP,'Y','신고',' ') FRB_REP
+					,DECODE(FRB_DELETE,'Y','삭제완료',' ') FRB_DELETE
+				FROM FRBOARD
+				<include refid="searchFrag" />
+				ORDER BY FRB_DATE DESC
+			)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	
+	<select id="selectFreeBoardInfo" parameterType="String" resultType="FrBoardVO">
+		SELECT
+		    FRB_NO
+			, USERS_ID
+			, FRB_TITLE
+			, FRB_WRITE
+			, FRB_LNO
+			, FRB_REP
+			, FRB_DELETE
+		FROM FRBOARD
+		WHERE FRB_NO = #{frbNo}
+	</select>
+	<delete id="deleteBoard" parameterType="string">
+		UPDATE FRBOARD
+		SET
+			FRB_DELETE = 'Y'
+		WHERE FRB_NO = #{frbNo}
+	</delete>
+
+</mapper>
+
+
+

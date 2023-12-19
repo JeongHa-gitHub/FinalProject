@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.CominfoOthersDAO">
+	<select id="selectIndustry" resultType="IndustryVO">
+		SELECT
+			INDUSTRY_NO
+			,INDUSTRY_NM
+			,INDUSTRY_CODE
+		FROM INDUSTRY
+		WHERE INDUSTRY_CODE IS NULL
+	</select>
+
+	<select id="selectIndustryList" resultType="IndustryVO">
+		SELECT
+			INDUSTRY_NO
+			,INDUSTRY_NM
+			,INDUSTRY_CODE
+		FROM INDUSTRY
+		<where>
+			<if
+				test="@org.apache.commons.lang3.StringUtils@isNotBlank(industryCode)">
+				INDUSTRY_CODE = #{industryCode}				
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectIndustryListDet" resultType="IndustryVO">
+		SELECT
+			INDUSTRY_NO
+			,INDUSTRY_NM
+			,INDUSTRY_CODE
+		FROM INDUSTRY
+		<where>
+			<if
+				test="@org.apache.commons.lang3.StringUtils@isNotBlank(industryCode)">
+				INDUSTRY_CODE = #{industryCode}				
+			</if>
+		</where>
+	</select>
+</mapper>

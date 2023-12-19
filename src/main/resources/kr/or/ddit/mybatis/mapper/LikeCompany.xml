@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.LikeCompanyDAO">
+	<resultMap type="LikeCompanyVO" id="likeMap"
+		autoMapping="true">
+		<association property="company" autoMapping="true" />
+		<association property="comInfo" autoMapping="true" />
+	</resultMap>
+	<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersId)">
+				AND USERS_ID=#{variousCondition.usersId}
+			</if>
+		</trim>
+	</sql>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+			FROM INTER_COMPANY A JOIN COMPANY B ON(A.COMPANY_ID=B.COMPANY_ID)
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectLikeCompanyList"
+		parameterType="PaginationInfo" resultType="LikeCompanyVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+		SELECT
+		A.USERS_ID
+		, A.COMPANY_ID
+		, B.COMPANY_NM "company.companyNm"
+		, D.INDUSTRY_NM "comInfo.industryNm"
+		, TO_CHAR(INTER_DATE, 'YYYY.MM.DD') AS INTER_DATE
+		FROM INTER_COMPANY A
+		JOIN COMPANY B ON(A.COMPANY_ID=B.COMPANY_ID)
+		JOIN COMINFO C ON(B.COMPANY_ID=C.COMPANY_ID)
+		JOIN INDUSTRY D ON (C.COMINFO_SECTORS = D.INDUSTRY_NO)
+		<include refid="searchFrag" />
+		ORDER BY INTER_DATE DESC
+		)A
+		)
+		SELECT *
+		FROM ORDEREDBRD
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+		]]>
+	</select>
+	<delete id="deleteLikeCompany">
+		DELETE FROM INTER_COMPANY
+		WHERE COMPANY_ID = #{companyId} and USERS_ID = #{usersId}
+	</delete>
+</mapper>

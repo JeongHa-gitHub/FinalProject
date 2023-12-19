@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.InterviewReviewDAO">
+	<resultMap type="InterviewReviewVO" id="reviewMap">
+		<association property="interviewSchdVO" autoMapping="true" />
+		<association property="apply" autoMapping="true" />
+		<association property="recruit" autoMapping="true" />
+		<association property="company" autoMapping="true" />
+	</resultMap>
+		<sql id="searchFrag">
+		<trim prefix="where" prefixOverrides="AND">
+			<if
+				test="simpleCondition neq null and @org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+				<choose>
+					<when test="simpleCondition.searchType eq 'name'">
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</when>
+					<otherwise>
+						AND INSTR(COMPANY_NM, #{simpleCondition.searchWord}) > 0
+					</otherwise>
+				</choose>
+			</if>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(variousCondition.usersId)">
+				AND USERS_ID=#{variousCondition.usersId}
+			</if>
+			AND INTERV_APPROVAL = 'W' OR INTERV_APPROVAL = 'Y'
+		</trim>
+	</sql>
+	<select id="selectReview" parameterType="string" resultType="InterviewReviewVO">
+		SELECT 
+			INTREV_NO
+			, INTR_NO
+			, INTERV_OVRL_EVLTN
+			, INTERV_DIFFICULTY
+			, INTERVIEW_TYPICAL
+			, INTERV_PERSONNEL
+			, INTERV_PROCESS
+			, INTERV_QUESTION
+			, INTERV_TIP
+			, INTERV_PASS
+			, INTERV_WDATE
+			, INTERV_APPROVAL
+		FROM INTERVIEW_REVIEW
+		WHERE INTREV_NO = #{intrevNo}
+	</select>
+	<select id="selectTotalRecord" parameterType="PaginationInfo"
+		resultType="int">
+		SELECT COUNT(*)
+			FROM INTERVIEW_REVIEW A
+			JOIN INTERVIEW_SCHD B ON(A.INTR_NO=B.INTR_NO)
+			JOIN APPLY C ON(B.RCRT_NO=C.RCRT_NO)
+		<include refid="searchFrag" />
+	</select>
+	<select id="selectReviewList" parameterType="PaginationInfo" resultType="InterviewReviewVO">
+		WITH ORDEREDBRD AS (
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+						SELECT
+			A.INTREV_NO
+			, A.INTR_NO
+			, A.INTERV_OVRL_EVLTN
+			, A.INTERV_DIFFICULTY
+			, A.INTERVIEW_TYPICAL
+			, A.INTERV_PERSONNEL
+			, A.INTERV_PROCESS
+			, A.INTERV_QUESTION
+			, A.INTERV_TIP
+			, A.INTERV_PASS
+			, A.INTERV_WDATE
+			, A.INTERV_APPROVAL
+			, B.INTR_NO "interviewSchdVO.intrNo"
+			, B.APL_NO "interviewSchdVO.aplNo"
+			, B.RCRT_NO "interviewSchdVO.rcrtNo"
+			, B.INTR_INTDATE "interviewSchdVO.intrIntdate"
+      		, C.USERS_ID "apply.usersId"
+			, D.RCRT_FIELD "recruit.rcrtField"
+			, E.COMPANY_NM "company.companyNm"
+			FROM INTERVIEW_REVIEW A
+			JOIN INTERVIEW_SCHD B ON(A.INTR_NO=B.INTR_NO)
+			JOIN APPLY C ON(B.APL_NO=C.APL_NO)
+     		JOIN RECRUIT D ON(C.RCRT_NO=D.RCRT_NO)
+      		JOIN COMPANY E ON(D.COMPANY_ID=E.COMPANY_ID)
+			<include refid="searchFrag" />
+			ORDER BY INTERV_WDATE DESC
+			)A
+			)
+			SELECT *
+			FROM ORDEREDBRD
+			<![CDATA[
+				WHERE RNUM >= #{startRow} AND RNUM <= #{endRow} 
+			]]>
+	</select>
+</mapper>
